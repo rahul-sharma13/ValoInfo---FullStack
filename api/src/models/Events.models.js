@@ -5,10 +5,11 @@ const eventSchema = new mongoose.Schema(
     event_name: {
       type: String,
       required: true,
+      unique: true,
     },
     status: {
       type: String,
-      enum: ["Ongoing", "Completed"],
+      enum: ["Ongoing", "Completed", "Upcoming"],
       default: "Ongoing",
     },
     event_date: {
@@ -27,12 +28,6 @@ const eventSchema = new mongoose.Schema(
     event_logo: {
       type: String,
       required: true,
-      default: "",
-    },
-    country_img: {
-      type: String,
-      required: true,
-      default: "",
     },
   },
   { timestamps: true }
