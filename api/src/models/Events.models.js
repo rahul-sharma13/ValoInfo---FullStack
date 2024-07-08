@@ -9,7 +9,10 @@ const eventSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["Ongoing", "Completed", "Upcoming"],
+      enum: {
+        values: ["Ongoing", "Completed", "Upcoming"],
+        message: "{value} is not supported",
+      },
       default: "Ongoing",
     },
     event_date: {

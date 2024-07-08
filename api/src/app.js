@@ -4,7 +4,9 @@ import cookieParser from "cookie-parser";
 
 // importing routes
 import eventRouter from "./routes/Events.routes.js";
+import authRouter from "./routes/Auth.routes.js";
 
+// starting the app
 const app = express();
 
 // middleware configurations
@@ -25,7 +27,9 @@ app.get("/", (req, res) => {
 
 // handling the routes
 app.use("/api/v1/event", eventRouter);
+app.use("/api/v1/auth", authRouter);
 
+// error middleware
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal server error";
