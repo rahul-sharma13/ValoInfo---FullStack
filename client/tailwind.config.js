@@ -51,6 +51,10 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        portColor: {
+          DEFAULT: "#00ff99",
+          hover: "#00e187",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

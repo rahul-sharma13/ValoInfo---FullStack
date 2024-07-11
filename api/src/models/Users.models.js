@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import bcrypt from "bcrypt";
 
 const userSchema = new mongoose.Schema(
   {
@@ -26,9 +25,7 @@ const userSchema = new mongoose.Schema(
     avatar: {
       type: String,
       required: false,
-    },
-    refreshToken: {
-      type: String,
+      default : "https://th.bing.com/th/id/OIP.GHGGLYe7gDfZUzF_tElxiQHaHa?rs=1&pid=ImgDetMain"
     },
     riot_id: {
       type: String,
@@ -37,20 +34,5 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
-// only updating password if it is changed while updating the user details
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) {
-    return next();
-  }
-  this.password = await bcrypt.hash(this.password, 10);
-  next();
-});
-
-// custom method for checking hashed password
-userSchema.methods.isPasswordCorrect = async function (password) {
-  return await bcrypt.compare(password, this.password);
-};
-
 
 export const User = mongoose.model("User", userSchema);

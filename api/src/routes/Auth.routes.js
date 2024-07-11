@@ -1,12 +1,11 @@
 import express from "express";
-import { SignUp } from "../controllers/Auth.controller.js";
-import { upload } from "../middlewares/multer.middleware.js";
+import { SignIn, signOut, SignUp } from "../controllers/Auth.controller.js";
+import { verifyToken } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
-router.route("/signup").post(
-  upload.single("avatar"),
-  SignUp
-);
+router.route("/signup").post(SignUp);
+router.route("/signin").post(SignIn);
+router.route("/signout").get(verifyToken ,signOut);
 
 export default router;

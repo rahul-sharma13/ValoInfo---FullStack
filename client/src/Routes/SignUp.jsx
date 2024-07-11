@@ -2,20 +2,39 @@ import { AiOutlineMail } from "react-icons/ai";
 import { CiLock } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
 
 const SignUp = () => {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({});
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value
+    })
+  }
 
   const goToSignIn = () => {
     navigate("/SignIn");
   }
 
-  const handleSubmit = () => {
-    
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("http://localhost:8000/api/v1/auth/signup", formData)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -33,8 +52,9 @@ const SignUp = () => {
             <form className="flex flex-col gap-3" onSubmit={handleSubmit} >
               <div className="flex relative">
                 <input
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={handleChange}
                   placeholder="Email"
+                  id="email"
                   type="email"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full px-5 py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                 />
@@ -43,8 +63,20 @@ const SignUp = () => {
 
               <div className="flex relative">
                 <input
-                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Username"
+                  type="text"
+                  id="username"
+                  className="bg-gray-50 border outline-none border-gray-300 text-gray-900 text-sm rounded-lg w-full px-5 py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                  onChange={handleChange}
+                />
+                <AiOutlineMail className="absolute top-3 right-2" />
+              </div>
+
+              <div className="flex relative">
+                <input
+                  onChange={handleChange}
                   placeholder="Password"
+                  id="password"
                   type="password"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-5 py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                 />

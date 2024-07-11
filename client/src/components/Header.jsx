@@ -5,9 +5,13 @@ import { Link } from "react-router-dom";
 import ThemeToggle from './ThemeToggle';
 import { ThemeContext } from '../context/ThemeContext';
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
+import { useSelector } from 'react-redux';
 
 const Header = () => {
   const [nav, setNav] = useState(false);
+
+  const { currentUser } = useSelector((state) => state.user);
+
   const handleClick = () => {
     setNav((prevValue) => !prevValue)
   };
@@ -99,7 +103,7 @@ const Header = () => {
           </div>
         </div>
       </div>
-    </nav>
+    </nav >
   );
 }
 export default Header

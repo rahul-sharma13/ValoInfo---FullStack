@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 export default defineConfig({
   server: {
     proxy: {
-      "/api": "https://vlrgg.cyclic.app/",
+      "/apiroute": "http://localhost:8000/api/v1/",
     },
   },
   plugins: [react()],
