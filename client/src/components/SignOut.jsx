@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button'
+import { Button } from '@material-tailwind/react'
 import axios from 'axios'
 import React from 'react'
 import { useDispatch } from 'react-redux'
@@ -21,7 +21,7 @@ const SignOut = () => {
     }
 
     return (
-        <Button variant="outline" onClick={handleSignOut}>SignOut</Button>
+        <Button variant="text" color="red" onClick={handleSignOut}>Sign Out</Button>
     )
 }
 

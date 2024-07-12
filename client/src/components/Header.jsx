@@ -42,40 +42,30 @@ const Header = () => {
         </div>
 
         {/* right */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-6">
           <div>
             <ul className="list-none md:flex hidden flex-1">
               {navLinks.map((nav, index) => (
                 <li
                   key={index}
-                  className="font-normal cursor-pointer font-poppins text-[16px] mr-8"
+                  className={`font-normal cursor-pointer font-poppins text-[16px] mr-8 ${index === navLinks.length - 1 ? "mr-0" : "mr-6"}`}
                 >
-                  <a href={nav.id}>{nav.title}</a>
+                  <Link to={`/${nav.id}`}>{nav.title}</Link>
                 </li>
               ))}
-              <li
-                className="font-normal cursor-pointer font-poppins text-[17px] flex items-center mr-1"
-                onClick={handleClick}
-              >
-                User
-                {nav ? <BiChevronUp size={20} /> : <BiChevronDown size={20} />}
-              </li>
             </ul>
+          </div>
 
-            <div
-              className={`bg-accent h-10 rounded-xl w-24 absolute top-14 right-52 text-[14px] shadow-xl ${nav ? "" : "hidden"
-                }`}
-            >
-              <Link to={`/Account`}>
-                <li
-                  className="cursor-pointer list-none text-center hover:text-gray-600 mt-2"
-                  onClick={hideTab}
-                >
-                  Account
-                </li>
-              </Link>
-            </div>
-
+          {/* for avatar and signin*/}
+          <div>
+            {
+              currentUser ? 
+              (<Link to={"/account"}>
+                <img src={currentUser?.avatar} alt="avatar" className="w-10 h-10 rounded-full cursor-pointer" />
+              </Link>)
+              : 
+              <Link to='/signin'>Sign In</Link>
+            }
           </div>
           <ThemeToggle />
 

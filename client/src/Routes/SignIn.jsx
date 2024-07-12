@@ -30,9 +30,10 @@ const SignIn = () => {
           dispatch(signInUserSuccess(res?.data?.data));
           setTimeout(() => {
             navigate("/");
-          }, 2000)
+          }, 1300)
         })
         .catch((err) => {
+          // console.log(err);
           dispatch(signInUserFail(err?.response?.data?.message));
           return;
         });
@@ -87,7 +88,7 @@ const SignIn = () => {
             <button onClick={goToSignUp} className=" border-2 border-black px-9 py-3 rounded-xl w-full">
               <span className="font-bold text-[15px] tracking-wide">SignUp</span> here
             </button>
-            
+            {error ? <p className="text-red-500 mt-3 text-center">{error}</p> : ""}
           </div>
         </div>
         {/* right img */}

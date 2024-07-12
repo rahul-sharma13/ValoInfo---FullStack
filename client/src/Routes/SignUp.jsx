@@ -25,12 +25,14 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
       await axios.post("http://localhost:8000/api/v1/auth/signup", formData)
         .then((response) => {
-          console.log(response);
+          setLoading(false);
+          goToSignIn();
         })
         .catch((err) => {
-          console.log(err);
+          setError(err?.response?.data?.message);
         })
     } catch (error) {
       console.log(error);
@@ -82,7 +84,7 @@ const SignUp = () => {
                 />
                 <CiLock className="absolute top-3 right-2" />
               </div>
-              <button className="cursor-pointer group relative flex justify-center gap-1.5 px-7 py-2 bg-black bg-opacity-80 text-[#f1f1f1] rounded-xl hover:bg-opacity-70 transition shadow-md">
+              <button className="cursor-pointer group relative flex justify-center gap-1.5 px-7 py-2 bg-black bg-opacity-80 text-[#f1f1f1] rounded-xl hover:bg-opacity-70 transition shadow-md" disabled={loading}>
                 Sign Up
               </button>
             </form>
@@ -91,6 +93,7 @@ const SignUp = () => {
               <span className="font-bold text-[15px]">SignIn</span> to account
             </button>
           </div>
+          {error ? <p className="text-red-500 text-sm mt-3">{error}</p> : null}
         </div>
         {/* right img */}
         <div className="sm:block hidden w-1/2">
