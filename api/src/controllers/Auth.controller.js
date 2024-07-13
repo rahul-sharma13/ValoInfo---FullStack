@@ -42,7 +42,8 @@ export const SignUp = async (req, res, next) => {
 
 export const SignIn = async (req, res, next) => {
   const { email, password } = req.body;
-  if(!email || !password) return next(errorHandler(400, "All fields are required."));
+  if (!email || !password)
+    return next(errorHandler(400, "All fields are required."));
 
   try {
     const validUser = await User.findOne({ email });
@@ -56,13 +57,17 @@ export const SignIn = async (req, res, next) => {
 
     const token = jwt.sign(
       { id: validUser._id },
-      process.env.ACCESS_TOKEN_SECRET
+      process.env.ACCESS_TOKEN_SECRET,
+      process.env.ACCESS_TOKEN_EXPIRY
     );
     // console.log("token is ", token);
 
     const requiredUser = await User.findById(validUser._id).select("-password");
 
-    return res.cookie("access_token", token, { httpOnly: true }).status(200).json(new ApiResponse(200, requiredUser, "User signed in successfully."));
+    return res
+      .cookie("access_token", token, { httpOnly: true })
+      .status(200)
+      .json(new ApiResponse(200, requiredUser, "User signed in successfully."));
   } catch (error) {
     next(error);
   }

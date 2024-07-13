@@ -54,11 +54,11 @@ const ProfileTab = () => {
       <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
       <form className="flex flex-col gap-4" onSubmit={handleUserUpdate}>
         <div className="w-32 h-32 self-center cursor-pointer shadow-md overflow-hidden rounded-full">
-          <img src={currentUser?.avatar} alt="user" className="rounded-full w-full h-full border object-cover border-gray-400" />
+          <img src={currentUser?.avatar} alt="user" className="rounded-full w-full h-full border-4 object-cover border-blue-500" />
         </div>
         <Input
           id="username"
-          label="username"
+          label="Username"
           size="lg"
           color="blue"
           className="w-[500px]"
@@ -66,8 +66,8 @@ const ProfileTab = () => {
           onChange={handleChange}
         />
 
-        <Input id="email" type="email" label="email" size="lg" color="blue" className="w-[500px]" defaultValue={currentUser?.email} onChange={handleChange} />
-        <Input id="password" type="password" label="password" size="lg" color="blue" className="w-[500px]" placeholder="password" onChange={handleChange} />
+        <Input id="email" type="email" label="Email" size="lg" color="blue" className="w-[500px]" defaultValue={currentUser?.email} onChange={handleChange} />
+        <Input id="password" type="password" label="Password" size="lg" color="blue" className="w-[500px]" placeholder="Password" onChange={handleChange} />
         <Button color="blue" variant="gradient" fullWidth size="lg" ripple={true} type="submit" loading={loading} className="self-center">Update</Button>
       </form>
       <div className="flex gap-56 mt-5">
