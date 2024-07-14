@@ -56,10 +56,10 @@ export const SignIn = async (req, res, next) => {
     if (!validPassword) return next(errorHandler(401, "Wrong credentials"));
 
     const token = jwt.sign(
-      { id: validUser._id },
+      { id: validUser._id, isAdmin: validUser.isAdmin },
       process.env.ACCESS_TOKEN_SECRET,
       {
-        expiresIn : "1d",
+        expiresIn: "1d",
       }
     );
     // console.log("token is ", token);

@@ -5,6 +5,7 @@ import {
   List,
   ListItem,
   ListItemPrefix,
+  ListItemSuffix,
 } from "@material-tailwind/react";
 import {
   ChatBubbleLeftEllipsisIcon,
@@ -27,6 +28,11 @@ const Account = () => {
                 <UserCircleIcon className="h-5 w-5" />
               </ListItemPrefix>
               Profile
+              <ListItemSuffix className="bg-primary text-primary-foreground h-full w-16 rounded-full">
+                <span className="text-xs font-semibold uppercase">
+                  {currentUser?.isAdmin ? "Admin" : "User"}
+                </span>
+              </ListItemSuffix>
             </ListItem>
             <ListItem onClick={() => setMenu("Posts")}>
               <ListItemPrefix>
