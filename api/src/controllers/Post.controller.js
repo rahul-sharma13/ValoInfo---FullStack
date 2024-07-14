@@ -7,6 +7,14 @@ export const createPost = async (req, res, next) => {
     return next(errorHandler(400, "All fields are required!"));
   }
 
+  if(req.body.title.length < 4) {
+    return next(errorHandler(400,"Title must be at least 4 characters long."));
+  }
+
+  if(req.body.content.length < 10) {
+    return next(errorHandler(400,"Content must be at least 10 characters long."));
+  };
+
   const slug = req.body.title
     .split(" ")
     .join("-")
@@ -30,8 +38,8 @@ export const createPost = async (req, res, next) => {
 };
 
 export const deletePost = async (req, res, next) => {
-const postToDelete = await Post.findOne({ _id: req.params.id });
-//   console.log(id);
+  const postToDelete = await Post.findOne({ _id: req.params.id });
+  // console.log(id);
   console.log(postToDelete.author);
 
   if (req.user.id !== postToDelete.author.toString()) {

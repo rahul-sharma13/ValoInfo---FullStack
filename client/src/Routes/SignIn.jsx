@@ -27,6 +27,7 @@ const SignIn = () => {
       dispatch(signInUserStart());
       await axios.post("http://localhost:8000/api/v1/auth/signin", formData , { withCredentials: true, credentials: 'include' })
         .then((res) => {
+          // console.log(res);
           dispatch(signInUserSuccess(res?.data?.data));
           setTimeout(() => {
             navigate("/");

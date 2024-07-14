@@ -13,10 +13,10 @@ const postSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      minLength: 4,
+      minLength: 10,
       maxLength: 300,
     },
-    topic: {
+    topic : {
       type: String,
       required: [true, "add a topic"],
       enum: ["General", "Valorant", "Site Discussion"],
@@ -26,10 +26,10 @@ const postSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    slug : {
-        type : String,
-        required : true
-    }
+    slug: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

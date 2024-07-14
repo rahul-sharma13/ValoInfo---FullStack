@@ -12,6 +12,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import { persistor, store } from './redux/store';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import CreatePost from './Routes/CreatePost';
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
             <Route path="/signup" element={<SignUp />} />
             <Route element=<ProtectedRoute /> >
               <Route path="/account" element={<Account />} />
+              <Route path="/create-post" element={<CreatePost />} />
             </Route>
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/tracker" element={<Tracker />} />
