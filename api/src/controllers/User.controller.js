@@ -44,7 +44,7 @@ export const updateUser = async (req, res, next) => {
 
 // delete user
 export const deleteUser = async (req, res, next) => {
-  if (req.params.id !== req.user.id)
+  if (!req.user.isAdmin && req.params.id !== req.user.id)
     return next(errorHandler(403, "You can only delete your account!"));
 
   try {
@@ -84,6 +84,7 @@ export const getUsers = async (req, res, next) => {
       now.getDate()
     );
 
+    // to return the users created at time greater than oneMonthAgo
     const lastMonthUsers = await User.countDocuments({
       createdAt: { $gte: oneMonthAgo },
     });

@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import ProfileTab from '../components/ProfileTab';
 import { useLocation } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
+import UsersTab from '../components/UsersTab';
+import PostsTab from '../components/PostsTab';
 
 const Account = () => {
   const { currentUser } = useSelector((state) => state.user)
@@ -19,7 +21,7 @@ const Account = () => {
 
   return (
     <section>
-      <div className='flex flex-col md:flex-row gap-3'>
+      <div className='flex flex-col md:flex-row gap-3 max-w-7xl'>
         {/* sidebar */}
         <Sidebar />
 
@@ -35,16 +37,10 @@ const Account = () => {
             </div>
           )}
           {menu === "Posts" && (
-            <div>
-              <h1>Posts</h1>
-              <p>Posts</p>
-            </div>
+            <PostsTab />
           )}
           { currentUser && currentUser.isAdmin && menu === "Users" && (
-            <div>
-              <h1>Users</h1>
-              <p>Users</p>
-            </div>
+            <UsersTab />
           )}
         </div>
       </div>
