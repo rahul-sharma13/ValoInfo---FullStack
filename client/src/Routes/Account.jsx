@@ -1,58 +1,38 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import {
-  Card,
-  List,
-  ListItem,
-  ListItemPrefix,
-  ListItemSuffix,
-} from "@material-tailwind/react";
-import {
-  ChatBubbleLeftEllipsisIcon,
-  UserCircleIcon,
-  UserGroupIcon
-} from "@heroicons/react/24/solid";
 import ProfileTab from '../components/ProfileTab';
+import { useLocation } from 'react-router-dom';
+import Sidebar from '../components/Sidebar';
 
 const Account = () => {
   const { currentUser } = useSelector((state) => state.user)
   const [menu, setMenu] = useState("Profile");
+  const location = useLocation();
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const tabFromUrl = urlParams.get('tab');
+    if (tabFromUrl) {
+      setMenu(tabFromUrl);
+    }
+  },[location.search])
 
   return (
     <section>
-      <div className='flex flex-row gap-3'>
-        <Card className="h-[calc(100vh-2rem)] bg-black w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5 ml-52 bg-accent">
-          <List className="dark:text-white">
-            <ListItem onClick={() => setMenu("Profile")}>
-              <ListItemPrefix>
-                <UserCircleIcon className="h-5 w-5" />
-              </ListItemPrefix>
-              Profile
-              <ListItemSuffix className="bg-primary text-primary-foreground h-full w-16 rounded-full">
-                <span className="text-xs font-semibold uppercase">
-                  {currentUser?.isAdmin ? "Admin" : "User"}
-                </span>
-              </ListItemSuffix>
-            </ListItem>
-            <ListItem onClick={() => setMenu("Posts")}>
-              <ListItemPrefix>
-                <ChatBubbleLeftEllipsisIcon className="h-5 w-5" />
-              </ListItemPrefix>
-              Posts
-            </ListItem>
-            <ListItem onClick={() => setMenu("Users")}>
-              <ListItemPrefix>
-                <UserGroupIcon className="h-5 w-5" />
-              </ListItemPrefix>
-              Users
-            </ListItem>
-          </List>
-        </Card>
+      <div className='flex flex-col md:flex-row gap-3'>
+        {/* sidebar */}
+        <Sidebar />
 
         {/* content */}
         <div className="max-w-lg mx-auto">
           {menu === "Profile" && (
             <ProfileTab />
+          )}
+          {menu === "adminPosts" && (
+            <div>
+              <h1>Admin Posts</h1>
+              <p>Admin Posts</p>
+            </div>
           )}
           {menu === "Posts" && (
             <div>
@@ -60,7 +40,7 @@ const Account = () => {
               <p>Posts</p>
             </div>
           )}
-          {menu === "Users" && (
+          { currentUser && currentUser.isAdmin && menu === "Users" && (
             <div>
               <h1>Users</h1>
               <p>Users</p>
