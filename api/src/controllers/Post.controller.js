@@ -44,7 +44,7 @@ export const deletePost = async (req, res, next) => {
   // console.log(id);
   console.log(postToDelete.author);
 
-  if (req.user.id !== postToDelete.author.toString()) {
+  if (!req.user.isAdmin && req.user.id !== postToDelete.author.toString()) {
     return next(errorHandler(409, "You can only delete your post!"));
   }
 
@@ -113,6 +113,10 @@ export const getPosts = async (req, res, next) => {
 export const updatePost = async (req, res, next) => {
   if (req.user.id !== req.params.userId) {
     return next(errorHandler(401, "You are not allowed to edit others post."));
+  }
+
+  if(req.body.title){
+    return next(errorHandler(401,"You can only update the content of the post!"));
   }
 
   try {

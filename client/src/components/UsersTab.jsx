@@ -118,11 +118,11 @@ const UsersTab = () => {
                         }
 
                         {
-                            showMore && (
+                            showMore ? (
                                 <Button color="black" onClick={handleShowMore}>
                                     Show More
                                 </Button>
-                            )
+                            ) : null
                         }
                         {
                             message && (

@@ -8,11 +8,11 @@ import { ThemeProvider } from './context/ThemeContext';
 import Footer from './components/Footer';
 import Tracker from './Routes/Tracker';
 import ProtectedRoute from './components/ProtectedRoute';
-
 import { persistor, store } from './redux/store';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import CreatePost from './Routes/CreatePost';
+import UpdatePost from './Routes/UpdatePost';
 
 const App = () => {
   return (
@@ -31,6 +31,7 @@ const App = () => {
             <Route element=<ProtectedRoute /> >
               <Route path="/account" element={<Account />} />
               <Route path="/create-post" element={<CreatePost />} />
+              <Route path="/update-post/:postId" element={<UpdatePost />} />
             </Route>
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/tracker" element={<Tracker />} />

@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.route("/signup").post(SignUp);
 router.route("/signin").post(SignIn);
-router.route("/signout").get(verifyToken ,signOut);
+router.route("/signout").get(signOut);
 
 export default router;

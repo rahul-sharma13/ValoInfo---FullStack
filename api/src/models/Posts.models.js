@@ -5,6 +5,7 @@ const postSchema = new mongoose.Schema(
     title: {
       type: String,
       required: [true, "tittle is required."],
+      unique: true,
       trim: true,
       maxLength: 30,
       minLength: 4,
@@ -29,6 +30,7 @@ const postSchema = new mongoose.Schema(
     slug: {
       type: String,
       required: true,
+      unique: true,
     },
   },
   { timestamps: true }
