@@ -56,6 +56,26 @@ export const deletePost = async (req, res, next) => {
   }
 };
 
+export const getUserPosts = async (req, res, next) => {
+  const userId = req.params.userId;
+  const startIndex = parseInt(req.query.startIndex) || 0;
+  const limit = parseInt(req.query.limit) || 9;
+  const sortDirection = req.query.order === "asc" ? 1 : -1;
+
+  try {
+    const postsOfTheUser = await Post.find({ author: userId })
+      .sort({ updatedAt: sortDirection })
+      .skip(startIndex)
+      .limit(limit);
+
+    res
+      .status(200)
+      .json(new ApiResponse(200, postsOfTheUser, "Posts fetched successfully"));
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getPosts = async (req, res, next) => {
   try {
     const startIndex = parseInt(req.query.startIndex) || 0;
@@ -115,8 +135,10 @@ export const updatePost = async (req, res, next) => {
     return next(errorHandler(401, "You are not allowed to edit others post."));
   }
 
-  if(req.body.title){
-    return next(errorHandler(401,"You can only update the content of the post!"));
+  if (req.body.title) {
+    return next(
+      errorHandler(401, "You can only update the content of the post!")
+    );
   }
 
   try {

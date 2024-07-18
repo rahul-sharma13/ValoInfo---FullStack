@@ -5,6 +5,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { signInUserFail, signInUserStart, signInUserSuccess } from "../redux/user/userSlice";
+import OAuth from "../components/OAuth";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -85,10 +86,12 @@ const SignIn = () => {
                 {loading ? "Please wait..." : "Sign In"}
               </button>
             </form>
-            <p className="text-center text-[14px] my-3">Don't an account?</p>
-            <button onClick={goToSignUp} className=" border-2 border-black px-9 py-3 rounded-xl w-full">
-              <span className="font-bold text-[15px] tracking-wide">SignUp</span> here
-            </button>
+            <p className="text-center text-[14px] my-3">
+              Don't an account?
+              <span onClick={goToSignUp} className="font-semibold cursor-pointer hover:underline text-[15px] tracking-wide ml-1">SignUp</span> here
+            </p>
+              
+            <OAuth />
             {error ? <p className="text-red-500 mt-3 text-center">{error}</p> : ""}
           </div>
         </div>

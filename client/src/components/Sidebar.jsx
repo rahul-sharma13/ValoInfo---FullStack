@@ -29,7 +29,7 @@ const Sidebar = () => {
 
 
     return (
-        <Card className="md:h-[calc(100vh-2rem)] bg-black w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5 md:ml-52 bg-accent">
+        <Card className="md:h-[calc(100vh-2rem)] bg-black w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5 md:ml-44 bg-accent">
             <List className="dark:text-white">
                 <Link to="/account?tab=Profile">
                     <ListItem onClick={() => setMenu("Profile")}>
@@ -64,14 +64,18 @@ const Sidebar = () => {
                         Posts
                     </ListItem>
                 </Link>
-                <Link to="/account?tab=Users">
-                    <ListItem onClick={() => setMenu("Users")}>
-                        <ListItemPrefix>
-                            <UserGroupIcon className="h-5 w-5" />
-                        </ListItemPrefix>
-                        Users
-                    </ListItem>
-                </Link>
+                {
+                    currentUser && currentUser.isAdmin && (
+                        <Link to="/account?tab=Users">
+                            <ListItem onClick={() => setMenu("Users")}>
+                                <ListItemPrefix>
+                                    <UserGroupIcon className="h-5 w-5" />
+                                </ListItemPrefix>
+                                Users
+                            </ListItem>
+                        </Link>
+                    )
+                }
             </List>
         </Card>
     )

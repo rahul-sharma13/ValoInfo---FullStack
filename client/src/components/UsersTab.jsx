@@ -18,7 +18,7 @@ const UsersTab = () => {
                     // console.log(res);
                     setLoading(false);
                     setUsers(res?.data?.data?.users);
-                    if (res?.data?.data?.users?.length < 9) {
+                    if (res?.data?.data?.users.length < 9) {
                         setShowMore(false);
                     }
                 }).catch((err) => {
@@ -44,7 +44,7 @@ const UsersTab = () => {
         try {
             await axios.get(`http://localhost:8000/api/v1/user/getUsers?startIndex=${startIndex}`, { withCredentials: true, credentials: 'include' }).then((res) => {
                 setUsers((prev) => [...prev, ...res?.data?.data?.users]);
-                if (res?.data?.data?.length < 9) {
+                if (res?.data?.data.length < 9) {
                     setShowMore(false);
                 }
             })
@@ -68,8 +68,8 @@ const UsersTab = () => {
 
     return (
         <div className="flex flex-col w-[700px]">
-            <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+            <div className="overflow-x-auto">
+                <div className="inline-block min-w-full">
                     <div className="overflow-hidden">
                         {
                             loading ? "Please wait..." :
@@ -85,6 +85,7 @@ const UsersTab = () => {
                                                 <th scope="col" className="px-6 py-4">Delete</th>
                                             </tr>
                                         </thead>
+                                        {console.log(users)}
                                         {users && users.length > 0 && (users.map((user, index) => (
                                             <tbody key={index}>
                                                 <tr className="border dark:border-neutral-500 text-center">
@@ -98,7 +99,7 @@ const UsersTab = () => {
                                                             className="w-10 h-10 rounded-full object-cover"
                                                         />
                                                     </td>
-                                                    <td className="whitespace-nowrap px-6 py-4">{user?.username}</td>
+                                                    <td className="whitespace-nowrap px-6 py-4">{user?.username.slice(0,5)}...</td>
                                                     <td className="whitespace-nowrap px-6 py-4">{user?.email}</td>
                                                     <td className="whitespace-nowrap px-6 py-4">
                                                         {

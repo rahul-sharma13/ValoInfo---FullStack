@@ -13,6 +13,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import CreatePost from './Routes/CreatePost';
 import UpdatePost from './Routes/UpdatePost';
+import PostPage from './Routes/PostPage';
 
 const App = () => {
   return (
@@ -33,6 +34,7 @@ const App = () => {
               <Route path="/create-post" element={<CreatePost />} />
               <Route path="/update-post/:postId" element={<UpdatePost />} />
             </Route>
+            <Route path="/post/:slug" element={<PostPage />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/tracker" element={<Tracker />} />
           </Routes>
