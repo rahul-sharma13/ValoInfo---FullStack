@@ -1,9 +1,13 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react'
 import moment from 'moment'
+import { BiUpvote } from 'react-icons/bi'
+import { useSelector } from 'react-redux'
+import { BiSolidUpvote } from 'react-icons/bi'
 
-const CommentCard = ({ comment }) => {
+const CommentCard = ({ comment, onLike }) => {
     const [user, setUser] = useState({});
+    const { currentUser } = useSelector(state => state.user);
 
     // console.log(comment);
     useEffect(() => {
@@ -37,8 +41,20 @@ const CommentCard = ({ comment }) => {
                     </span>
                 </div>
                 <p className='text-gray-500 pb-2'>{comment?.content}</p>
+                <div className='flex items-center pt-2 text-sm border-t dark:border-gray-700 max-w-fit gap-2'>
+                    <button
+                        className="text-gray-400 hover:text-cyan-500"
+                        onClick={() => onLike(comment._id)} >
+                        {currentUser && comment.likes.includes(currentUser._id) ? (<BiSolidUpvote className='text-sm text-cyan-500'/>) : (<BiUpvote className='text-sm' />)} 
+                    </button>
+                    <p className='text-gray-500'>
+                        {
+                            comment.numberOfLikes > 0 && comment.numberOfLikes + ' ' + (comment.numberOfLikes > 1 ? 'likes' : 'like')
+                        }
+                    </p>
+                </div>
             </div>
-        </div>
+        </div >
     )
 }
 

@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Textarea } from './ui/textarea';
 import { Button } from '@material-tailwind/react';
 import axios from 'axios';
 import CommentCard from './CommentCard';
 
 const CommentSection = ({ postId }) => {
+    const navigate = useNavigate();
     const { currentUser } = useSelector(state => state.user);
     const [comment, setComment] = useState('');
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [comments, setComments] = useState([]);
 
+    // comment submission
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (comment.length > 200) {
@@ -35,6 +37,7 @@ const CommentSection = ({ postId }) => {
         }
     }
 
+    // fetch comments
     useEffect(() => {
         const fetchComments = async () => {
             setLoading(true);
@@ -52,6 +55,31 @@ const CommentSection = ({ postId }) => {
 
         fetchComments();
     }, [postId]);
+
+    // handling likes
+    const handleLike = async (commentId) => {
+        try {
+            if (!currentUser) {
+                navigate('/signin');
+                return;
+            }
+
+            await axios.put(`http://localhost:8000/api/v1/comment/likeComment/${commentId}`, { userId: currentUser._id }, { withCredentials: true, credentials: 'include' }).then((res) => {
+                console.log(res);
+                setComments(comments.map((comment) =>
+                    comment._id === commentId ? {
+                        ...comment,
+                        likes: res.data.data.likes,
+                        numberOfLikes: res.data.data.likes.length
+                    } : comment
+                ));
+            }).catch((err) => {
+                console.log(err);
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <div className='max-w-2xl mx-auto w-full p-3'>
@@ -113,6 +141,7 @@ const CommentSection = ({ postId }) => {
                                 return <CommentCard
                                     key={comment._id}
                                     comment={comment}
+                                    onLike={handleLike}
                                 />
                             })
                         }

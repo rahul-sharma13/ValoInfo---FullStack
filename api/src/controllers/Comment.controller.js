@@ -28,6 +28,7 @@ export const createComment = async (req, res, next) => {
   }
 };
 
+// to get comments under a post
 export const getPostComments = async (req, res, next) => {
   try {
     const comments = await Comment.find({ postId: req.params.postId }).sort({
@@ -37,6 +38,37 @@ export const getPostComments = async (req, res, next) => {
     res
       .status(200)
       .json(new ApiResponse(200, comments, "Comments retrieved successfully."));
+  } catch (error) {
+    next(error);
+  }
+};
+
+// for like funtionality
+export const likeComment = async (req, res, next) => {
+  try {
+    const comment = await Comment.findById(req.params.commentId);
+
+    if (!comment) {
+      return next(errorHandler(404, "Comment not found"));
+    }
+
+    // to get the index of user in likes array, to ensure one user only likes it once
+    const userIndex = comment.likes.indexOf(req.user.id);
+
+    // if user is not in array it returns -1
+    if (userIndex === -1) {
+      comment.numberOfLikes += 1;
+      comment.likes.push(req.user.id);
+    } else {
+      comment.numberOfLikes -= 1;
+      comment.likes.splice(userIndex, 1);
+    }
+
+    await comment.save();
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, comment, "Comment liked successfully"));
   } catch (error) {
     next(error);
   }

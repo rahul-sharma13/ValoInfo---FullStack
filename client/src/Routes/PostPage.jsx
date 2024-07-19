@@ -112,10 +112,6 @@ const PostPage = () => {
             </div>
 
             {/* comments div */}
-            <div>
-                comments
-            </div>
-
             <CommentSection postId={post._id}/>
         </main>
     )
