@@ -1,26 +1,29 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
 import { Textarea } from './ui/textarea';
 import { Button } from '@material-tailwind/react';
 import axios from 'axios';
+import CommentCard from './CommentCard';
 
 const CommentSection = ({ postId }) => {
     const { currentUser } = useSelector(state => state.user);
     const [comment, setComment] = useState('');
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [comments, setComments] = useState([]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if(comment.length > 200){
+        if (comment.length > 200) {
             return;
         }
 
         try {
             setLoading(true);
             await axios.post('http://localhost:8000/api/v1/comment/post', { content: comment, postId, userId: currentUser._id }, { withCredentials: true, credentials: 'include' }).then((res) => {
-                console.log(res);
+                // console.log(res);
+                setComments([res.data.data, ...comments]);
                 setLoading(false);
                 setComment('');
             }).catch((err) => {
@@ -31,6 +34,24 @@ const CommentSection = ({ postId }) => {
             setError(error.message);
         }
     }
+
+    useEffect(() => {
+        const fetchComments = async () => {
+            setLoading(true);
+            try {
+                await axios.get(`http://localhost:8000/api/v1/comment/getPostComments/${postId}`).then((res) => {
+                    setComments(res.data.data);
+                }).catch((err) => {
+                    setLoading(false);
+                    console.log(err);
+                })
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchComments();
+    }, [postId]);
 
     return (
         <div className='max-w-2xl mx-auto w-full p-3'>
@@ -74,6 +95,29 @@ const CommentSection = ({ postId }) => {
             )}
             {
                 error && <p className='text-red-500 text-sm mt-3'>{error}</p>
+            }
+            {
+                comments.length === 0 ? (
+                    <p className='text-sm my-5'>No comments yet!</p>
+                ) : (
+                    <>
+                        <div className='text-sm my-5 flex items-center gap-1'>
+                            <p>Comments</p>
+                            <div className='border border-gray-400 py-1 px-2 rounded-sm'>
+                                <p>{comments.length}</p>
+                            </div>
+                        </div>
+
+                        {
+                            comments.map((comment) => {
+                                return <CommentCard
+                                    key={comment._id}
+                                    comment={comment}
+                                />
+                            })
+                        }
+                    </>
+                )
             }
         </div>
     )

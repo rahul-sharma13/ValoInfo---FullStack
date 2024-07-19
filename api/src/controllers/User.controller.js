@@ -113,7 +113,7 @@ export const getUserById = async (req, res, next) => {
       return next(errorHandler(404, "User not found!"));
     }
 
-    const { password, _id, isAdmin, updatedAt, ...user } = userToShow._doc;
+    const { password, _id, updatedAt, ...user } = userToShow._doc;
 
     res.status(200).json(new ApiResponse(200, user, "User details"));
   } catch (error) {
