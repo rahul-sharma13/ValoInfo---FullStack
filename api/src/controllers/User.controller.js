@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { User } from "../models/Users.models.js";
 import { errorHandler } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
@@ -98,5 +99,24 @@ export const getUsers = async (req, res, next) => {
     );
   } catch (error) {
     next(error);
+  }
+};
+
+export const getUserById = async (req, res, next) => {
+  const userId = req.params.id;
+  // console.log(req.params);
+
+  try {
+    const userToShow = await User.findById({ _id: new mongoose.Types.ObjectId(userId) });
+
+    if (!userToShow) {
+      return next(errorHandler(404, "User not found!"));
+    }
+
+    const { password, _id, isAdmin, updatedAt, ...user } = userToShow._doc;
+
+    res.status(200).json(new ApiResponse(200, user, "User details"));
+  } catch (error) {
+    console.log(error);
   }
 };

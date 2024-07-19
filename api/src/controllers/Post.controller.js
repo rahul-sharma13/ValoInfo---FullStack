@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Post from "../models/Posts.models.js";
 import { errorHandler } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
@@ -82,6 +83,8 @@ export const getPosts = async (req, res, next) => {
     const limit = parseInt(req.query.limit) || 9;
     const sortDirection = req.query.order === "asc" ? 1 : -1;
     // console.log(req.query);
+
+    // console.log("post req" ,req.query);
 
     // if the req has a user id or category or slug we search based on that
     const posts = await Post.find({

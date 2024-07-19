@@ -14,12 +14,15 @@ import { PersistGate } from 'redux-persist/integration/react';
 import CreatePost from './Routes/CreatePost';
 import UpdatePost from './Routes/UpdatePost';
 import PostPage from './Routes/PostPage';
+import ViewProfile from './components/ViewProfile';
+import ScrollToTop from './components/ScrollToTop';
 
 const App = () => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <ThemeProvider>
+          <ScrollToTop />
           <Header />
           <Routes>
             <Route path="/" element={<Home />} />
@@ -29,11 +32,12 @@ const App = () => {
             </Route>
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route element=<ProtectedRoute /> >
+            <Route element={<ProtectedRoute /> }>
               <Route path="/account" element={<Account />} />
               <Route path="/create-post" element={<CreatePost />} />
               <Route path="/update-post/:postId" element={<UpdatePost />} />
             </Route>
+            <Route path="/user/:username" element={<ViewProfile />} />
             <Route path="/post/:slug" element={<PostPage />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/tracker" element={<Tracker />} />

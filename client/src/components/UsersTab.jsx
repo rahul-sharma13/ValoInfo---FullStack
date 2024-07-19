@@ -85,7 +85,7 @@ const UsersTab = () => {
                                                 <th scope="col" className="px-6 py-4">Delete</th>
                                             </tr>
                                         </thead>
-                                        {console.log(users)}
+                                        {/* {console.log(users)} */}
                                         {users && users.length > 0 && (users.map((user, index) => (
                                             <tbody key={index}>
                                                 <tr className="border dark:border-neutral-500 text-center">
