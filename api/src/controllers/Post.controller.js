@@ -163,3 +163,25 @@ export const updatePost = async (req, res, next) => {
     next(error);
   }
 };
+
+export const upvotePost = async (req, res, next) => {
+  try {
+    const post = await Post.findOne({ _id: req.params.postId });
+
+    const userIndex = post.upvotes.indexOf(req.user.id);
+
+    if (userIndex === -1) {
+      post.noOfUpvotes += 1;
+      post.upvotes.push(req.user.id);
+    } else {
+      post.noOfUpvotes -= 1;
+      post.upvotes.splice(userIndex, 1);
+    }
+
+    await post.save();
+
+    res.status(200).json(new ApiResponse(200, post, "Post liked successfully"));
+  } catch (error) {
+    next(error);
+  }
+};

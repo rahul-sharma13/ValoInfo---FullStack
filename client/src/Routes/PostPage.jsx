@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { Spinner } from '@material-tailwind/react'
-import { BiUpvote, BiDownvote } from 'react-icons/bi'
+import { BiUpvote, BiDownvote, BiSolidUpvote } from 'react-icons/bi'
 import CommentSection from '../components/CommentSection'
+import moment from 'moment'
+import { useSelector } from 'react-redux'
 
 const PostPage = () => {
     const { slug } = useParams();
     //console.log(slug);
+    const { currentUser } = useSelector(state => state.user);
     const [loading, setLoading] = useState(true);
     const [post, setPost] = useState(null);
     const [error, setError] = useState(false);
@@ -62,6 +65,29 @@ const PostPage = () => {
         }
     }, [author, post])
 
+    const handleLikePost = async (postId) => {
+        try {
+            if (!currentUser) {
+                navigate('/signin');
+                return;
+            }
+
+            await axios.put(`http://localhost:8000/api/v1/post/upvote/${postId.toString()}`, { userId: currentUser._id }, { withCredentials: true, credentials: 'include' }).then((res) => {
+                // console.log(res);
+                setPost(
+                    {
+                        ...post,
+                        upvotes: res.data.data.upvotes,
+                        noOfUpvotes: res.data.data.upvotes.length
+                    }
+                );
+            }).catch((err) => {
+                console.log(err);
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     if (loading) {
         return (
@@ -71,24 +97,22 @@ const PostPage = () => {
         )
     }
     return (
-        <main className='p-3 flex flex-col max-w-6xl mx-auto min-h-screen'>
+        <main className='p-5 flex flex-col max-w-6xl mx-auto min-h-screen'>
             {/* title div */}
             <div className='flex flex-col gap-3 cursor-pointer'>
-                <div className='flex flex-row items-center gap-2'>
+                <div className='flex flex-row items-center gap-2 justify-between max-w-xl'>
                     {/* avatar */}
-                    <Link to={`/user/${userDetails?.username}`}>
+                    <Link className='flex items-center gap-2' to={`/user/${userDetails?.username}`}>
                         <img src={userDetails?.avatar} alt='avatar' className='w-12 h-12 rounded-full' />
-                    </Link>
-
-                    {/* details */}
-                    <div className='flex flex-col'>
                         <h1 className='text-sm dark:text-white/60 text-bold text-black'>
                             <span className='uppercase'> {userDetails?.username} </span>
                         </h1>
-                        <p className='text-sm dark:text-white/60 text-black'>
-                            <span className='text-md'> {new Date(post.updatedAt).toLocaleDateString()} </span>
-                        </p>
-                    </div>
+                    </Link>
+
+                    {/* details */}
+                    <p className='text-sm dark:text-white/60 text-black'>
+                        <span className='text-md'> {moment(post?.createdAt).fromNow()} </span>
+                    </p>
                 </div>
                 <div className='flex flex-row-reverse p-3 items-center justify-end max-w-xl bg-accent rounded-lg h-28'>
                     <div className='p-5 flex flex-col'>
@@ -100,19 +124,20 @@ const PostPage = () => {
                     </div>
 
                     <div className='cursor-pointer flex flex-col items-center justify-center'>
-                        <BiUpvote size={15} />
-                        <span className='text-sm'>10</span>
-                        <BiDownvote size={15} />
+                        <button onClick={() => handleLikePost(post._id)}>
+                            {currentUser && post.upvotes.includes(currentUser._id) ? (<BiSolidUpvote className='text-sm text-cyan-500' size={20} />) : (<BiUpvote className='text-sm' size={20} />)}
+                        </button>
+                        <span className='text-sm'>{post?.noOfUpvotes}</span>
                     </div>
                 </div>
 
-                <div className='bg-accent max-h-70 rounded-lg p-3 post-content' dangerouslySetInnerHTML={{ __html: post && post.content }}>
+                <div className='bg-accent max-w-2xl max-h-70 rounded-lg p-3 post-content' dangerouslySetInnerHTML={{ __html: post && post.content }}>
 
                 </div>
             </div>
 
             {/* comments div */}
-            <CommentSection postId={post._id}/>
+            <CommentSection postId={post._id} />
         </main>
     )
 }

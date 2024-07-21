@@ -32,6 +32,14 @@ const postSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    upvotes: {
+      type: Array,
+      default: [],
+    },
+    noOfUpvotes: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

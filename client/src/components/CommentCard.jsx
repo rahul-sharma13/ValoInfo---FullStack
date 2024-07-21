@@ -6,8 +6,16 @@ import { useSelector } from 'react-redux';
 import { BiSolidUpvote } from 'react-icons/bi';
 import { Textarea } from './ui/textarea';
 import { Button } from '@material-tailwind/react';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from './ui/dialog';
 
-const CommentCard = ({ comment, onLike, onEdit }) => {
+const CommentCard = ({ comment, onLike, onEdit, onDelete }) => {
     const [user, setUser] = useState({});
     const { currentUser } = useSelector(state => state.user);
     const [isEditing, setIsEditing] = useState(false);
@@ -30,11 +38,13 @@ const CommentCard = ({ comment, onLike, onEdit }) => {
         getUser();
     }, [comment._id])
 
+    // to edit
     const handleEditComment = async () => {
         setIsEditing(true);
         setEditedComment(comment.content);
     }
 
+    // to save
     const handleSave = async () => {
         try {
             await axios.put(`http://localhost:8000/api/v1/comment/editComment/${comment._id}`, { content: editedComment }, { withCredentials: true, credentials: 'include' }).then((res) => {
@@ -96,10 +106,10 @@ const CommentCard = ({ comment, onLike, onEdit }) => {
                             <button
                                 className="text-gray-400 hover:text-cyan-500"
                                 onClick={() => onLike(comment._id)} >
-                                {currentUser && comment.likes.includes(currentUser._id) ? (<BiSolidUpvote className='text-sm text-cyan-500' />) : (<BiUpvote className='text-sm' />)}
+                                {currentUser && comment.likes.includes(currentUser._id) ? (<BiSolidUpvote className='text-sm text-cyan-500' size={13} />) : (<BiUpvote className='text-sm' size={13} />)}
                             </button>
 
-                            <div className='flex items-center gap-1'>
+                            <div className='flex items-center gap-3'>
                                 <p className='text-gray-500'>
                                     {
                                         comment.numberOfLikes > 0 && comment.numberOfLikes + ' ' + (comment.numberOfLikes > 1 ? 'likes' : 'like')
@@ -107,13 +117,29 @@ const CommentCard = ({ comment, onLike, onEdit }) => {
                                 </p>
                                 {
                                     currentUser && currentUser._id === comment.userId.toString() && (
-                                        <button
-                                            className='text-gray-500 hover:text-cyan-500 text-sm'
-                                            onClick={handleEditComment}
-                                        >
-                                            Edit
-                                        </button>
+                                        <>
+                                            <button
+                                                className='text-gray-500 hover:text-cyan-500 text-sm'
+                                                onClick={handleEditComment}
+                                            >
+                                                Edit
+                                            </button>
+                                            <Dialog>
+                                                <DialogTrigger className='text-gray-500 hover:text-red-500 text-sm'>Delete</DialogTrigger>
+                                                <DialogContent>
+                                                    <DialogHeader>
+                                                        <DialogTitle>Are you sure?</DialogTitle>
+                                                        <DialogDescription>
+                                                            <Button variant='outlined' color='red'
+                                                                onClick={() => onDelete(comment._id)}
+                                                            >Yes</Button>
+                                                        </DialogDescription>
+                                                    </DialogHeader>
+                                                </DialogContent>
+                                            </Dialog>
+                                        </>
                                     )
+
                                 }
                             </div>
                         </div>

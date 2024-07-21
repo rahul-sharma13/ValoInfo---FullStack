@@ -81,6 +81,25 @@ const CommentSection = ({ postId }) => {
         }
     };
 
+    // handling delete
+    const handleDelete = async (commentId) => {
+        try {
+            if (!currentUser) {
+                navigate('/signin');
+                return;
+            }
+
+            axios.delete(`http://localhost:8000/api/v1/comment/deleteComment/${commentId}`, { withCredentials: true, credentials: 'include' }).then((res) => {
+                setComments(comments.filter((c) => c._id !== commentId));
+                // console.log(res);
+            }).catch((err) => {
+                console.log(err);
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     const handleEdit = async (comment, editedComment) => {
         setComments(
             comments.map((c) =>
@@ -90,7 +109,7 @@ const CommentSection = ({ postId }) => {
     };
 
     return (
-        <div className='max-w-2xl mx-auto w-full p-3'>
+        <div className='max-w-2xl w-full p-3'>
             {
                 currentUser ?
                     (
@@ -151,6 +170,7 @@ const CommentSection = ({ postId }) => {
                                     comment={comment}
                                     onLike={handleLike}
                                     onEdit={handleEdit}
+                                    onDelete={handleDelete}
                                 />
                             })
                         }
