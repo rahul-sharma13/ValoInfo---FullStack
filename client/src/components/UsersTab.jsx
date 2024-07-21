@@ -67,55 +67,55 @@ const UsersTab = () => {
     }
 
     return (
-        <div className="flex flex-col w-[700px]">
+        loading ? (<p className="dark:text-white text-black">Loading...</p>) 
+        :
+        (<div className="flex flex-col w-[700px]">
             <div className="overflow-x-auto">
                 <div className="inline-block min-w-full">
                     <div className="overflow-hidden">
                         {
-                            loading ? "Please wait..." :
-                                (
-                                    <table className="min-w-full text-left text-sm font-light">
-                                        <thead className="border text-center font-medium dark:border-neutral-500">
-                                            <tr>
-                                                <th scope="col" className="px-6 py-4">Date Created</th>
-                                                <th scope="col" className="px-6 py-4">Avatar</th>
-                                                <th scope="col" className="px-6 py-4">Username</th>
-                                                <th scope="col" className="px-6 py-4">Email</th>
-                                                <th scope="col" className="px-6 py-4">Admin</th>
-                                                <th scope="col" className="px-6 py-4">Delete</th>
-                                            </tr>
-                                        </thead>
-                                        {/* {console.log(users)} */}
-                                        {users && users.length > 0 && (users.map((user, index) => (
-                                            <tbody key={index}>
-                                                <tr className="border dark:border-neutral-500 text-center">
-                                                    <td className="whitespace-nowrap px-6 py-4 text-center font-medium">
-                                                        {new Date(user?.createdAt).toLocaleDateString()}
-                                                    </td>
-                                                    <td className="whitespace-nowrap px-6 py-4 flex items-center justify-center">
-                                                        <img
-                                                            src={user?.avatar}
-                                                            alt="avatar"
-                                                            className="w-10 h-10 rounded-full object-cover"
-                                                        />
-                                                    </td>
-                                                    <td className="whitespace-nowrap px-6 py-4">{user?.username.slice(0,5)}...</td>
-                                                    <td className="whitespace-nowrap px-6 py-4">{user?.email}</td>
-                                                    <td className="whitespace-nowrap px-6 py-4">
-                                                        {
-                                                            user?.isAdmin ? (<Button color="red" variant="outlined">Remove</Button>) : (<Button color="green" variant="outlined">Add</Button>)
-                                                        }
-                                                    </td>
-                                                    <td className="whitespace-nowrap px-6 py-4">
-                                                        <span className="text-red-500 cursor-pointer hover:underline" onClick={() => {
-                                                            adminDeletes(user._id)
-                                                        }}>Delete</span>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        )))}
-                                    </table>
-                                )
+                            <table className="min-w-full text-left text-sm font-light">
+                                <thead className="border text-center font-medium dark:border-neutral-500">
+                                    <tr>
+                                        <th scope="col" className="px-6 py-4">Date Created</th>
+                                        <th scope="col" className="px-6 py-4">Avatar</th>
+                                        <th scope="col" className="px-6 py-4">Username</th>
+                                        <th scope="col" className="px-6 py-4">Email</th>
+                                        <th scope="col" className="px-6 py-4">Admin</th>
+                                        <th scope="col" className="px-6 py-4">Delete</th>
+                                    </tr>
+                                </thead>
+                                {/* {console.log(users)} */}
+                                {users && users.length > 0 && (users.map((user, index) => (
+                                    <tbody key={index}>
+                                        <tr className="border dark:border-neutral-500 text-center">
+                                            <td className="whitespace-nowrap px-6 py-4 text-center font-medium">
+                                                {new Date(user?.createdAt).toLocaleDateString()}
+                                            </td>
+                                            <td className="whitespace-nowrap px-6 py-4 flex items-center justify-center">
+                                                <img
+                                                    src={user?.avatar}
+                                                    alt="avatar"
+                                                    className="w-10 h-10 rounded-full object-cover"
+                                                />
+                                            </td>
+                                            <td className="whitespace-nowrap px-6 py-4">{user?.username.slice(0, 5)}...</td>
+                                            <td className="whitespace-nowrap px-6 py-4">{user?.email}</td>
+                                            <td className="whitespace-nowrap px-6 py-4">
+                                                {
+                                                    user?.isAdmin ? (<Button color="red" variant="outlined">Remove</Button>) : (<Button color="green" variant="outlined">Add</Button>)
+                                                }
+                                            </td>
+                                            <td className="whitespace-nowrap px-6 py-4">
+                                                <span className="text-red-500 cursor-pointer hover:underline" onClick={() => {
+                                                    adminDeletes(user._id)
+                                                }}>Delete</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                )))}
+                            </table>
+                        
                         }
 
                         {
@@ -133,7 +133,7 @@ const UsersTab = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div>)
     )
 }
 
