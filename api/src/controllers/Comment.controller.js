@@ -73,3 +73,30 @@ export const likeComment = async (req, res, next) => {
     next(error);
   }
 };
+
+// for editing comments
+export const editComment = async (req, res, next) => {
+  try {
+    const comment = await Comment.findById(req.params.commentId);
+
+    if (!comment) {
+      return next(errorHandler(404, "Comment not found"));
+    }
+
+    if (comment.userId.toString() !== req.user.id) {
+      return next(
+        errorHandler(401, "You are not allowed to perform this action")
+      );
+    }
+
+    const editedComment = await Comment.findByIdAndUpdate(
+      req.params.commentId,
+      { content : req.body.content },
+      { new: true }
+    );
+
+    res.status(200).json(new ApiResponse(200, editedComment, "Comment edited successfully"));
+  } catch (error) {
+    next(error);
+  }
+};

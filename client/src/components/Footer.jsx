@@ -1,5 +1,7 @@
 import React, { useContext } from 'react'
 import { ThemeContext } from '../context/ThemeContext'
+import logo from '../../public/logos/logo1.png'
+import logo2 from '../../public/logos/logo2.png'
 
 const Footer = () => {
   const { theme, setTheme } = useContext(ThemeContext);
@@ -10,7 +12,7 @@ const Footer = () => {
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0">
             <a href="https://valoinfo.netlify.app/" className="flex items-center">
-              {theme === "dark" ? (<img src="./logos/logo2.png" className="h-9 mr-1" alt="ValoInfo" />) : (<img src="./logos/logo1.png" className="h-9 mr-1" alt="ValoInfo" />)}
+              {theme === "dark" ? (<img src={logo2} className="h-9 mr-1" alt="ValoInfo" />) : (<img src={logo} className="h-9 mr-1" alt="ValoInfo" />)}
               <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">ValoInfo</span>
             </a>
           </div>

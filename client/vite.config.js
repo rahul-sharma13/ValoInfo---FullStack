@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 export default defineConfig({
   server: {
     proxy: {
-      "/apiroute": "http://localhost:8000/api/v1/",
+      "/api": "http://localhost:8000/api/v1/",
     },
   },
   plugins: [react()],

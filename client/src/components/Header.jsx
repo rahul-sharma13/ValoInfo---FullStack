@@ -6,6 +6,8 @@ import ThemeToggle from './ThemeToggle';
 import { ThemeContext } from '../context/ThemeContext';
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
+import logo from '../../public/logos/logo1.png';
+import logo2 from '../../public/logos/logo2.png';
 
 const Header = () => {
   const [nav, setNav] = useState(false);
@@ -34,7 +36,7 @@ const Header = () => {
         {/* left */}
         <div>
           <a href="/" className="flex items-center">
-            {theme === "dark" ? (<img src="./logos/logo2.png" className="h-9 mr-1" alt="ValoInfo" />) : (<img src="./logos/logo1.png" className="h-9 mr-1" alt="ValoInfo" />)}
+            {theme === "dark" ? (<img src={logo2} className="h-9 mr-1" alt="ValoInfo" />) : (<img src={logo} className="h-9 mr-1" alt="ValoInfo" />)}
             <span className="self-center text-2xl tracking-wide font-bold whitespace-nowrap">
               ValoInfo
             </span>
