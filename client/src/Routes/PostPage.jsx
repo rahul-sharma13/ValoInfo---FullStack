@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { Spinner } from '@material-tailwind/react'
 import { BiUpvote, BiSolidUpvote, BiEdit } from 'react-icons/bi'
@@ -22,6 +22,7 @@ const PostPage = () => {
     const [error, setError] = useState(false);
     const [author, setAuthor] = useState(null);
     const [userDetails, setUserDetails] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -70,6 +71,10 @@ const PostPage = () => {
             getAuthor();
         }
     }, [author, post])
+
+    const handleEditClick = () => {
+        currentUser && currentUser._id === post.author && navigate(`/update-post/${post._id}`);
+    }
 
     const handleLikePost = async (postId) => {
         try {
@@ -124,12 +129,12 @@ const PostPage = () => {
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger>
-                                <Link to={`/update-post/${post._id}`}>
-                                    <BiEdit size={25} />
-                                </Link>
+                                <BiEdit size={25} onClick={handleEditClick} />
                             </TooltipTrigger>
                             <TooltipContent>
-                                Edit Post
+                                {
+                                    currentUser && currentUser._id === post.author ? ("Edit") : ("You can edit your post only")
+                                }
                             </TooltipContent>
                         </Tooltip>
                     </TooltipProvider>
