@@ -97,9 +97,9 @@ const Home = () => {
                 </div>
             </div>
 
-            <div className='max-w-screen-xl bg-accent mx-auto p-5 w-full flex flex-row min-h-96 gap-2'>
+            <div className='max-w-screen-xl bg-accent mx-auto p-5 w-full flex flex-row h-96 gap-2'>
                 {/* left */}
-                <div className='bg-card w-[65%]'>
+                <div className='bg-card w-[70%]'>
                     <div className='flex flex-col pt-2'>
                         <Link to='/announcement'>
                             <h1 className='text-lg text-center dark:hover:text-gray-600 cursor-pointer hover:text-gray-700'>
@@ -114,7 +114,7 @@ const Home = () => {
                 </div>
 
                 {/* right */}
-                <div className='bg-card w-[35%]'>
+                <div className='bg-card w-[30%]'>
                     <div className='flex flex-col pt-2'>
                         <Link to='/discussion'>
                             <h1 className='text-lg text-center dark:hover:text-gray-600 cursor-pointer hover:text-gray-700'>Discussions</h1>

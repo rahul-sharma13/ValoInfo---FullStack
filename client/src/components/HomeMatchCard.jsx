@@ -19,9 +19,9 @@ const HomeMatchCard = ({ match }) => {
 
                         {/* scores */}
                         <div className='flex flex-col items-end gap-1 w-[10%]'>
-                            <p className='text-sm underline text-gray-500'>1</p>
+                            <p className='text-sm underline text-gray-500'>{match.match?.teams[0].game_wins}</p>
 
-                            <p className='text-sm underline text-gray-500'>1</p>
+                            <p className='text-sm underline text-gray-500'>{match.match?.teams[1].game_wins}</p>
                         </div>
                     </div>
                     <div className='ml-2'>

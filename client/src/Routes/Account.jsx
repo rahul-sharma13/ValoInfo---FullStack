@@ -26,7 +26,7 @@ const Account = () => {
         <Sidebar />
 
         {/* content */}
-        <div className="">
+        <div className={`${menu === "Profile" && "mx-auto"}`}>
           {menu === "Profile" && (
             <ProfileTab />
           )}

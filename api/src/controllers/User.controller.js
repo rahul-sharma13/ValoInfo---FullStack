@@ -107,7 +107,9 @@ export const getUserById = async (req, res, next) => {
   // console.log(req.params);
 
   try {
-    const userToShow = await User.findById({ _id: new mongoose.Types.ObjectId(userId) });
+    const userToShow = await User.findById({
+      _id: new mongoose.Types.ObjectId(userId),
+    });
 
     if (!userToShow) {
       return next(errorHandler(404, "User not found!"));

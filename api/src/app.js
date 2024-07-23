@@ -8,6 +8,7 @@ import authRouter from "./routes/Auth.routes.js";
 import userRouter from "./routes/User.routes.js";
 import postRouter from "./routes/Post.routes.js";
 import commentRouter from "./routes/Comment.routes.js";
+import announcementRouter from "./routes/Announcement.routes.js";
 
 // starting the app
 const app = express();
@@ -19,8 +20,10 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.json({ limit: "50kb" })); // limit of acceptance of json data
-app.use(express.urlencoded({ extended: true, limit: "16kb" }));
+app.use(express.json({ limit: "50mb" })); // limit of acceptance of json data
+app.use(
+  express.urlencoded({ extended: true, limit: "50mb", parameterLimit: 50000 })
+);
 app.use(express.static("public"));
 app.use(cookieParser());
 
@@ -35,6 +38,7 @@ app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/post", postRouter);
 app.use("/api/v1/comment", commentRouter);
+app.use("/api/v1/announcement", announcementRouter);
 
 // error middleware
 app.use((err, req, res, next) => {
