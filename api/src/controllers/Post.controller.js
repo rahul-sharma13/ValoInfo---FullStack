@@ -57,6 +57,7 @@ export const deletePost = async (req, res, next) => {
   }
 };
 
+// get post of particular user
 export const getUserPosts = async (req, res, next) => {
   const userId = req.params.userId;
   const startIndex = parseInt(req.query.startIndex) || 0;
@@ -77,6 +78,7 @@ export const getUserPosts = async (req, res, next) => {
   }
 };
 
+// get post based on query
 export const getPosts = async (req, res, next) => {
   try {
     const startIndex = parseInt(req.query.startIndex) || 0;
@@ -181,6 +183,60 @@ export const upvotePost = async (req, res, next) => {
     await post.save();
 
     res.status(200).json(new ApiResponse(200, post, "Post liked successfully"));
+  } catch (error) {
+    next(error);
+  }
+};
+
+// get all posts
+export const getAllPosts = async (req, res, next) => {
+  const inTime = req.query.inTime || "all";
+  const sortDirection = req.query.order === "asc" ? 1 : -1;
+  let allPosts;
+
+  try {
+    if (inTime === "all") {
+      allPosts = await Post.find().sort({ createdAt: sortDirection });
+    } else if (inTime === "month") {
+      const now = new Date();
+
+      const oneMonthAgo = new Date(
+        now.getFullYear(),
+        now.getMonth() - 1,
+        now.getDate()
+      );
+
+      allPosts = await Post.find({
+        createdAt: { $gte: oneMonthAgo },
+      }).sort({ createdAt: sortDirection });
+
+    } else if (inTime === "week") {
+      const now = new Date();
+
+      const oneWeekAgo = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() - 7
+      );
+
+      allPosts = await Post.find({
+        createdAt: { $gte: oneWeekAgo },
+      });
+    } else if (inTime === "day") {
+      const now = new Date();
+
+      const oneDayAgo = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() - 1
+      );
+
+      allPosts = await Post.find({
+        createdAt: { $gte: oneDayAgo },
+      }).sort({ createdAt: sortDirection });
+    }
+
+    res.status(200).json(new ApiResponse(200, allPosts, "All posts fetched!"));
   } catch (error) {
     next(error);
   }

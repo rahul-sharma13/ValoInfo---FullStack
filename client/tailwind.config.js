@@ -77,6 +77,9 @@ module.exports = withMT({
             backgroundPosition: "200% center",
           },
         },
+        fontFamily: {
+          poppins: ["Poppins", "sans-serif"],
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -87,17 +90,17 @@ module.exports = withMT({
   },
   plugins: [
     require("tailwindcss-animate"),
-    function({addUtilities}){
+    function ({ addUtilities }) {
       const newUtilities = {
-        ".no-scrollbar::-webkit-scrollbar":{
-          display:"none",
+        ".no-scrollbar::-webkit-scrollbar": {
+          display: "none",
         },
-        ".no-scrollbar":{
-          "-ms-overflow-style":"none",
-          "scrollbar-width":"none",
-        }
-      }
+        ".no-scrollbar": {
+          "-ms-overflow-style": "none",
+          "scrollbar-width": "none",
+        },
+      };
       addUtilities(newUtilities);
-    }
+    },
   ],
 });

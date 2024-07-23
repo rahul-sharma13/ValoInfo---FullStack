@@ -1,6 +1,5 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { BiSolidDownArrow, BiSolidUpArrow } from 'react-icons/bi';
 import { Regions, episodes } from '../constants';
 import LeaderBoardTable from '../components/LeaderBoardTable';
 import TextShine from '../components/TextShine';
@@ -33,15 +32,6 @@ const Leaderboard = () => {
 
     return regionMap[currentRegion] || "eu";
   }
-
-  // opening or closing or menu by click on heading
-  const handleEaMenu = () => {
-    setEaMenu((prevValue) => !prevValue)
-  }
-  const handleRegionMenu = () => {
-    setRegionMenu((prevValue) => !prevValue);
-  }
-
 
 
   // to get API response

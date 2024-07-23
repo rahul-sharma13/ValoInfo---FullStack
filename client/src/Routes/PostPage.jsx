@@ -2,10 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { Spinner } from '@material-tailwind/react'
-import { BiUpvote, BiDownvote, BiSolidUpvote } from 'react-icons/bi'
+import { BiUpvote, BiSolidUpvote, BiEdit } from 'react-icons/bi'
 import CommentSection from '../components/CommentSection'
 import moment from 'moment'
 import { useSelector } from 'react-redux'
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from '../components/ui/tooltip'
 
 const PostPage = () => {
     const { slug } = useParams();
@@ -114,26 +120,43 @@ const PostPage = () => {
                         <span className='text-md'> {moment(post?.createdAt).fromNow()} </span>
                     </p>
                 </div>
-                <div className='flex flex-row-reverse p-3 items-center justify-end max-w-xl bg-accent rounded-lg h-28'>
-                    <div className='p-5 flex flex-col'>
-                        <h1 className='text-xl text-left lg:text-3xl'> {post && post.title} </h1>
-                        <div>
-                            <span className='text-[12px]'>posted in </span>
-                            <span className='cursor-pointer hover:underline text-cyan-300'>{post && post.topic} </span>
+                <div className='flex flex-row-reverse p-4 items-center max-w-xl bg-accent rounded-lg max-h-28 justify-between'>
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger>
+                                <Link to={`/update-post/${post._id}`}>
+                                    <BiEdit size={25} />
+                                </Link>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                Edit Post
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+
+
+                    <div className='flex flex-row-reverse'>
+                        <div className='p-5 flex flex-col'>
+                            <h1 className='text-xl text-left lg:text-3xl'> {post && post.title} </h1>
+                            <div>
+                                <span className='text-[12px]'>posted in </span>
+                                <span className='cursor-pointer hover:underline text-cyan-300'>{post && post.topic} </span>
+                            </div>
+                        </div>
+
+                        <div className='cursor-pointer flex flex-col items-center justify-center'>
+                            <button onClick={() => handleLikePost(post._id)}>
+                                {currentUser && post.upvotes.includes(currentUser._id) ? (<BiSolidUpvote className='text-sm text-cyan-500' size={20} />) : (<BiUpvote className='text-sm' size={20} />)}
+                            </button>
+                            <span className='text-sm'>{post?.noOfUpvotes}</span>
                         </div>
                     </div>
-
-                    <div className='cursor-pointer flex flex-col items-center justify-center'>
-                        <button onClick={() => handleLikePost(post._id)}>
-                            {currentUser && post.upvotes.includes(currentUser._id) ? (<BiSolidUpvote className='text-sm text-cyan-500' size={20} />) : (<BiUpvote className='text-sm' size={20} />)}
-                        </button>
-                        <span className='text-sm'>{post?.noOfUpvotes}</span>
-                    </div>
                 </div>
 
-                <div className='bg-accent max-w-2xl max-h-70 rounded-lg p-3 post-content' dangerouslySetInnerHTML={{ __html: post && post.content }}>
+                <div className='bg-accent max-w-2xl max-h-70 rounded-lg p-3 post-content' dangerouslySetInnerHTML={{ __html: post && post.content }} >
 
                 </div>
+
             </div>
 
             {/* comments div */}
