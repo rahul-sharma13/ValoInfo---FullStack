@@ -6,6 +6,10 @@ dotenv.config({
   path: "./env",
 });
 
+app.get("/", (req, res) => {
+  res.send("server is up!");
+});
+
 connectDb()
   .then(() => {
     app.on("error", (error) => {
