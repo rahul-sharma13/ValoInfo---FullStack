@@ -12,7 +12,7 @@ const EventCard = ({ events }) => {
     <>
       {events.map((event, index) => (
         <div
-          className="bg-accent text-black sm:h-28 h-36 tracking-wider sm:max-w-screen-2xl  flex justify-between mb-4"
+          className="bg-accent text-black sm:h-28 h-36 tracking-wider max-w-fit flex justify-between mb-4"
           key={index}
         >
           {/* Name and details up-down */}
@@ -23,9 +23,9 @@ const EventCard = ({ events }) => {
             </div>
             {/* details */}
             <div className="flex text-[14px] gap-10">
-              <EventSection para={event.event_date} head={"Dates"} add={"w-[50%]"}/>
-              <EventSection para={event.region} head={"Region"} add={"w-[20%]"}/>
-              <EventSection para={event.prize_pool} head={"Prize"} add={"w-[20%]"}/>
+              <EventSection para={event.event_date} head={"Dates"} add={"w-[50%]"} />
+              <EventSection para={event.region} head={"Region"} add={"w-[20%]"} />
+              <EventSection para={event.prize_pool} head={"Prize"} add={"w-[20%]"} />
             </div>
           </div>
           <div

@@ -5,8 +5,8 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 export const createEvent = async (req, res, next) => {
   const { event_name, prize_pool, region, status, event_logo, event_date } =
     req.body;
-  
-  // required to add all the fields 
+
+  // required to add all the fields
   if (
     !event_date ||
     !event_logo ||
@@ -15,7 +15,7 @@ export const createEvent = async (req, res, next) => {
     !status ||
     !prize_pool
   ) {
-    return next(errorHandler(400,"Please fill all the fields."));
+    return next(errorHandler(400, "Please fill all the fields."));
   }
 
   try {
@@ -43,6 +43,18 @@ export const getEvents = async (req, res, next) => {
       .json(
         new ApiResponse(201, allEvents, "all events extracted successfully!")
       );
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getStatus = async (req, res, next) => {
+  const { status } = req.query;
+  try {
+    const events = await Event.find({ status: status });
+    return res
+      .status(200)
+      .json(new ApiResponse(201, events, "all events extracted successfully!"));
   } catch (error) {
     next(error);
   }

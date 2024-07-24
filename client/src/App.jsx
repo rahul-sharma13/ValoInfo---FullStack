@@ -21,6 +21,8 @@ import Home from './Routes/Home';
 import AdminOnlyRoute from './components/AdminOnlyRoute';
 import CreateArticle from './Routes/CreateArticle';
 import ArticlePage from './Routes/ArticlePage';
+import Articles from './Routes/Articles';
+import Events from './Routes/Events';
 
 const App = () => {
   return (
@@ -46,10 +48,12 @@ const App = () => {
             <Route element={<AdminOnlyRoute />}>
               <Route path="/create-article" element={<CreateArticle />} />
             </Route>
+            <Route path="/articles" element={<Articles />} />
             <Route path="/article/:slug" element={<ArticlePage />} />
             <Route path="/user/:username" element={<ViewProfile />} />
             <Route path="/post/:slug" element={<PostPage />} />
             <Route path="/discussion" element={<Discussions />} />
+            <Route path="/events" element={<Events />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
           </Routes>
           <Footer />

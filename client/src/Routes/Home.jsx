@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import HomeMatchCard from '../components/HomeMatchCard';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useFetcher } from 'react-router-dom';
 import { FaChevronRight } from 'react-icons/fa';
 import { Spinner } from '@material-tailwind/react';
 import DiscussionTab from '../components/DiscussionTab';
 import EventCard from '../components/EventCard';
+import ArticleTab from '../components/ArticleTab';
 
 const Home = () => {
     const url = `https://api.henrikdev.xyz/valorant/v1/esports/schedule?api_key=${import.meta.env.VITE_API_KEY}`;
@@ -13,6 +14,7 @@ const Home = () => {
     const [loading, setLoading] = useState(true);
     const [posts, setPosts] = useState([]);
     const [events, setEvents] = useState([]);
+    const [articles, setArticles] = useState([]);
 
     // get matches
     useEffect(() => {
@@ -71,6 +73,23 @@ const Home = () => {
         getEvents();
     }, [])
 
+    useEffect(() => {
+        const getArticles = async () => {
+            try {
+                await axios.get("/api/v1/article/getAll").then((res) => {
+                    console.log(res);
+                    setArticles(res.data.data.slice(0, 6));
+                }).catch((err) => {
+                    console.log(err);
+                })
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        getArticles();
+    },[])
+
     return (
         <main className='flex flex-col gap-10'>
             <div className='md:max-w-screen-xl md:bg-accent mx-auto p-5 w-full'>
@@ -107,9 +126,17 @@ const Home = () => {
                             </h1>
                         </Link>
                         {/* posts */}
-                        <div>
-                            
-                        </div>
+                        <div className='flex flex-col gap-1 mt-1 px-2'>
+                            {
+                                articles.map((article, index) => (
+                                    <ArticleTab
+                                        article={article}
+                                        index={index}
+                                        key={article._id}
+                                    />
+                                ))
+                            }
+                        </div>  
                     </div>
                 </div>
 

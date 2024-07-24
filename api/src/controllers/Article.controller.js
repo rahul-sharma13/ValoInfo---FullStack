@@ -32,15 +32,28 @@ export const createArticle = async (req, res, next) => {
 };
 
 export const getArticle = async (req, res, next) => {
-    const { slug } = req.params;
+  const { slug } = req.params;
 
-    try {
-        const article = await Article.findOne({ slug }).populate("author");
-        if (!article) {
-            return next(errorHandler(404, "Article not found."));
-        }
-        res.status(200).json(new ApiResponse(200, article, "Article retrieved successfully."));
-    } catch (error) {
-        next(error);
+  try {
+    const article = await Article.findOne({ slug }).populate("author");
+    if (!article) {
+      return next(errorHandler(404, "Article not found."));
     }
+    res
+      .status(200)
+      .json(new ApiResponse(200, article, "Article retrieved successfully."));
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getAllArticles = async (req, res, next) => {
+  try {
+    const articles = await Article.find();
+    res
+      .status(200)
+      .json(new ApiResponse(200, articles, "Articles retrieved successfully."));
+  } catch (error) {
+    next(error);
+  }
 };
