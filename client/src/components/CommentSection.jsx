@@ -65,7 +65,7 @@ const CommentSection = ({ postId }) => {
             }
 
             await axios.put(`http://localhost:8000/api/v1/comment/likeComment/${commentId}`, { userId: currentUser._id }, { withCredentials: true, credentials: 'include' }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 setComments(comments.map((comment) =>
                     comment._id === commentId ? {
                         ...comment,

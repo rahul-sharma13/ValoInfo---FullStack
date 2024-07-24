@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
 
-const announcementSchema = new mongoose.Schema(
+const articleSchema = new mongoose.Schema(
   {
     title: {
       type: String,
       required: [true, "tittle is required."],
       unique: true,
       trim: true,
-      maxLength: 30,
+      maxLength: 100,
       minLength: 4,
     },
     content: {
@@ -15,11 +15,16 @@ const announcementSchema = new mongoose.Schema(
       required: [true, "content is required."],
       trim: true,
       minLength: 100,
-      maxLength: 1000,
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+    },
+    topic : {
+      type: String,
+      required: [true, "add a topic"],
+      enum: ["General", "Valorant", "Site Discussion"],
+      default: "General",
     },
     slug: {
       type: String,
@@ -35,6 +40,6 @@ const announcementSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Announcement = mongoose.model("Announcement", announcementSchema);
+const Article = mongoose.model("Article", articleSchema);
 
-export default Announcement;
+export default Article;

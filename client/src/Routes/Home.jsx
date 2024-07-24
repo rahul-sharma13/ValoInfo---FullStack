@@ -41,7 +41,7 @@ const Home = () => {
         const getPosts = async () => {
             try {
                 await axios.get("/api/v1/post/getAllPosts").then((res) => {
-                    setPosts(res.data.data);
+                    setPosts(res.data.data.slice(0, 7));
                 }).catch((err) => {
                     console.log(err);
                 })
@@ -73,9 +73,9 @@ const Home = () => {
 
     return (
         <main className='flex flex-col gap-10'>
-            <div className='md:max-w-screen-xl md:bg-accent mx-auto p-5'>
+            <div className='md:max-w-screen-xl md:bg-accent mx-auto p-5 w-full'>
                 {/* matches */}
-                <div className='flex flex-col'>
+                <div className='flex flex-col w-full'>
                     <div className='flex flex-row justify-between items-baseline'>
                         <h1 className='text-xl text-accent-foreground mb-2'>Matches</h1>
                         <Link to="/matches" className='dark:text-gray-400 text-gray-700 cursor-pointer flex items-center hover:scale-110 transition-all duration-75'>
@@ -86,7 +86,7 @@ const Home = () => {
                     <div className='flex xl:gap-4 md:gap-1 flex-wrap gap-2 justify-center'>
                         {
                             loading ? (<div>
-                                <Spinner color="cyan" size="xl" />
+                                <Spinner color="white" size="xl" />
                             </div>) : (
                                 matches.map((match, index) => (
                                     <HomeMatchCard match={match} key={index} />
@@ -99,22 +99,22 @@ const Home = () => {
 
             <div className='max-w-screen-xl bg-accent mx-auto p-5 w-full flex flex-row h-96 gap-2'>
                 {/* left */}
-                <div className='bg-card w-[70%]'>
+                <div className='bg-card w-[60%]'>
                     <div className='flex flex-col pt-2'>
-                        <Link to='/announcement'>
+                        <Link to='/articles'>
                             <h1 className='text-lg text-center dark:hover:text-gray-600 cursor-pointer hover:text-gray-700'>
-                                Announcements
+                                Articles
                             </h1>
                         </Link>
                         {/* posts */}
                         <div>
-
+                            
                         </div>
                     </div>
                 </div>
 
                 {/* right */}
-                <div className='bg-card w-[30%]'>
+                <div className='bg-card w-[40%]'>
                     <div className='flex flex-col pt-2'>
                         <Link to='/discussion'>
                             <h1 className='text-lg text-center dark:hover:text-gray-600 cursor-pointer hover:text-gray-700'>Discussions</h1>

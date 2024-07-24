@@ -8,7 +8,7 @@ import authRouter from "./routes/Auth.routes.js";
 import userRouter from "./routes/User.routes.js";
 import postRouter from "./routes/Post.routes.js";
 import commentRouter from "./routes/Comment.routes.js";
-import announcementRouter from "./routes/Announcement.routes.js";
+import articleRouter from "./routes/Article.routes.js";
 
 // starting the app
 const app = express();
@@ -38,7 +38,7 @@ app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/post", postRouter);
 app.use("/api/v1/comment", commentRouter);
-app.use("/api/v1/announcement", announcementRouter);
+app.use("/api/v1/article", articleRouter);
 
 // error middleware
 app.use((err, req, res, next) => {

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import ProfileTab from '../components/ProfileTab';
 import { useLocation } from 'react-router-dom';
@@ -30,10 +30,10 @@ const Account = () => {
           {menu === "Profile" && (
             <ProfileTab />
           )}
-          {menu === "adminPosts" && (
+          {currentUser && currentUser.isAdmin && menu === "articles" && (
             <div>
-              <h1>Admin Posts</h1>
-              <p>Admin Posts</p>
+              <h1>Articles</h1>
+              <p>Articles</p>
             </div>
           )}
           {menu === "Posts" && (

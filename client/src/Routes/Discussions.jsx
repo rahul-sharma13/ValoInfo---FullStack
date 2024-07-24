@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom'
 import { Input } from '../components/ui/input'
 import axios from 'axios'
 import PostCard from '../components/PostCard'
+import { useSelector } from 'react-redux'
 
 const Discussions = () => {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ const Discussions = () => {
   const [error, setError] = useState(null);
   const [order, setOrder] = useState('dsc');
   const [searchTerm, setSearchTerm] = useState('');
+  const { currentUser } = useSelector(state => state.user);
 
   useEffect(() => {
     const getAllPosts = async () => {
@@ -128,10 +130,14 @@ const Discussions = () => {
         </div>
         {/* right */}
         <div className='flex items-center gap-2'>
-          <Input type='text' placeholder='Search' onChange= {(e) => setSearchTerm(e.target.value)} onKeyPress={handleKeyPress}/>
-          <Button variant='outlined' className='py-[10px]' color='cyan' size='sm' onClick={() => navigate('/create-post')}>
-            Create Post
-          </Button>
+          <Input type='text' placeholder='Search' onChange={(e) => setSearchTerm(e.target.value)} onKeyPress={handleKeyPress} />
+          {
+            currentUser && (
+              <Button variant='outlined' className='py-[10px]' color='cyan' size='sm' onClick={() => navigate('/create-post')}>
+                Create Post
+              </Button>
+            )
+          }
         </div>
       </div>
 

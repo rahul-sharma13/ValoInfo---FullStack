@@ -6,7 +6,6 @@ import { Account, Leaderboard, SignIn, SignUp } from './Routes';
 import AgentPage from './components/AgentPage';
 import { ThemeProvider } from './context/ThemeContext';
 import Footer from './components/Footer';
-import Tracker from './Routes/Tracker';
 import ProtectedRoute from './components/ProtectedRoute';
 import { persistor, store } from './redux/store';
 import { Provider } from 'react-redux';
@@ -19,6 +18,9 @@ import ScrollToTop from './components/ScrollToTop';
 import Discussions from './Routes/Discussions';
 import InfoPage from './Routes/InfoPage';
 import Home from './Routes/Home';
+import AdminOnlyRoute from './components/AdminOnlyRoute';
+import CreateArticle from './Routes/CreateArticle';
+import ArticlePage from './Routes/ArticlePage';
 
 const App = () => {
   return (
@@ -41,11 +43,14 @@ const App = () => {
               <Route path="/create-post" element={<CreatePost />} />
               <Route path="/update-post/:postId" element={<UpdatePost />} />
             </Route>
+            <Route element={<AdminOnlyRoute />}>
+              <Route path="/create-article" element={<CreateArticle />} />
+            </Route>
+            <Route path="/article/:slug" element={<ArticlePage />} />
             <Route path="/user/:username" element={<ViewProfile />} />
             <Route path="/post/:slug" element={<PostPage />} />
             <Route path="/discussion" element={<Discussions />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
-            <Route path="/tracker" element={<Tracker />} />
           </Routes>
           <Footer />
         </ThemeProvider>

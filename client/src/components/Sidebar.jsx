@@ -46,12 +46,12 @@ const Sidebar = () => {
                 </Link>
                 {
                     currentUser && currentUser.isAdmin && (
-                        <Link to="/account?tab=adminPosts">
-                            <ListItem onClick={() => setMenu("adminPosts")}>
+                        <Link to="/account?tab=articles">
+                            <ListItem onClick={() => setMenu("articles")}>
                                 <ListItemPrefix>
                                     <ChatBubbleLeftEllipsisIcon className="h-5 w-5" />
                                 </ListItemPrefix>
-                                Admin Posts
+                                Articles
                             </ListItem>
                         </Link>
                     )
