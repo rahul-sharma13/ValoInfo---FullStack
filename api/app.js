@@ -3,12 +3,12 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 
 // importing routes
-import eventRouter from "./routes/Events.routes.js";
-import authRouter from "./routes/Auth.routes.js";
-import userRouter from "./routes/User.routes.js";
-import postRouter from "./routes/Post.routes.js";
-import commentRouter from "./routes/Comment.routes.js";
-import articleRouter from "./routes/Article.routes.js";
+import eventRouter from "./src/routes/Events.routes.js";
+import authRouter from "./src/routes/Auth.routes.js";
+import userRouter from "./src/routes/User.routes.js";
+import postRouter from "./src/routes/Post.routes.js";
+import commentRouter from "./src/routes/Comment.routes.js";
+import articleRouter from "./src/routes/Article.routes.js";
 
 // starting the app
 const app = express();
