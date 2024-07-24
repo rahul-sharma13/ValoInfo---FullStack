@@ -1,38 +1,76 @@
-import React, { useState } from 'react';
-import { AiOutlineStar, AiFillStar } from "react-icons/ai";
+import moment from 'moment';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { IoMdArrowDropright } from 'react-icons/io';
 
 const MatchCard = ({ match }) => {
-    // const [savedMatch, setSavedMatch] = useState(false);
 
     return (
         <div className="flex flex-row relative" >
             <div
-                className={`mx-auto bg-accent mt-8 flex min-w-[1000px] items-center h-20 rounded-2xl shadow-lg hover:-translate-y-2 transform transition-all duration-300`}
+                className={`mx-auto bg-accent mt-8 flex min-w-[1000px] items-center h-20 rounded-2xl shadow-lg hover:-translate-y-2 transform transition-all duration-300 px-3`}
             >
-                {/* first */}
-                <div className="ml-5 text-[13px] font-normal flex justify-center items-center gap-2">
-                    <img src={match?.league?.icon} className='h-10 object-contain' />
-                    {match?.league?.name}
+                {/* time */}
+                <div className='flex items-center h-full w-[10%]'>
+                    <span className='text-xs text-gray-400'>
+                        {match?.date.slice(0, 10)}
+                    </span>
                 </div>
-                <div className="flex gap-3 text-[16px] mx-auto">
-                    {/* team name & scores */}
-                    <div>
-                        {match.match?.teams[0]?.name}
+                {/* team up and down */}
+                <div className='flex flex-col h-full justify-center items-start w-[20%] gap-2'>
+                    <div className='flex items-center gap-1'>
+                        {
+                            match?.match?.teams[0]?.has_won ? (<IoMdArrowDropright className='text-green-600 absolute left-[90px]' size={20} />) : ""
+                        }
+                        <img src={match?.match?.teams[0]?.icon} className='h-6 w-6 object-contain' />
+                        <div className='text-[15px] font-normal'>
+                            {match?.match?.teams[0]?.name}
+                        </div>
                     </div>
-                    <div className="flex">
-                        <div className={`${match.match?.teams[0]?.has_won ? "text-green-600" : "text-red-600"}`}>{match.match?.teams[0].game_wins}</div>
-                        <div>&nbsp;:&nbsp;</div>
-                        <div className={`${match.match?.teams[1]?.has_won ? "text-green-600" : "text-red-600"}`}>{match.match?.teams[1].game_wins}</div>
+                    <div className='flex items-center gap-1'>
+                        <img src={match?.match?.teams[1]?.icon} className='h-6 w-6 object-contain' />
+                        <div className='text-[15px] font-normal'>
+                            {match?.match?.teams[1]?.name}
+                        </div>
                     </div>
-                    <div>{match.match?.teams[1].name}</div>
                 </div>
+                {/* scores */}
+                <div className='flex flex-col h-full justify-center items-center w-[20%]'>
+                    <div className='text-[14px] font-semibold underline'>
+                        {match?.match?.teams[0]?.game_wins}
+                    </div>
+                    <div className='text-[14px] font-semibold underline'>
+                        {match?.match?.teams[1]?.game_wins}
+                    </div>
+                </div>
+                {/* state */}
+                <div className='flex items-center gap-2 h-full w-[20%]'>
+                    <span className='text-[14px] font-semibold'>
+                        {match?.state === 'completed' ? 'Completed' :
+                            match?.state === 'in_progress' ? 'Live' :
+                                match?.state === 'unstarted' ? 'Upcoming' : ""
+                        }
+                    </span>
+                    <span className='text-[10px] bg-card p-2 rounded-md'>
+                        {moment(match?.date.slice(0, 10)).fromNow()}
+                    </span>
+                </div>
+                {/* league icon and name */}
+                <div className='flex items-center gap-4 h-full w-[35%]'>
+                    <div className='flex flex-col items-end w-[20%]'>
+                        <span className='text-[11px] text-gray-500'>Vodes:</span>
+                        {
+                            match?.vod ? (<Link className='hover:underline' to={match?.vod}>Link</Link>) : (<span className='text-gray-500 text-xs'>Pending</span>)
+                        }
 
-                {/* third */}
-                <div className="mr-5 text-[13px] uppercase">{match?.state} <span className='text-gray-400'>| {match?.date.slice(0, 10)} </span></div>
+                    </div>
+
+                    <img src={match?.league?.icon} className='h-10 w-10 object-contain' />
+                    <span className='text-[14px] font-semibold'>
+                        {match?.league?.name}
+                    </span>
+                </div>
             </div>
-            {/* <div >
-                {savedMatch ? (<AiFillStar className="absolute top-16 cursor-pointer left-48" />) : (<AiOutlineStar className="absolute top-16 cursor-pointer left-48" />)}
-            </div> */}
         </div>
     )
 }
