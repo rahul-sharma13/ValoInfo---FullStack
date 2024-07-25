@@ -64,7 +64,7 @@ const Articles = () => {
           <Input 
             type='text' 
             placeholder='Search' 
-            className='h-full' 
+            className='' 
             onChange={(e) => setSearchTerm(e.target.value)} 
             onKeyPress = {handleKeyPress}
           />

@@ -13,6 +13,7 @@ import SignOut from './SignOut';
 import {
   UserCircleIcon,
 } from "@heroicons/react/24/solid";
+import { Button } from '@material-tailwind/react';
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -78,7 +79,7 @@ const Header = () => {
             </div>
           </div>
         </div>
-        <div className='flex gap-2'>
+        <div className='flex items-center gap-2'>
           {
             currentUser ?
               (<DropdownMenu>
@@ -96,7 +97,11 @@ const Header = () => {
                 </DropdownMenuContent>
               </DropdownMenu>)
               :
-              <Link to='/signin'>Sign In</Link>
+              <Link to='/signin'>
+                <Button color='cyan' size='sm'>
+                  Sign In
+                </Button>
+              </Link>
           }
           <ThemeToggle />
         </div>
