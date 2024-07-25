@@ -1,18 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '../components/ui/select'
-import { Button, Typography } from '@material-tailwind/react'
+import { Button, Spinner, Typography } from '@material-tailwind/react'
 import { useNavigate } from 'react-router-dom'
 import { Input } from '../components/ui/input'
 import axios from 'axios'
-import PostCard from '../components/PostCard'
 import { useSelector } from 'react-redux'
 import ArticleCard from '../components/ArticleCard'
 
@@ -45,12 +35,39 @@ const Articles = () => {
     getPosts();
   }, [])
 
+  // search post
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      const getSearchedPosts = async () => {
+        await axios.get(`http://localhost:8000/api/v1/article/getAll?searchTerm=${searchTerm}`).then((res) => {
+          setLoading(false);
+          // console.log(res);
+          setPosts(res.data?.data);
+          setSearchTerm('');
+        }).catch((error) => {
+          setError(error?.response?.data?.message);
+          setLoading(false);
+        })
+      }
+
+      if (searchTerm) {
+        getSearchedPosts();
+      }
+    }
+  }
+
   return (
     <section className='max-w-5xl mx-auto mt-5 p-2'>
       <div className='flex mb-4 md:flex-row flex-col md:gap-0 gap-4 justify-center'>
         {/* right */}
         <div className='flex items-center gap-2'>
-          <Input type='text' placeholder='Search' className='h-full' onChange={(e) => setSearchTerm(e.target.value)} />
+          <Input 
+            type='text' 
+            placeholder='Search' 
+            className='h-full' 
+            onChange={(e) => setSearchTerm(e.target.value)} 
+            onKeyPress = {handleKeyPress}
+          />
           {
             currentUser && currentUser.isAdmin && (
               <Button variant='outlined' className='' color='cyan' size='sm' onClick={() => navigate('/create-article')}>
@@ -64,7 +81,7 @@ const Articles = () => {
       {
         loading ? (
           <div className='flex justify-center items-center h-[50vh]'>
-            <Typography color='gray'>Loading...</Typography>
+            <Spinner color='white' size='lg'/>
           </div>
         ) : (
           <div className='bg-accent h-screen'>

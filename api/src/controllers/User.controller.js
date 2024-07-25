@@ -122,3 +122,17 @@ export const getUserById = async (req, res, next) => {
     console.log(error);
   }
 };
+
+// get user by username
+export const getUserByUsername = async (req, res, next) => {
+  const username = req.params.username;
+
+  try {
+    const userToShow = await User.findOne({ username });
+    const { password, updatedAt, ...user } = userToShow._doc;
+
+    res.status(200).json(new ApiResponse(200, user, "User details"));
+  } catch (error) {
+    next(error);
+  }
+}

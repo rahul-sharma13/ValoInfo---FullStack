@@ -124,6 +124,7 @@ const Discussions = () => {
                 <SelectItem value='day'>1 day</SelectItem>
                 <SelectItem value='week'>1 week</SelectItem>
                 <SelectItem value='month'>1 month</SelectItem>
+                <SelectItem value='all'>All Time</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>

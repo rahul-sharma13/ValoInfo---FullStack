@@ -15,6 +15,7 @@ const Home = () => {
     const [posts, setPosts] = useState([]);
     const [events, setEvents] = useState([]);
     const [articles, setArticles] = useState([]);
+    const [articleLoading, setArticleLoading] = useState(true);
 
     // get matches
     useEffect(() => {
@@ -76,22 +77,26 @@ const Home = () => {
     useEffect(() => {
         const getArticles = async () => {
             try {
-                await axios.get("/api/v1/article/getAll").then((res) => {
-                    console.log(res);
+                setArticleLoading(true);
+                await axios.get("https://valo-info-api.vercel.app/api/v1/article/getAll").then((res) => {
+                    // console.log(res);
                     setArticles(res.data.data.slice(0, 6));
+                    setArticleLoading(false);
                 }).catch((err) => {
                     console.log(err);
+                    setArticleLoading(false);
                 })
             } catch (error) {
                 console.log(error);
+                setArticleLoading(false);
             }
         }
 
         getArticles();
-    },[])
+    }, [])
 
     return (
-        <main className='flex flex-col gap-10'>
+        <main className='flex flex-col gap-10 mt-4'>
             <div className='md:max-w-screen-xl md:bg-accent mx-auto p-5 w-full'>
                 {/* matches */}
                 <div className='flex flex-col w-full'>
@@ -128,15 +133,18 @@ const Home = () => {
                         {/* posts */}
                         <div className='flex flex-col gap-1 mt-1 px-2'>
                             {
-                                articles.map((article, index) => (
-                                    <ArticleTab
-                                        article={article}
-                                        index={index}
-                                        key={article._id}
-                                    />
-                                ))
+                                articleLoading ? (<div className='flex items-center justify-center'>
+                                    <Spinner color="white" size="xl" />
+                                </div>) :
+                                    articles.map((article, index) => (
+                                        <ArticleTab
+                                            article={article}
+                                            index={index}
+                                            key={article._id}
+                                        />
+                                    ))
                             }
-                        </div>  
+                        </div>
                     </div>
                 </div>
 
@@ -149,6 +157,9 @@ const Home = () => {
                         {/* posts */}
                         <div className='flex flex-col gap-1 mt-1'>
                             {
+                                articleLoading ? (<div className='flex items-center justify-center'>
+                                    <Spinner color="white" size="xl" />
+                                </div>) :
                                 posts.map((post, index) => (
                                     <DiscussionTab
                                         post={post}

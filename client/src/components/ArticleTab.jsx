@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
+import { Skeleton } from './ui/skeleton';
 
 const ArticleTab = ({ article, index }) => {
     const [comments, setComments] = useState(0);
@@ -20,6 +21,12 @@ const ArticleTab = ({ article, index }) => {
 
         getPostComments();
     }, [article])
+
+    if(!article) {
+        return (
+            <Skeleton className="h-10"/>
+        )
+    }
 
     return (
         <div className={`bg-accent border rounded-sm border-gray-600 p-2 max-w-full ${index === 0 ? "border-t" : ""}`}>

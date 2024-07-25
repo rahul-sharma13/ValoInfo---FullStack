@@ -8,19 +8,14 @@ import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
 import logo from '../../public/logos/logo1.png';
 import logo2 from '../../public/logos/logo2.png';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
+import SignOut from './SignOut';
+import {
+  UserCircleIcon,
+} from "@heroicons/react/24/solid";
 
 const Header = () => {
-  const [nav, setNav] = useState(false);
-
   const { currentUser } = useSelector((state) => state.user);
-
-  const handleClick = () => {
-    setNav((prevValue) => !prevValue)
-  };
-
-  const hideTab = () => {
-    setNav(false);
-  };
 
   // for mobile menu 
   const [menu, setMenu] = useState(false);
@@ -32,7 +27,7 @@ const Header = () => {
 
   return (
     <nav>
-      <div className="max-w-screen-xl flex font-poppins flex-wrap items-center justify-between  mx-auto p-4">
+      <div className="max-w-screen-xl flex font-poppins flex-wrap items-center justify-between  mx-auto p-4 bg-accent rounded-xl mt-2">
         {/* left */}
         <div>
           <a href="/" className="flex items-center">
@@ -59,17 +54,6 @@ const Header = () => {
           </div>
 
           {/* for avatar and signin*/}
-          <div>
-            {
-              currentUser ? 
-              (<Link to={"/account"}>
-                <img src={currentUser?.avatar} alt="avatar" className="w-10 h-10 rounded-full cursor-pointer" />
-              </Link>)
-              : 
-              <Link to='/signin'>Sign In</Link>
-            }
-          </div>
-          <ThemeToggle />
 
           {/* mobile menu */}
           <div onClick={handleMenu} className='block md:hidden'>
@@ -94,8 +78,30 @@ const Header = () => {
             </div>
           </div>
         </div>
+        <div className='flex gap-2'>
+          {
+            currentUser ?
+              (<DropdownMenu>
+                <DropdownMenuTrigger >
+                  <img src={currentUser?.avatar} alt="avatar" className="w-10 h-10 rounded-full cursor-pointer object-cover" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem className='flex justify-center mt-2 text-gray-400'>
+                    <Link to="/account" className='flex items-center gap-1'>
+                      <UserCircleIcon className='h-4 w-4' />
+                      Account
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem> <SignOut /> </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>)
+              :
+              <Link to='/signin'>Sign In</Link>
+          }
+          <ThemeToggle />
+        </div>
       </div>
-    </nav >
+    </nav>
   );
 }
 export default Header

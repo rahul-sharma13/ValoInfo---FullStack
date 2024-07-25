@@ -48,8 +48,10 @@ export const getArticle = async (req, res, next) => {
 };
 
 export const getAllArticles = async (req, res, next) => {
+  const searchTerm = req.query.searchTerm;
+
   try {
-    const articles = await Article.find();
+    const articles = await Article.find( searchTerm ? { title: { $regex: searchTerm, $options: "i" } } : {}).populate("author");
     res
       .status(200)
       .json(new ApiResponse(200, articles, "Articles retrieved successfully."));

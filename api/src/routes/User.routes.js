@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   deleteUser,
   getUserById,
+  getUserByUsername,
   getUsers,
   updateUser,
 } from "../controllers/User.controller.js";
@@ -13,5 +14,6 @@ router.route("/update/:id").patch(verifyToken, updateUser);
 router.route("/delete/:id").delete(verifyToken, deleteUser);
 router.route("/getUsers").get(verifyToken, getUsers);
 router.route("/getUser/:id").get(getUserById);
+router.route("/:username").get(getUserByUsername);
 
 export default router;

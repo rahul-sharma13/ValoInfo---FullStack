@@ -20,7 +20,7 @@ const Account = () => {
   },[location.search])
 
   return (
-    <section>
+    <section className='mt-4'>
       <div className='flex flex-col md:flex-row gap-3 max-w-7xl'>
         {/* sidebar */}
         <Sidebar />

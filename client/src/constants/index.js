@@ -7,10 +7,20 @@ export const navLinks = [
     id: "leaderboard",
     title: "Leaderboard",
   },
+  {
+    id: "discussion",
+    title: "Discussion",
+  },
+  {
+    id:"articles",
+    title:"Articles"
+  }
 ];
 
 export const episodes = [
-  "E7-A3"
+  "E7-A3",
+  "E8-A1",
+  "E8-A2",
 ]
 
 export const Regions = [
