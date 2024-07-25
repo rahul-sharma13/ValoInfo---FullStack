@@ -22,7 +22,7 @@ const OAuth = () => {
             const resultsFromGoogle = await signInWithPopup(auth, provider);
             // console.log(resultsFromGoogle);
 
-            await axios.post("http://localhost:8000/api/v1/auth/googlesignin", { name: resultsFromGoogle.user.displayName, email: resultsFromGoogle.user.email }, { withCredentials: true, credentials: 'include' }).then((response) => {
+            await axios.post("https://valo-info-api.vercel.app/api/v1/auth/googlesignin", { name: resultsFromGoogle.user.displayName, email: resultsFromGoogle.user.email }, { withCredentials: true, credentials: 'include' }).then((response) => {
                 dispatch(signInUserSuccess(response.data.data));
                 // console.log(response.data);
                 navigate('/');

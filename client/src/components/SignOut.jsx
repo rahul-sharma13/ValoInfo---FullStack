@@ -10,7 +10,7 @@ const SignOut = () => {
     const handleSignOut = async () => {
         try {
             dispatch(signOutStart());
-            await axios.get("http://localhost:8000/api/v1/auth/signout", { withCredentials: true, credentials: 'include' }).then((res) => {
+            await axios.get("https://valo-info-api.vercel.app/api/v1/auth/signout", { withCredentials: true, credentials: 'include' }).then((res) => {
                 dispatch(signOutSuccess());
             }).catch((error) => {
                 dispatch(signOutFail(error));

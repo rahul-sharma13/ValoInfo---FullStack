@@ -12,7 +12,7 @@ const ViewProfilePosts = ({ userId }) => {
         const getUserPosts = async () => {
             try {
                 setLoading(true);
-                await axios.get(`http://localhost:8000/api/v1/post/getuserposts/${userId}`).then((res) => {
+                await axios.get(`https://valo-info-api.vercel.app/api/v1/post/getuserposts/${userId}`).then((res) => {
                     console.log(res);
                     setPosts(res.data.data);
                     setLoading(false);

@@ -12,7 +12,7 @@ const PostCard = ({ post, author }) => {
     useEffect(() => {
         const getUser = async () => {
             try {
-                await axios.get(`http://localhost:8000/api/v1/user/getuser/${author}`).then((res) => {
+                await axios.get(`https://valo-info-api.vercel.app/api/v1/user/getuser/${author}`).then((res) => {
                     // console.log(res.data.data);
                     setUserDetails(res.data.data);
                 }).catch((err) => {
