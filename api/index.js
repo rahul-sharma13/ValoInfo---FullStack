@@ -7,7 +7,7 @@ dotenv.config({
 });
 
 app.get("/", (req, res) => {
-  res.send("server is up!");
+  res.send("server is up index!");
 });
 
 connectDb()
