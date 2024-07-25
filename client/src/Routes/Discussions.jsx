@@ -14,6 +14,7 @@ import { Input } from '../components/ui/input'
 import axios from 'axios'
 import PostCard from '../components/PostCard'
 import { useSelector } from 'react-redux'
+import { useLocation } from 'react-router-dom'
 
 const Discussions = () => {
   const navigate = useNavigate();
@@ -24,27 +25,41 @@ const Discussions = () => {
   const [order, setOrder] = useState('dsc');
   const [searchTerm, setSearchTerm] = useState('');
   const { currentUser } = useSelector(state => state.user);
+  const [topic, setTopic] = useState('');
+  const location = useLocation();
 
   useEffect(() => {
-    const getAllPosts = async () => {
-      setLoading(true);
+    const urlParams = new URLSearchParams(location.search);
+    // console.log(urlParams);
+    const topicFromUrl = urlParams.get('topic');
+    if (topicFromUrl) {
+      setTopic(topicFromUrl);
+    }
+  }, [location.search])
+
+  useEffect(() => {
+    const getTopicPosts = async () => {
       try {
-        await axios.get(`/api/v1/post/getAllPosts?inTime=${inTime}`).then((res) => {
-          // console.log(res);
+        await axios.get(`http://localhost:8000/api/v1/post/getPosts?topic=${topic}`).then((res) => {
+          setPosts(res?.data?.data?.posts);
           setLoading(false);
-          setPosts(res?.data?.data);
+          setError(null);
         }).catch((error) => {
-          setError(error?.response?.data?.message);
+          setError(error?.response?.data?.message || 'Something went wrong');
           setLoading(false);
+          console.log(error);
         })
       } catch (error) {
+        console.log(error);
         setError("Something went wrong");
         setLoading(false);
       }
     }
 
-    getAllPosts();
-  }, [])
+    if (topic) {
+      getTopicPosts();
+    }
+  }, [topic, location.search])
 
   const handleOrder = (value) => {
     setOrder(value);

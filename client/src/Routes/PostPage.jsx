@@ -145,7 +145,9 @@ const PostPage = () => {
                             <h1 className='text-xl text-left lg:text-3xl'> {post && post.title} </h1>
                             <div>
                                 <span className='text-[12px]'>posted in </span>
-                                <span className='cursor-pointer hover:underline text-cyan-300'>{post && post.topic} </span>
+                                <Link to={`/discussion?topic=${post.topic}`}>
+                                    <span className='cursor-pointer hover:underline text-cyan-300'>{post && post.topic} </span>
+                                </Link>
                             </div>
                         </div>
 

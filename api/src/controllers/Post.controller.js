@@ -209,7 +209,6 @@ export const getAllPosts = async (req, res, next) => {
       allPosts = await Post.find({
         createdAt: { $gte: oneMonthAgo },
       }).sort({ createdAt: sortDirection });
-
     } else if (inTime === "week") {
       const now = new Date();
 

@@ -4,12 +4,10 @@ import { BiSolidUpArrow } from 'react-icons/bi';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import { useNavigate } from 'react-router-dom';
 
 const PostCard = ({ post, author }) => {
     const [userDetails, setUserDetails] = useState(null);
     const { currentUser } = useSelector(state => state.user);
-    const navigate = useNavigate();
 
     useEffect(() => {
         const getUser = async () => {
@@ -50,7 +48,9 @@ const PostCard = ({ post, author }) => {
                         <h1 className='hover:underline text-lg'>{post?.title}</h1>
                     </Link>
                     <span className='text-sm text-gray-400'>in</span>
-                    <p className='cursor-pointer hover:underline text-cyan-300 text-sm font-thin'>{post?.topic}</p>
+                    <Link to={`/discussion?topic=${post?.topic}`}>
+                        <p className='cursor-pointer hover:underline text-cyan-300 text-sm font-thin'>{post?.topic}</p>
+                    </Link>
                 </div>
 
                 <div className='flex gap-1 text-sm text-gray-400'>
