@@ -1,4 +1,4 @@
-import Event from "../models/events.models.js";
+import Event from "../models/Events.models.js";
 import { errorHandler } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
