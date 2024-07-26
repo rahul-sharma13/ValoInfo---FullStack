@@ -15,7 +15,7 @@ const ViewProfile = () => {
     const getProfile = async () => {
       try {
         setLoading(true);
-        await axios.get(`https://valo-info-api.vercel.app/api/v1/user/${params.username}`).then((res) => {
+        await axios.get(`https://valoinfo-fullstack.onrender.com/api/v1/user/${params.username}`).then((res) => {
           setUserDetails(res.data.data);
           setLoading(false);
           setUserId(res.data.data._id);

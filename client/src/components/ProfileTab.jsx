@@ -30,7 +30,7 @@ const ProfileTab = () => {
 
     try {
       dispatch(updateUserStart());
-      await axios.patch(`https://valo-info-api.vercel.app/api/v1/user/update/${currentUser._id}`, formData, { withCredentials: true, credentials: 'include' })
+      await axios.patch(`https://valoinfo-fullstack.onrender.com/api/v1/user/update/${currentUser._id}`, formData, { withCredentials: true, credentials: 'include' })
         .then((res) => {
           // console.log(res);
           dispatch(updateUserSuccess(res?.data?.data));
@@ -45,7 +45,7 @@ const ProfileTab = () => {
   const handleDelete = async () => {
     try {
       dispatch(deleteUserStart());
-      await axios.delete(`https://valo-info-api.vercel.app/api/v1/user/delete/${currentUser._id}`, { withCredentials: true, credentials: 'include' })
+      await axios.delete(`https://valoinfo-fullstack.onrender.com/api/v1/user/delete/${currentUser._id}`, { withCredentials: true, credentials: 'include' })
         .then((res) => {
           console.log(res);
           dispatch(deleteUserSuccess());

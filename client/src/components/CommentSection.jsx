@@ -23,7 +23,7 @@ const CommentSection = ({ postId }) => {
 
         try {
             setLoading(true);
-            await axios.post('https://valo-info-api.vercel.app/api/v1/comment/post', { content: comment, postId, userId: currentUser._id }, { withCredentials: true, credentials: 'include' }).then((res) => {
+            await axios.post('https://valoinfo-fullstack.onrender.com/api/v1/comment/post', { content: comment, postId, userId: currentUser._id }, { withCredentials: true, credentials: 'include' }).then((res) => {
                 // console.log(res);
                 setComments([res.data.data, ...comments]);
                 setLoading(false);
@@ -42,7 +42,7 @@ const CommentSection = ({ postId }) => {
         const fetchComments = async () => {
             setLoading(true);
             try {
-                await axios.get(`https://valo-info-api.vercel.app/api/v1/comment/getPostComments/${postId}`).then((res) => {
+                await axios.get(`https://valoinfo-fullstack.onrender.com/api/v1/comment/getPostComments/${postId}`).then((res) => {
                     setComments(res.data.data);
                 }).catch((err) => {
                     setLoading(false);
@@ -64,7 +64,7 @@ const CommentSection = ({ postId }) => {
                 return;
             }
 
-            await axios.put(`https://valo-info-api.vercel.app/api/v1/comment/likeComment/${commentId}`, { userId: currentUser._id }, { withCredentials: true, credentials: 'include' }).then((res) => {
+            await axios.put(`https://valoinfo-fullstack.onrender.com/api/v1/comment/likeComment/${commentId}`, { userId: currentUser._id }, { withCredentials: true, credentials: 'include' }).then((res) => {
                 // console.log(res);
                 setComments(comments.map((comment) =>
                     comment._id === commentId ? {
@@ -89,7 +89,7 @@ const CommentSection = ({ postId }) => {
                 return;
             }
 
-            axios.delete(`https://valo-info-api.vercel.app/api/v1/comment/deleteComment/${commentId}`, { withCredentials: true, credentials: 'include' }).then((res) => {
+            axios.delete(`https://valoinfo-fullstack.onrender.com/api/v1/comment/deleteComment/${commentId}`, { withCredentials: true, credentials: 'include' }).then((res) => {
                 setComments(comments.filter((c) => c._id !== commentId));
                 // console.log(res);
             }).catch((err) => {

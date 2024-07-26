@@ -9,7 +9,7 @@ const ArticleTab = ({ article, index }) => {
     useEffect(() => {
         const getPostComments = async () => {
             try {
-                await axios.get(`/api/v1/comment/getPostComments/${article._id}`).then((res) => {
+                await axios.get(`https://valoinfo-fullstack.onrender.com/api/v1/comment/getPostComments/${article._id}`).then((res) => {
                     setComments(res.data.data.length);
                 }).catch((err) => {
                     console.log(err);

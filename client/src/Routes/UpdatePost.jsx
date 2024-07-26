@@ -18,7 +18,7 @@ const UpdatePost = () => {
 
     useEffect(() => {
         setLoading(true);
-        axios.get(`https://valo-info-api.vercel.app/api/v1/post/getposts?postId=${params.postId}`)
+        axios.get(`https://valoinfo-fullstack.onrender.com/api/v1/post/getposts?postId=${params.postId}`)
             .then((res) => {
                 // console.log(res?.data?.data?.posts[0]);
                 setLoading(false);
@@ -36,7 +36,7 @@ const UpdatePost = () => {
 
         try {
             setLoading(true);
-            await axios.patch(`https://valo-info-api.vercel.app/api/v1/post/update/${params.postId}/${currentUser._id}`, formData, { withCredentials: true, credentials: 'include' }).then((res) => {
+            await axios.patch(`https://valoinfo-fullstack.onrender.com/api/v1/post/update/${params.postId}/${currentUser._id}`, formData, { withCredentials: true, credentials: 'include' }).then((res) => {
                 setLoading(false);
                 setTimeout(() => {
                     navigation(`/post/${res?.data?.data?.slug}`);
