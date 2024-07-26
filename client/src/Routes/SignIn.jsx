@@ -26,6 +26,7 @@ const SignIn = () => {
 
     try {
       dispatch(signInUserStart());
+      axios.defaults.withXSRFToken=true;
       await axios.post("https://valoinfo-fullstack.onrender.com/api/v1/auth/signin", formData , { withCredentials: true })
         .then((res) => {
           // console.log(res);

@@ -6,6 +6,7 @@ import { Button } from '@material-tailwind/react';
 import axios from 'axios';
 import CommentCard from './CommentCard';
 
+
 const CommentSection = ({ postId }) => {
     const navigate = useNavigate();
     const { currentUser } = useSelector(state => state.user);
@@ -23,6 +24,7 @@ const CommentSection = ({ postId }) => {
 
         try {
             setLoading(true);
+            axios.defaults.withXSRFToken=true;
             await axios.post('https://valoinfo-fullstack.onrender.com/api/v1/comment/post', { content: comment, postId, userId: currentUser._id }, { withCredentials: true }).then((res) => {
                 // console.log(res);
                 setComments([res.data.data, ...comments]);
