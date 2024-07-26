@@ -23,7 +23,7 @@ const CommentSection = ({ postId }) => {
 
         try {
             setLoading(true);
-            await axios.post('https://valoinfo-fullstack.onrender.com/api/v1/comment/post', { content: comment, postId, userId: currentUser._id }, { withCredentials: true, credentials: 'include' }).then((res) => {
+            await axios.post('https://valoinfo-fullstack.onrender.com/api/v1/comment/post', { content: comment, postId, userId: currentUser._id }, { withCredentials: true }).then((res) => {
                 // console.log(res);
                 setComments([res.data.data, ...comments]);
                 setLoading(false);
