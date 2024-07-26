@@ -67,7 +67,7 @@ export const SignIn = async (req, res, next) => {
     const requiredUser = await User.findById(validUser._id).select("-password");
 
     return res
-      .cookie("access_token", token, { httpOnly: true })
+      .cookie("access_token", token)
       .status(200)
       .json(new ApiResponse(200, requiredUser, "User signed in successfully."));
   } catch (error) {

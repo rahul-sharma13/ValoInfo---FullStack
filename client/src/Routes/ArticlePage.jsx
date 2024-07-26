@@ -10,6 +10,8 @@ const ArticlePage = () => {
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  console.log(localStorage.getItem('access_token'));
+
   useEffect(() => {
     const getArticle = async () => {
       setLoading(true);
