@@ -14,7 +14,7 @@ const UsersTab = () => {
         const fetchUsers = async () => {
             try {
                 setLoading(true);
-                await axios.get("https://valoinfo-fullstack.onrender.com/api/v1/user/getUsers", { withCredentials: true, credentials: 'include' }).then((res) => {
+                await axios.get("http://localhost:8000/api/v1/user/getUsers", { withCredentials: true, credentials: 'include' }).then((res) => {
                     // console.log(res);
                     setLoading(false);
                     setUsers(res?.data?.data?.users);
@@ -42,7 +42,7 @@ const UsersTab = () => {
         const startIndex = users.length;
 
         try {
-            await axios.get(`https://valoinfo-fullstack.onrender.com/api/v1/user/getUsers?startIndex=${startIndex}`, { withCredentials: true, credentials: 'include' }).then((res) => {
+            await axios.get(`http://localhost:8000/api/v1/user/getUsers?startIndex=${startIndex}`, { withCredentials: true, credentials: 'include' }).then((res) => {
                 setUsers((prev) => [...prev, ...res?.data?.data?.users]);
                 if (res?.data?.data.length < 9) {
                     setShowMore(false);
@@ -55,7 +55,7 @@ const UsersTab = () => {
 
     const adminDeletes = async (id) => {
         try {
-            await axios.delete(`https://valoinfo-fullstack.onrender.com/api/v1/user/delete/${id}`, { withCredentials: true, credentials: 'include' }).then((res) => {
+            await axios.delete(`http://localhost:8000/api/v1/user/delete/${id}`, { withCredentials: true, credentials: 'include' }).then((res) => {
                 setMessage(res?.data?.data?.message);
                 setUsers((prev) => prev.filter((user) => user._id !== id));
             }).catch((err) => {

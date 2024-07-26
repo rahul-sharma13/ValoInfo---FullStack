@@ -12,7 +12,7 @@ const PostCard = ({ post, author }) => {
     useEffect(() => {
         const getUser = async () => {
             try {
-                await axios.get(`https://valoinfo-fullstack.onrender.com/api/v1/user/getuser/${author}`).then((res) => {
+                await axios.get(`http://localhost:8000/api/v1/user/getuser/${author}`).then((res) => {
                     // console.log(res.data.data);
                     setUserDetails(res.data.data);
                 }).catch((err) => {

@@ -19,7 +19,7 @@ const Articles = () => {
     const getPosts = async () => {
       setLoading(true);
       try {
-        await axios.get(`https://valoinfo-fullstack.onrender.com/api/v1/article/getAll`).then((res) => {
+        await axios.get(`http://localhost:8000/api/v1/article/getAll`).then((res) => {
           setLoading(false);
           setPosts(res?.data?.data);
         }).catch((error) => {
@@ -39,7 +39,7 @@ const Articles = () => {
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
       const getSearchedPosts = async () => {
-        await axios.get(`https://valoinfo-fullstack.onrender.com/api/v1/article/getAll?searchTerm=${searchTerm}`).then((res) => {
+        await axios.get(`http://localhost:8000/api/v1/article/getAll?searchTerm=${searchTerm}`).then((res) => {
           setLoading(false);
           // console.log(res);
           setPosts(res.data?.data);

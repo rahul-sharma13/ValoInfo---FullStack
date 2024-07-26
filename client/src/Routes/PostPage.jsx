@@ -28,7 +28,7 @@ const PostPage = () => {
         const fetchPost = async () => {
             try {
                 setLoading(true);
-                await axios.get(`https://valoinfo-fullstack.onrender.com/api/v1/post/getposts?slug=${slug}`).then((res) => {
+                await axios.get(`http://localhost:8000/api/v1/post/getposts?slug=${slug}`).then((res) => {
                     // console.log(res.data.data.posts[0]);
                     setPost(res.data.data.posts[0]);
                     setAuthor(res.data.data.posts[0].author);
@@ -52,7 +52,7 @@ const PostPage = () => {
         const getAuthor = async () => {
             try {
                 setLoading(true);
-                await axios.get(`https://valoinfo-fullstack.onrender.com/api/v1/user/getuser/${author}`).then((res) => {
+                await axios.get(`http://localhost:8000/api/v1/user/getuser/${author}`).then((res) => {
                     // console.log(res.data.data);
                     setUserDetails(res.data.data);
                     setLoading(false);
@@ -83,7 +83,7 @@ const PostPage = () => {
                 return;
             }
 
-            await axios.put(`https://valoinfo-fullstack.onrender.com/api/v1/post/upvote/${postId.toString()}`, { userId: currentUser._id }, { withCredentials: true, credentials: 'include' }).then((res) => {
+            await axios.put(`http://localhost:8000/api/v1/post/upvote/${postId.toString()}`, { userId: currentUser._id }, { withCredentials: true, credentials: 'include' }).then((res) => {
                 // console.log(res);
                 setPost(
                     {

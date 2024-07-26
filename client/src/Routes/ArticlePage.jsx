@@ -13,7 +13,7 @@ const ArticlePage = () => {
   useEffect(() => {
     const getArticle = async () => {
       setLoading(true);
-      await axios.get(`https://valoinfo-fullstack.onrender.com/api/v1/article/get/${params.slug}`).then((res) => {
+      await axios.get(`http://localhost:8000/api/v1/article/get/${params.slug}`).then((res) => {
         // console.log(res);
         setLoading(false);
         setArticle(res.data.data);
@@ -35,7 +35,7 @@ const ArticlePage = () => {
   }
 
   return (
-    <main className='max-w-6xl mx-auto flex flex-col'>
+    <main className='max-w-5xl rounded-xl mx-auto flex flex-col mt-8'>
       <div className='p-3 bg-accent min-h-fit flex flex-col gap-3'>
         <div className='flex flex-col gap-1'>
           <h1 className='text-3xl font-bold text-center'>{article?.title}</h1>

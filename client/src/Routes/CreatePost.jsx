@@ -17,7 +17,7 @@ const CreatePost = () => {
 
     try {
       setLoading(true);
-      await axios.post("https://valoinfo-fullstack.onrender.com/api/v1/post/create", formData, { withCredentials: true, credentials: 'include' })
+      await axios.post("http://localhost:8000/api/v1/post/create", formData, { withCredentials: true, credentials: 'include' })
         .then((res) => {
           setLoading(false);
           setCreationError(null);

@@ -40,7 +40,7 @@ const Discussions = () => {
   useEffect(() => {
     const getTopicPosts = async () => {
       try {
-        await axios.get(`https://valoinfo-fullstack.onrender.com/api/v1/post/getPosts?topic=${topic}`).then((res) => {
+        await axios.get(`http://localhost:8000/api/v1/post/getPosts?topic=${topic}`).then((res) => {
           setPosts(res?.data?.data?.posts);
           setLoading(false);
           setError(null);
@@ -74,7 +74,7 @@ const Discussions = () => {
     const getPosts = async () => {
       setLoading(true);
       try {
-        await axios.get(`https://valoinfo-fullstack.onrender.com/api/v1/post/getAllPosts?inTime=${inTime}&order=${order}`).then((res) => {
+        await axios.get(`http://localhost:8000/api/v1/post/getAllPosts?inTime=${inTime}&order=${order}`).then((res) => {
           setLoading(false);
           setPosts(res?.data?.data);
         }).catch((error) => {
@@ -93,7 +93,7 @@ const Discussions = () => {
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
       const getSearchedPosts = async () => {
-        await axios.get(`https://valoinfo-fullstack.onrender.com/api/v1/post/getPosts?searchTerm=${searchTerm}`).then((res) => {
+        await axios.get(`http://localhost:8000/api/v1/post/getPosts?searchTerm=${searchTerm}`).then((res) => {
           setLoading(false);
           // console.log(res);
           setPosts(res?.data?.data?.posts);

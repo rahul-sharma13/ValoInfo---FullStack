@@ -43,7 +43,7 @@ const Home = () => {
     useEffect(() => {
         const getPosts = async () => {
             try {
-                await axios.get("https://valoinfo-fullstack.onrender.com/api/v1/post/getAllPosts").then((res) => {
+                await axios.get("http://localhost:8000/api/v1/post/getAllPosts").then((res) => {
                     setPosts(res.data.data.slice(0, 7));
                 }).catch((err) => {
                     console.log(err);
@@ -60,7 +60,7 @@ const Home = () => {
     useEffect(() => {
         const getEvents = async () => {
             try {
-                await axios.get("https://valoinfo-fullstack.onrender.com/api/v1/event/all").then((res) => {
+                await axios.get("http://localhost:8000/api/v1/event/all").then((res) => {
                     // console.log(res);
                     setEvents(res.data.data.slice(0, 6));
                 }).catch((err) => {
@@ -78,7 +78,7 @@ const Home = () => {
         const getArticles = async () => {
             try {
                 setArticleLoading(true);
-                await axios.get("https://valoinfo-fullstack.onrender.com/api/v1/article/getAll").then((res) => {
+                await axios.get("http://localhost:8000/api/v1/article/getAll").then((res) => {
                     // console.log(res);
                     setArticles(res.data.data.slice(0, 6));
                     setArticleLoading(false);

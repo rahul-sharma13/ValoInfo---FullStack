@@ -26,7 +26,7 @@ const SignUp = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      await axios.post("https://valoinfo-fullstack.onrender.com/api/v1/auth/signup", formData)
+      await axios.post("http://localhost:8000/api/v1/auth/signup", formData)
         .then((response) => {
           setLoading(false);
           goToSignIn();

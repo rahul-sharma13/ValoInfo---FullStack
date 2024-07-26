@@ -24,7 +24,7 @@ const CommentCard = ({ comment, onLike, onEdit, onDelete }) => {
     useEffect(() => {
         const getUser = async () => {
             try {
-                await axios.get(`https://valoinfo-fullstack.onrender.com/api/v1/user/getUser/${comment.userId}`).then((res) => {
+                await axios.get(`http://localhost:8000/api/v1/user/getUser/${comment.userId}`).then((res) => {
                     // console.log(res.data.data);
                     setUser(res.data.data);
                 }).catch((err) => {
@@ -47,7 +47,7 @@ const CommentCard = ({ comment, onLike, onEdit, onDelete }) => {
     // to save
     const handleSave = async () => {
         try {
-            await axios.put(`https://valoinfo-fullstack.onrender.com/api/v1/comment/editComment/${comment._id}`, { content: editedComment }, { withCredentials: true, credentials: 'include' }).then((res) => {
+            await axios.put(`http://localhost:8000/api/v1/comment/editComment/${comment._id}`, { content: editedComment }, { withCredentials: true, credentials: 'include' }).then((res) => {
                 setIsEditing(false);
                 onEdit(comment, editedComment);
                 // console.log(res);
