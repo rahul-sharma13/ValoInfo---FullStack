@@ -57,10 +57,7 @@ export const SignIn = async (req, res, next) => {
 
     const token = jwt.sign(
       { id: validUser._id, isAdmin: validUser.isAdmin },
-      process.env.ACCESS_TOKEN_SECRET,
-      {
-        expiresIn: "1d",
-      }
+      process.env.ACCESS_TOKEN_SECRET
     );
     // console.log("token is ", token);
 
