@@ -35,7 +35,7 @@ export const getArticle = async (req, res, next) => {
   const { slug } = req.params;
 
   try {
-    const article = await Article.findOne({ slug }).populate("author");
+    const article = await Article.findOne({ slug }).populate({ path: "author", select: "-_id" });
     if (!article) {
       return next(errorHandler(404, "Article not found."));
     }
