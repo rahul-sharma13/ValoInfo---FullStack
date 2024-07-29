@@ -10,7 +10,7 @@ const Events = () => {
     useEffect(() => {
         const getEvents = async () => {
             try {
-                await axios.get(`/api/v1/event/basedonstatus?status=${requiredStatus}`).then((res) => {
+                await axios.get(`https://valo-info-api.vercel.app/api/v1/event/basedonstatus?status=${requiredStatus}`).then((res) => {
                     console.log(res);
                     setEvents(res.data.data);
                 }).catch((err) => {
@@ -29,7 +29,7 @@ const Events = () => {
     }
 
     return (
-        <div className='max-w-7xl mx-auto'>
+        <div className='max-w-7xl mx-auto mt-8'>
             <div className='flex items-center justify-center'>
                 <Select onValueChange={handleStatusChange}>
                     <SelectTrigger className='w-[140px]'>
