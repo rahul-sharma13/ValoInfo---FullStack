@@ -29,6 +29,7 @@ app.use(
     credentials: true,
   })
 );
+console.log(process.env.CORS_ORIGIN);
 app.use(express.json({ limit: "50mb" })); // limit of acceptance of json data
 app.use(
   express.urlencoded({ extended: true, limit: "50mb", parameterLimit: 50000 })
@@ -69,4 +70,3 @@ connectDb()
   .catch((err) => {
     console.log("MONGODB CONNECTION FAILED!! : ", err);
   });
-
