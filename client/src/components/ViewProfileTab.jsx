@@ -17,7 +17,7 @@ const ViewProfileTab = ({ user }) => {
                 size="lg"
                 color="blue"
                 className="w-[500px]"
-                defaultValue={user?.username}
+                value={user?.username}
             />
 
             <Input
@@ -27,7 +27,7 @@ const ViewProfileTab = ({ user }) => {
                 size="lg"
                 color="blue"
                 className="w-[500px]"
-                defaultValue={user?.email}
+                value={user?.email}
             />
             <p className='flex gap-1 justify-center'>
                 <span className='text-gray-600'>

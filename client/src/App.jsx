@@ -23,11 +23,13 @@ import CreateArticle from './Routes/CreateArticle';
 import ArticlePage from './Routes/ArticlePage';
 import Articles from './Routes/Articles';
 import Events from './Routes/Events';
+import { Toaster } from 'react-hot-toast';
 
 const App = () => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
+        <Toaster />
         <ThemeProvider>
           <ScrollToTop />
           <Header />

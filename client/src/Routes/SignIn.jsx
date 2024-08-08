@@ -6,6 +6,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { signInUserFail, signInUserStart, signInUserSuccess } from "../redux/user/userSlice";
 import OAuth from "../components/OAuth";
+import toast from "react-hot-toast";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -26,11 +27,11 @@ const SignIn = () => {
 
     try {
       dispatch(signInUserStart());
-      axios.defaults.withXSRFToken=true;
       await axios.post("https://valoinfo-fullstack.onrender.com/api/v1/auth/signin", formData , { withCredentials: true })
         .then((res) => {
           // console.log(res);
           dispatch(signInUserSuccess(res?.data?.data));
+          toast.success("Signed in successfully!");
           setTimeout(() => {
             navigate("/");
           }, 1300)
@@ -91,7 +92,7 @@ const SignIn = () => {
               Don't an account?
               <span onClick={goToSignUp} className="font-semibold cursor-pointer hover:underline text-[15px] tracking-wide ml-1">SignUp</span> here
             </p>
-              
+
             <OAuth />
             {error ? <p className="text-red-500 mt-3 text-center">{error}</p> : ""}
           </div>

@@ -10,8 +10,6 @@ const ArticlePage = () => {
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  console.log(localStorage.getItem('access_token'));
-
   useEffect(() => {
     const getArticle = async () => {
       setLoading(true);
@@ -37,8 +35,8 @@ const ArticlePage = () => {
   }
 
   return (
-    <main className='max-w-6xl mx-auto flex flex-col'>
-      <div className='p-3 bg-accent min-h-fit flex flex-col gap-3'>
+    <main className='max-w-6xl mx-auto flex flex-col mt-8'>
+      <div className='p-3 bg-accent min-h-fit flex flex-col gap-3 rounded-xl'>
         <div className='flex flex-col gap-1'>
           <h1 className='text-3xl font-bold text-center'>{article?.title}</h1>
           <div className='text-center flex gap-2 items-center justify-center'>

@@ -22,7 +22,7 @@ const OAuth = () => {
             const resultsFromGoogle = await signInWithPopup(auth, provider);
             // console.log(resultsFromGoogle);
 
-            await axios.post("https://valoinfo-fullstack.onrender.com/api/v1/auth/googlesignin", { name: resultsFromGoogle.user.displayName, email: resultsFromGoogle.user.email }, { withCredentials: true, credentials: 'include' }).then((response) => {
+            await axios.post("https://valoinfo-fullstack.onrender.com/api/v1/auth/googlesignin", { name: resultsFromGoogle.user.displayName, email: resultsFromGoogle.user.email }, { withCredentials: true }).then((response) => {
                 dispatch(signInUserSuccess(response.data.data));
                 // console.log(response.data);
                 navigate('/');
@@ -31,7 +31,7 @@ const OAuth = () => {
                 // console.log(err.response.data);
             })
         } catch (error) {
-            dispatch(signInUserFail(error.message));
+            dispatch(signInUserFail("Something went wrong"));
         }
     }
 

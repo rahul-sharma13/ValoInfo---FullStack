@@ -126,7 +126,7 @@ const PostPage = () => {
                     </p>
                 </div>
                 <div className='flex flex-row-reverse p-4 items-center max-w-xl bg-accent rounded-lg max-h-28 justify-between'>
-                    <TooltipProvider>
+                    <TooltipProvider delayDuration={40}>
                         <Tooltip>
                             <TooltipTrigger>
                                 <BiEdit size={25} onClick={handleEditClick} />

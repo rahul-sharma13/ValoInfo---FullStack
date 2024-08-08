@@ -14,6 +14,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from './ui/dialog';
+import { Link } from 'react-router-dom';
 
 const CommentCard = ({ comment, onLike, onEdit, onDelete }) => {
     const [user, setUser] = useState({});
@@ -67,7 +68,9 @@ const CommentCard = ({ comment, onLike, onEdit, onDelete }) => {
 
             <div className='flex-1'>
                 <div className='flex items-center mb-1'>
-                    <span className='font-bold mr-1 text-xs truncate'>{user ? `@${user?.username}` : 'deleted'}</span>
+                    <Link to={`/user/${user?.username}`}>
+                        <span className='font-bold mr-1 text-xs truncate'>{user ? `@${user?.username}` : 'deleted'}</span>
+                    </Link>
                     <span className='text-gray-500 text-xs'>
                         {moment(comment?.createdAt).fromNow()}
                     </span>

@@ -19,7 +19,6 @@ const ViewProfile = () => {
           setUserDetails(res.data.data);
           setLoading(false);
           setUserId(res.data.data._id);
-          // console.log(res.data.data._id);
         }).catch((err) => {
           console.log(err)
           setLoading(false);

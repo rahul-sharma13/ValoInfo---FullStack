@@ -30,7 +30,7 @@ const ProfileTab = () => {
 
     try {
       dispatch(updateUserStart());
-      await axios.patch(`https://valoinfo-fullstack.onrender.com/api/v1/user/update/${currentUser._id}`, formData, { withCredentials: true, credentials: 'include' })
+      await axios.put(`https://valoinfo-fullstack.onrender.com/api/v1/user/update/${currentUser._id}`, formData, { withCredentials: true, credentials: 'include' })
         .then((res) => {
           // console.log(res);
           dispatch(updateUserSuccess(res?.data?.data));

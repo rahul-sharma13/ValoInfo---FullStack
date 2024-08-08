@@ -5,6 +5,7 @@ import { Input } from '../components/ui/input'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
 import ArticleCard from '../components/ArticleCard'
+import toast from 'react-hot-toast'
 
 const Articles = () => {
   const navigate = useNavigate();
@@ -18,8 +19,10 @@ const Articles = () => {
   useEffect(() => {
     const getPosts = async () => {
       setLoading(true);
+
       try {
         await axios.get(`https://valoinfo-fullstack.onrender.com/api/v1/article/getAll`).then((res) => {
+          toast.success("Posts fetched!");
           setLoading(false);
           setPosts(res?.data?.data);
         }).catch((error) => {
@@ -61,11 +64,11 @@ const Articles = () => {
       <div className='flex mb-4 md:flex-row flex-col md:gap-0 gap-4 justify-center'>
         {/* right */}
         <div className='flex items-center gap-2'>
-          <Input 
-            type='text' 
-            placeholder='Search' 
-            className='' 
-            onChange={(e) => setSearchTerm(e.target.value)} 
+          <Input
+            type='text'
+            placeholder='Search'
+            className=''
+            onChange={(e) => setSearchTerm(e.target.value)}
             onKeyPress = {handleKeyPress}
           />
           {
@@ -88,7 +91,7 @@ const Articles = () => {
             {
               posts.map((post, index) => (
                 <div className='border-b p-3 border-gray-500' key={index}>
-                  <ArticleCard 
+                  <ArticleCard
                     article={post}
                     index={index}
                   />

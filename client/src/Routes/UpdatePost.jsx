@@ -36,7 +36,7 @@ const UpdatePost = () => {
 
         try {
             setLoading(true);
-            await axios.patch(`https://valoinfo-fullstack.onrender.com/api/v1/post/update/${params.postId}/${currentUser._id}`, formData, { withCredentials: true, credentials: 'include' }).then((res) => {
+            await axios.put(`https://valoinfo-fullstack.onrender.com/api/v1/post/update/${params.postId}/${currentUser._id}`, formData, { withCredentials: true }).then((res) => {
                 setLoading(false);
                 setTimeout(() => {
                     navigation(`/post/${res?.data?.data?.slug}`);
