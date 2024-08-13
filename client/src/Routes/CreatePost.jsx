@@ -4,6 +4,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const CreatePost = () => {
   const navigation = useNavigate();
@@ -21,6 +22,7 @@ const CreatePost = () => {
         .then((res) => {
           setLoading(false);
           setCreationError(null);
+          toast.success("Post created successfully!");
           setTimeout(() => {
             navigation(`/post/${res?.data?.data?.slug}`);
           }, 1000)
@@ -83,10 +85,10 @@ const CreatePost = () => {
               required
             />
           </div>
-          <Button 
-            type="submit" 
-            className="mt-9" 
-            variant="gradient" 
+          <Button
+            type="submit"
+            className="mt-9"
+            variant="gradient"
             color="blue"
             disabled={loading}
             loading={loading}

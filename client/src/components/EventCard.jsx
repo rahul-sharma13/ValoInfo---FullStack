@@ -1,6 +1,6 @@
 import React from "react";
 
-const EventSection = ({ para, head, add }) => (
+export const EventSection = ({ para, head, add }) => (
   <div className={add}>
     <p className="text-accent-foreground text-[12px]">{para}</p>
     <h2 className="text-gray-500 font-thin">{head}</h2>
@@ -8,7 +8,7 @@ const EventSection = ({ para, head, add }) => (
 );
 
 const EventCard = ({ events }) => {
-  return (
+    return (
     <>
       {events.map((event, index) => (
         <div

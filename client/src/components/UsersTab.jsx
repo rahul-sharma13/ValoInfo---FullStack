@@ -67,9 +67,9 @@ const UsersTab = () => {
     }
 
     return (
-        loading ? (<p className="dark:text-white text-black">Loading...</p>) 
+        loading ? (<p className="dark:text-white text-black">Loading...</p>)
         :
-        (<div className="flex flex-col w-[700px]">
+        (<div className="flex flex-col w-[800px]">
             <div className="overflow-x-auto">
                 <div className="inline-block min-w-full">
                     <div className="overflow-hidden">
@@ -115,7 +115,7 @@ const UsersTab = () => {
                                     </tbody>
                                 )))}
                             </table>
-                        
+
                         }
 
                         {

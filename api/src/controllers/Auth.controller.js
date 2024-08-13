@@ -49,7 +49,7 @@ export const SignIn = async (req, res, next) => {
     const validUser = await User.findOne({ email });
 
     if (!validUser)
-      return next(errorHandler(400, "User not found, please sign up first"));
+      return next(errorHandler(404, "User not found, please sign up first"));
 
     const validPassword = bcrypt.compareSync(password, validUser.password);
 
