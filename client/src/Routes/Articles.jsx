@@ -5,112 +5,105 @@ import { Input } from '../components/ui/input'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
 import ArticleCard from '../components/ArticleCard'
-import toast from 'react-hot-toast'
+import { useQuery } from '@tanstack/react-query'
+import { useDebounce } from '@/lib/hooks'
 
 const Articles = () => {
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-  const [posts, setPosts] = useState([]);
-  const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
-  const { currentUser } = useSelector(state => state.user);
+    const navigate = useNavigate();
+    const [searchTerm, setSearchTerm] = useState('');
+    const debouncedSearchTerm = useDebounce(searchTerm, 500);
+    const { currentUser } = useSelector(state => state.user);
 
-  // post with required order or timings
-  useEffect(() => {
-    const getPosts = async () => {
-      setLoading(true);
+    const { data: posts, isPending, isError } = useQuery({
+        queryKey: ['article'],
+        queryFn: async () => {
+            const res = await axios.get(`https://valo-info-api.vercel.app/api/v1/article/getAll`);
+            return res.data.data;
+        }
+    })
 
-      try {
-        await axios.get(`https://valoinfo-fullstack.onrender.com/api/v1/article/getAll`).then((res) => {
-          toast.success("Posts fetched!");
-          setLoading(false);
-          setPosts(res?.data?.data);
-        }).catch((error) => {
-          setError(error?.response?.data?.message);
-          setLoading(false);
-        })
-      } catch (error) {
-        setError("Something went wrong");
-        setLoading(false);
-      }
-    }
+    // search post
+    const { data: searchedArticles, isLoading: searchedLoading, isError: searchedError } = useQuery({
+        queryKey: ['searchPosts', debouncedSearchTerm],
+        queryFn: async () => {
+            const res = await axios.get(`https://valo-info-api.vercel.app/api/v1/article/getAll?searchTerm=${searchTerm}`);
+            return res.data;
+        },
+        enabled: !!debouncedSearchTerm
+    })
 
-    getPosts();
-  }, [])
-
-  // search post
-  const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      const getSearchedPosts = async () => {
-        await axios.get(`https://valoinfo-fullstack.onrender.com/api/v1/article/getAll?searchTerm=${searchTerm}`).then((res) => {
-          setLoading(false);
-          // console.log(res);
-          setPosts(res.data?.data);
-          setSearchTerm('');
-        }).catch((error) => {
-          setError(error?.response?.data?.message);
-          setLoading(false);
-        })
-      }
-
-      if (searchTerm) {
-        getSearchedPosts();
-      }
-    }
-  }
-
-  return (
-    <section className='max-w-5xl mx-auto mt-5 p-2'>
-      <div className='flex mb-4 md:flex-row flex-col md:gap-0 gap-4 justify-center'>
-        {/* right */}
-        <div className='flex items-center gap-2'>
-          <Input
-            type='text'
-            placeholder='Search'
-            className=''
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyPress = {handleKeyPress}
-          />
-          {
-            currentUser && currentUser.isAdmin && (
-              <Button variant='outlined' className='' color='cyan' size='sm' onClick={() => navigate('/create-article')}>
-                Create Article
-              </Button>
-            )
-          }
-        </div>
-      </div>
-
-      {
-        loading ? (
-          <div className='flex justify-center items-center h-[50vh]'>
-            <Spinner color='white' size='lg'/>
-          </div>
-        ) : (
-          <div className='bg-accent h-screen'>
-            {
-              posts.map((post, index) => (
-                <div className='border-b p-3 border-gray-500' key={index}>
-                  <ArticleCard
-                    article={post}
-                    index={index}
-                  />
+    return (
+        <section className='max-w-5xl mx-auto mt-5 p-2'>
+            <div className='flex mb-4 md:flex-row flex-col md:gap-0 gap-4 justify-center'>
+                {/* right */}
+                <div className='flex items-center gap-2 w-full'>
+                    <Input
+                        type='text'
+                        placeholder='Search by the title of the article'
+                        className='w-[80%]'
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    {
+                        currentUser && currentUser.isAdmin && (
+                            <Button variant='outlined' className='w-[20%] min-h-full' color='cyan' size='sm' onClick={() => navigate('/create-article')}>
+                                Create Article
+                            </Button>
+                        )
+                    }
                 </div>
-              ))
-            }
-          </div>
-        )
-      }
+            </div>
 
-      {
-        error && (
-          <div className='flex justify-center items-center h-[50vh]'>
-            <Typography color='red'>{error}</Typography>
-          </div>
-        )
-      }
-    </section>
-  )
+            {
+                debouncedSearchTerm ? (
+                    searchedLoading ? (
+                        <div className='flex justify-center items-center h-[50vh]'>
+                            <Spinner color='white' size='lg' />
+                        </div>
+                    ) : (
+                        <div className='bg-accent h-screen'>
+                            {
+                                searchedArticles && searchedArticles.data.length == 0 ? <p className='flex justify-center items-center h-[50vh] text-accent-foreground'>No posts found</p> : searchedArticles.data.map((post, index) => (
+                                    <div className='border-b p-3 border-gray-500' key={index}>
+                                        <ArticleCard
+                                            article={post}
+                                            index={index}
+                                        />
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    )
+                )
+                    :
+                    isPending ? (
+                        <div className='flex justify-center items-center h-[50vh]'>
+                            <Spinner color='white' size='lg' />
+                        </div>
+                    ) : (
+                        <div className='bg-accent h-screen'>
+                            {
+                                posts && posts.map((post, index) => (
+                                    <div className='border-b p-3 border-gray-500' key={index}>
+                                        <ArticleCard
+                                            article={post}
+                                            index={index}
+                                        />
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    )
+            }
+
+            {
+                isError && (
+                    <div className='flex justify-center items-center h-[50vh]'>
+                        <Typography color='red'>Something went wrong!</Typography>
+                    </div>
+                )
+            }
+        </section>
+    )
 }
 
 export default Articles

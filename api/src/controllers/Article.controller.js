@@ -49,9 +49,11 @@ export const getArticle = async (req, res, next) => {
 
 export const getAllArticles = async (req, res, next) => {
   const searchTerm = req.query.searchTerm;
+  const startIndex = parseInt(req.query.startIndex) || 0;
+  const limit = parseInt(req.query.limit) || 5;
 
   try {
-    const articles = await Article.find( searchTerm ? { title: { $regex: searchTerm, $options: "i" } } : {}).populate("author");
+    const articles = await Article.find( searchTerm ? { title: { $regex: searchTerm, $options: "i" } } : {}).populate({ path: "author", select: "-password -createdAt -updatedAt" }).skip(startIndex).limit(limit);
     res
       .status(200)
       .json(new ApiResponse(200, articles, "Articles retrieved successfully."));

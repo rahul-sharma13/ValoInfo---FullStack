@@ -22,9 +22,9 @@ const ArticleTab = ({ article, index }) => {
         getPostComments();
     }, [article])
 
-    if(!article) {
+    if (!article) {
         return (
-            <Skeleton className="h-10"/>
+            <Skeleton className="h-10" />
         )
     }
 
@@ -33,15 +33,17 @@ const ArticleTab = ({ article, index }) => {
             <div className='flex justify-between items-center'>
                 {/* title */}
                 <Link to={`/article/${article?.slug}`} className='flex items-baseline gap-2'>
-                    <h1 className='text-[15px] text-accent-foreground truncate hover:underline'>{article.title}</h1>
+                    {article.title.length > 15 && window.innerWidth <= 640
+                        ? `${article.title.slice(0, 30)}...`
+                        : article.title}
                     <div className='bg-card/40 rounded-sm p-1'>
-                        <span className='text-sm'>
+                        <span className='text-sm md:block hidden'>
                             Admin
                         </span>
                     </div>
                 </Link>
                 {/* comment number */}
-                <p className='text-[11px] text-gray-500'>{comments}</p>
+                <p className='text-[11px] text-gray-500 md:block hidden'>{comments}</p>
             </div>
         </div>
     )

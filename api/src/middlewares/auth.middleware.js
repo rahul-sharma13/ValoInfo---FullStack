@@ -6,10 +6,10 @@ export const verifyToken = (req,res,next) => {
     console.log("cookie :",req.cookies);
 
     if(!token) return next(errorHandler(401,'Unauthorised token'))
-    
+
     // const decoded = jwt.decode(token);
     // console.log(decoded);
-        
+
     jwt.verify(token,process.env.ACCESS_TOKEN_SECRET, (err,user) => {
         if(err) return next(errorHandler(403,'Forbidden'));
 

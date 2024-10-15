@@ -29,7 +29,7 @@ const Sidebar = () => {
 
 
     return (
-        <Card className="md:h-[calc(100vh-2rem)] bg-black w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5 md:ml-44 bg-accent">
+        <Card className="md:h-[calc(100vh-2rem)] bg-black w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5 md:ml-44 md:mr-2 mx-auto bg-accent">
             <List className="dark:text-white">
                 <Link to="/account?tab=Profile">
                     <ListItem onClick={() => setMenu("Profile")}>

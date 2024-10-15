@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { signInUserFail, signInUserStart, signInUserSuccess } from "../redux/user/userSlice";
 import OAuth from "../components/OAuth";
 import toast from "react-hot-toast";
+import { useMutation } from "@tanstack/react-query";
+import { Spinner } from "@material-tailwind/react";
 
 const SignIn = () => {
     const navigate = useNavigate();
@@ -22,35 +24,44 @@ const SignIn = () => {
         })
     }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
 
-        try {
-            dispatch(signInUserStart());
-            await axios.post("https://valoinfo-fullstack.onrender.com/api/v1/auth/signin", formData, { withCredentials: true })
-                .then((res) => {
-                    // console.log(res);
-                    dispatch(signInUserSuccess(res?.data?.data));
-                    toast.success("Signed in successfully!");
-                    setTimeout(() => {
-                        navigate("/");
-                    }, 1300)
-                })
-                .catch((err) => {
-                    if (err?.response?.status === 400) {
-                        dispatch(signInUserFail("All fields are required!"));
-                    } else if(err?.response?.status === 401){
-                        dispatch(signInUserFail("Wrong credentials"));
-                    } else if(err?.response?.status === 404){
-                        dispatch(signInUserFail("User not found. Please sign up!"));
-                    } else {
-                        dispatch(signInUserFail("something went wrong!"));
-                    }
-                });
-        } catch (error) {
-            dispatch(signInUserFail(error));
-        }
+    const { mutate, isPending, isError } = useMutation({
+        mutationKey: ["signIn"],
+        mutationFn: async (formData) => {
+            const response = await axios.post(
+                "https://valo-info-api.vercel.app/api/v1/auth/signin",
+                formData,
+                { withCredentials: true },
+            );
+
+            return response.data.data;
+        },
+        onSuccess: (data) => {
+            dispatch(signInUserSuccess(data));
+            toast.success("Signed in successfully!");
+            setTimeout(() => navigate("/"), 1300);
+        },
+        onError: (error) => {
+            const { response } = error;
+
+            if (response?.status === 400) {
+                dispatch(signInUserFail("All fields are required!"));
+            } else if (response?.status === 401) {
+                dispatch(signInUserFail("Wrong credentials"));
+            } else if (response?.status === 404) {
+                dispatch(signInUserFail("User not found. Please sign up!"));
+            } else {
+                dispatch(signInUserFail("Something went wrong!"));
+            }
+        },
+    });
+
+    const handleSignIn = (event) => {
+        event.preventDefault();
+
+        mutate(formData);
     };
+    // mutation.isError && toast.error(mutation.error.response.data.message);
 
     const goToSignUp = () => {
         navigate("/SignUp");
@@ -68,7 +79,7 @@ const SignIn = () => {
                         </p>
                     </div>
                     <div>
-                        <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
+                        <form className="flex flex-col gap-3" onSubmit={handleSignIn}>
                             <div className="flex relative">
                                 <input
                                     placeholder="Email"
@@ -90,8 +101,8 @@ const SignIn = () => {
                                 />
                                 <CiLock className="absolute top-3 right-2" />
                             </div>
-                            <button className="cursor-pointer group relative flex justify-center gap-1.5 px-7 py-2 bg-black bg-opacity-80 text-[#f1f1f1] rounded-xl hover:bg-opacity-70 shadow-md dark:bg-white dark:text-black" disabled={loading || currentUser}>
-                                {loading ? "Please wait..." : "Sign In"}
+                            <button className="cursor-pointer group relative flex justify-center gap-1.5 px-7 py-2 bg-black bg-opacity-80 text-[#f1f1f1] rounded-xl hover:bg-opacity-70 shadow-md dark:bg-white dark:text-black" disabled={isPending || currentUser}>
+                                {isPending ? <Spinner /> : "Sign In"}
                             </button>
                         </form>
                         <p className="text-center text-[14px] my-3">
@@ -100,7 +111,6 @@ const SignIn = () => {
                         </p>
 
                         <OAuth />
-                        {error ? <p className="text-red-500 mt-3 text-center">{error}</p> : ""}
                     </div>
                 </div>
                 {/* right img */}
@@ -111,6 +121,7 @@ const SignIn = () => {
                     />
                 </div>
             </div>
+            {isError && toast.error(`${error}`)}
         </div>
     );
 };

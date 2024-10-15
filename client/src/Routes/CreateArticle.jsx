@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { Input } from '../components/ui/input';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../firebase';
+import toast from 'react-hot-toast';
 
 const CreatePost = () => {
     const navigation = useNavigate();
@@ -24,13 +25,14 @@ const CreatePost = () => {
 
         try {
             setLoading(true);
-            await axios.post("https://valoinfo-fullstack.onrender.com/api/v1/article/create", formData, { withCredentials: true, credentials: 'include' })
+            await axios.post("https://valo-info-api.vercel.app/api/v1/article/create", formData, { withCredentials: true, credentials: 'include' })
                 .then((res) => {
                     setLoading(false);
                     setCreationError(null);
                     setTimeout(() => {
                         navigation(`/article/${res?.data?.data?.slug}`);
                     }, 1000)
+                    toast.success("Post created successfully");
                 }).catch((err) => {
                     setCreationError(err?.response?.data?.message);
                     setLoading(false);

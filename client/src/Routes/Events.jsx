@@ -2,27 +2,19 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import EventCard from '../components/EventCard';
+import { useQuery } from '@tanstack/react-query';
+import { Spinner } from '@material-tailwind/react';
 
 const Events = () => {
-    const [events, setEvents] = useState([]);
     const [requiredStatus, setRequiredStatus] = useState('Ongoing');
 
-    useEffect(() => {
-        const getEvents = async () => {
-            try {
-                await axios.get(`https://valo-info-api.vercel.app/api/v1/event/basedonstatus?status=${requiredStatus}`).then((res) => {
-                    console.log(res);
-                    setEvents(res.data.data);
-                }).catch((err) => {
-                    console.log(err);
-                })
-            } catch (error) {
-                console.log(error);
-            }
+    const { data: events, isLoading, isError, error } = useQuery({
+        "queryKey": ["events", requiredStatus],
+        "queryFn": async () => {
+            const res = await axios.get(`https://valo-info-api.vercel.app/api/v1/event/basedonstatus?status=${requiredStatus}`)
+            return res.data.data;
         }
-
-        getEvents();
-    }, [requiredStatus])
+    })
 
     const handleStatusChange = (value) => {
         setRequiredStatus(value);
@@ -44,12 +36,24 @@ const Events = () => {
                     </SelectContent>
                 </Select>
             </div>
-            <div className='flex flex-wrap gap-4 justify-center  mt-4'>
-                <EventCard
-                    events={events}
-                    reqStatus={requiredStatus}
-                />
-            </div>
+
+            {
+                isLoading && <div className='flex items-center justify-center mt-10'>
+                    <Spinner/>
+                </div>
+            }
+            {
+                isError && <p>{error.message}</p>
+            }
+            {
+                events && events.length > 0 &&
+                <div className='flex flex-wrap gap-4 justify-center  mt-4'>
+                    <EventCard
+                        events={events}
+                        reqStatus={requiredStatus}
+                    />
+                </div>
+            }
         </div>
     )
 }

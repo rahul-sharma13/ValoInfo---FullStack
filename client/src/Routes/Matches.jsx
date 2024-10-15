@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import MatchCard from '../components/MatchCard';
 import TextShine from '../components/TextShine';
@@ -13,7 +13,8 @@ const Matches = () => {
         queryFn: async () => {
             const res = await axios.get(url);
             return res.data;
-        }
+        },
+        staleTime: 24 * 60 * 60 * 1000,
     });
 
     //for pagination
@@ -43,9 +44,9 @@ const Matches = () => {
 
     return (
         <section>
-            <div className="flex flex-col font-poppins">
+            <div className="flex flex-col font-poppins overflow-x-auto w-full md:p-0 p-1">
                 <h1 className="mt-10 mx-auto">
-                    <TextShine name="Completed Matches" />
+                    <TextShine name="Completed Matches"/>
                 </h1>
 
                 {

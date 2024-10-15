@@ -18,7 +18,7 @@ import { Button } from '@material-tailwind/react';
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
 
-  // for mobile menu 
+  // for mobile menu
   const [menu, setMenu] = useState(false);
   const handleMenu = () => {
     setMenu(!menu);
@@ -62,7 +62,10 @@ const Header = () => {
             <div className={menu ? 'md:hidden fixed left-0 top-20 flex flex-col justify-between w-full h-[90%] bg-accent ease-in duration-300 z-10' : 'fixed left-[-100%] top-20 flex flex-col justify-between w-full h-[90%] bg-accent ease-in duration-300 z-10'}>
               <ul className='w-full p-4'>
                 <li className='border-b border-cyan-950 py-6'>
-                  <Link onClick={handleMenu} to='/'>Home</Link>
+                  <Link onClick={handleMenu} to='/matches'>Matches</Link>
+                </li>
+                <li className='border-b border-cyan-950 py-6'>
+                  <Link onClick={handleMenu} to='/leaderboard'>Leaderboard</Link>
                 </li>
                 <li className='border-b border-cyan-950 py-6'>
                   <Link onClick={handleMenu} to='/account'>Account</Link>  {/* protected route */}

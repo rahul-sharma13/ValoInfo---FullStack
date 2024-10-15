@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { Spinner } from '@material-tailwind/react'
 import { BiUpvote, BiSolidUpvote, BiEdit } from 'react-icons/bi'
+import { AiOutlineDelete } from 'react-icons/ai'
 import CommentSection from '../components/CommentSection'
 import moment from 'moment'
 import { useSelector } from 'react-redux'
@@ -28,7 +29,7 @@ const PostPage = () => {
         const fetchPost = async () => {
             try {
                 setLoading(true);
-                await axios.get(`https://valoinfo-fullstack.onrender.com/api/v1/post/getposts?slug=${slug}`).then((res) => {
+                await axios.get(`https://valo-info-api.vercel.app/api/v1/post/getposts?slug=${slug}`).then((res) => {
                     // console.log(res.data.data.posts[0]);
                     setPost(res.data.data.posts[0]);
                     setAuthor(res.data.data.posts[0].author);
@@ -52,7 +53,7 @@ const PostPage = () => {
         const getAuthor = async () => {
             try {
                 setLoading(true);
-                await axios.get(`https://valoinfo-fullstack.onrender.com/api/v1/user/getuser/${author}`).then((res) => {
+                await axios.get(`https://valo-info-api.vercel.app/api/v1/user/getuser/${author}`).then((res) => {
                     // console.log(res.data.data);
                     setUserDetails(res.data.data);
                     setLoading(false);
@@ -76,6 +77,7 @@ const PostPage = () => {
         currentUser && currentUser._id === post.author && navigate(`/update-post/${post._id}`);
     }
 
+    // liking post
     const handleLikePost = async (postId) => {
         try {
             if (!currentUser) {
@@ -83,7 +85,7 @@ const PostPage = () => {
                 return;
             }
 
-            await axios.put(`https://valoinfo-fullstack.onrender.com/api/v1/post/upvote/${postId.toString()}`, { userId: currentUser._id }, { withCredentials: true, credentials: 'include' }).then((res) => {
+            await axios.put(`https://valo-info-api.vercel.app/api/v1/post/upvote/${postId.toString()}`, { userId: currentUser._id }, { withCredentials: true, credentials: 'include' }).then((res) => {
                 // console.log(res);
                 setPost(
                     {
@@ -126,19 +128,33 @@ const PostPage = () => {
                     </p>
                 </div>
                 <div className='flex flex-row-reverse p-4 items-center max-w-xl bg-accent rounded-lg max-h-28 justify-between'>
-                    <TooltipProvider delayDuration={40}>
-                        <Tooltip>
-                            <TooltipTrigger>
-                                <BiEdit size={25} onClick={handleEditClick} />
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                {
-                                    currentUser && currentUser._id === post.author ? ("Edit") : ("You can edit your post only")
-                                }
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
+                    <div className='flex flex-row gap-2'>
+                        <TooltipProvider delayDuration={40}>
+                            <Tooltip>
+                                <TooltipTrigger>
+                                    <BiEdit size={25} onClick={handleEditClick} color='grey' />
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    {
+                                        currentUser && currentUser._id === post.author ? ("Edit") : ("You can edit your post only")
+                                    }
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
 
+                        <TooltipProvider delayDuration={40}>
+                            <Tooltip>
+                                <TooltipTrigger>
+                                    <AiOutlineDelete size={25} color='red' />
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    {
+                                        currentUser && currentUser._id === post.author ? ("Delete") : ("You can delete your post only")
+                                    }
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+                    </div>
 
                     <div className='flex flex-row-reverse'>
                         <div className='p-5 flex flex-col'>

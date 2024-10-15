@@ -53,7 +53,7 @@ const Leaderboard = () => {
 
     return (
         <>
-            <div className='mt-5 flex gap-5 ml-48'>
+            <div className='mt-5 flex gap-5 md:ml-48 ml-2'>
                 <Select onValueChange={handleEpisodeChange}>
                     <SelectTrigger className="w-[180px]">
                         <SelectValue placeholder="Episode" />
@@ -86,7 +86,7 @@ const Leaderboard = () => {
                 </Select>
             </div>
 
-            <div className='uppercase flex justify-center gap-10 mt-3'>
+            <div className='uppercase flex justify-center gap-10 mt-5'>
                 <TextShine name={currentRegion} />
                 <TextShine name={episodeAct} />
             </div>

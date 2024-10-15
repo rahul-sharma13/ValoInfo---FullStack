@@ -3,7 +3,7 @@ import React from 'react'
 const LeaderBoardTable = ({ ranks, act, error }) => {
 
     return (
-        <div className=" max-w-4xl mx-auto mb-8 overflow-hidden rounded-lg shadow-lg mt-10 font-poppins">
+        <div className=" max-w-4xl mx-auto mb-8 overflow-hidden rounded-lg shadow-lg mt-5 font-poppins">
             <div className="w-full overflow-x-auto">
                 {
                     <table className="w-full">

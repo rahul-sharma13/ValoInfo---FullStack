@@ -44,7 +44,7 @@ const Discussions = () => {
         queryKey: ['postOnTopic', topic, location.search],
         queryFn: async () => {
             if (topic !== '') {
-                const res = await axios.get(`https://valoinfo-fullstack.onrender.com/api/v1/post/getPosts?topic=${topic}`);
+                const res = await axios.get(`https://valo-info-api.vercel.app/api/v1/post/getPosts?topic=${topic}`);
                 return res.data;
             }
             return [];
@@ -63,7 +63,7 @@ const Discussions = () => {
     const { data: posts, isLoading: postsLoad, isError: postsError } = useQuery({
         queryKey: ['posts', inTime, order],
         queryFn: async () => {
-            const res = await axios.get(`https://valoinfo-fullstack.onrender.com/api/v1/post/getAllPosts?inTime=${inTime}&order=${order}`);
+            const res = await axios.get(`https://valo-info-api.vercel.app/api/v1/post/getAllPosts?inTime=${inTime}&order=${order}`);
             return res.data;
         }
     })
@@ -71,7 +71,7 @@ const Discussions = () => {
     const { data: searchedPosts, isLoading: searchedLoading, isError: searchedError } = useQuery({
         queryKey: ['searchPosts', debouncedSearchTerm],
         queryFn: async () => {
-            const res = await axios.get(`https://valoinfo-fullstack.onrender.com/api/v1/post/getPosts?searchTerm=${debouncedSearchTerm}`);
+            const res = await axios.get(`https://valo-info-api.vercel.app/api/v1/post/getPosts?searchTerm=${debouncedSearchTerm}`);
             return res.data;
         },
         enabled: !!debouncedSearchTerm

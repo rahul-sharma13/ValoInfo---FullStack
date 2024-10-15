@@ -7,10 +7,12 @@ import { Spinner } from '@material-tailwind/react';
 import DiscussionTab from '../components/DiscussionTab';
 import EventCard from '../components/EventCard';
 import ArticleTab from '../components/ArticleTab';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 const Home = () => {
     const url = `https://api.henrikdev.xyz/valorant/v1/esports/schedule?api_key=${import.meta.env.VITE_API_KEY}`;
+    const queryClient = useQueryClient();
+    queryClient.refetchQueries({ stale : true });
 
     // get matches
     const match = useQuery({
@@ -19,22 +21,24 @@ const Home = () => {
             const res = await axios.get(url);
             return res.data.data.slice(0, 8);
         },
-        retry: 3
+        retry: 3,
+        staleTime: 60 * 1000,
     })
 
     // get post
     const post = useQuery({
         queryKey: ['post'],
         queryFn: async () => {
-            const res = await axios.get("https://valoinfo-fullstack.onrender.com/api/v1/post/getAllPosts");
-            return res.data.data.slice(0, 7);
+            const res = await axios.get("https://valo-info-api.vercel.app/api/v1/post/getAllPosts");
+            return res.data.data;
         },
-        retry: 3
+        retry: 3,
+        staleTime: 60 * 1000,
     })
 
     // get event
     const getEvents = async () => {
-        const res = await axios.get("https://valoinfo-fullstack.onrender.com/api/v1/event/all");
+        const res = await axios.get("https://valo-info-api.vercel.app/api/v1/event/all");
         // console.log(res);
         return res.data.data.slice(0, 6);
     }
@@ -42,16 +46,18 @@ const Home = () => {
     const { isLoading, isError, data: event } = useQuery({
         queryKey: ['event'],
         queryFn: getEvents,
+        staleTime: 24 * 60 * 60 * 1000,
     });
 
     // get articles
     const article = useQuery({
         queryKey: ['article'],
         queryFn: async () => {
-            const res = await axios.get("https://valoinfo-fullstack.onrender.com/api/v1/article/getAll");
-            return res.data.data.slice(0, 7);
+            const res = await axios.get("https://valo-info-api.vercel.app/api/v1/article/getAll");
+            return res.data.data;
         },
-        retry: 3
+        retry: 3,
+        staleTime: 60 * 1000,
     })
 
     return (
@@ -59,7 +65,7 @@ const Home = () => {
             <div className='md:max-w-screen-xl md:bg-accent mx-auto p-5 w-full'>
                 {/* matches */}
                 <div className='flex flex-col w-full'>
-                    <div className='flex flex-row justify-between items-baseline'>
+                    <div className='flex flex-row justify-between md:items-baseline '>
                         <h1 className='text-xl text-accent-foreground mb-2'>Matches</h1>
                         <Link to="/matches" className='dark:text-gray-400 text-gray-700 cursor-pointer flex items-center'>
                             <span className='hover:text-gray-700'>Show more</span>
@@ -88,9 +94,10 @@ const Home = () => {
                 </div>
             </div>
 
-            <div className='max-w-screen-xl bg-accent mx-auto p-5 w-full flex flex-row h-96 gap-2'>
+            {/* articles and posts */}
+            <div className='max-w-screen-xl bg-accent mx-auto p-5 w-full flex flex-col md:h-96 gap-2 md:flex-row md:items-stretch'>
                 {/* left */}
-                <div className='bg-card w-[60%]'>
+                <div className='bg-card md:w-[60%] min-w-fit'>
                     <div className='flex flex-col pt-2'>
                         <Link to='/articles'>
                             <h1 className='text-lg text-center dark:hover:text-gray-600 cursor-pointer hover:text-gray-700'>
@@ -98,13 +105,13 @@ const Home = () => {
                             </h1>
                         </Link>
                         {/* articles */}
-                        <div className='flex flex-col gap-1 mt-1 px-2 h-full'>
+                        <div className='flex flex-col gap-1 mt-1 px-2 h-full md:mb-0 mb-4'>
                             {
                                 article.isLoading ? (<div className='flex items-center justify-center'>
                                     <Spinner color="white" size="xl" />
                                 </div>) :
                                     article.data ?
-                                        (article?.data.map((article, index) => (
+                                        (article?.data.slice(article.data.length - 5, article.data.length).reverse().map((article, index) => (
                                             <ArticleTab
                                                 article={article}
                                                 index={index}
@@ -120,7 +127,7 @@ const Home = () => {
                 </div>
 
                 {/* right */}
-                <div className='bg-card w-[40%]'>
+                <div className='bg-card md:w-[40%] min-w-fit rounded-md md:p-0 p-4'>
                     <div className='flex flex-col pt-2'>
                         <Link to='/discussion'>
                             <h1 className='text-lg text-center dark:hover:text-gray-600 cursor-pointer hover:text-gray-700'>Discussions</h1>
@@ -132,7 +139,7 @@ const Home = () => {
                                     <Spinner color="white" size="xl" />
                                 </div>) :
                                     post.data ?
-                                        post.data?.map((post, index) => (
+                                        post.data.slice(0,7).map((post, index) => (
                                             <DiscussionTab
                                                 post={post}
                                                 index={index}

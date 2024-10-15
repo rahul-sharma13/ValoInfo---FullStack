@@ -140,12 +140,6 @@ export const updatePost = async (req, res, next) => {
     return next(errorHandler(401, "You are not allowed to edit others post."));
   }
 
-  if (req.body.title) {
-    return next(
-      errorHandler(401, "You can only update the content of the post!")
-    );
-  }
-
   try {
     const editedPost = await Post.findByIdAndUpdate(
       { _id: req.params.postId },

@@ -26,7 +26,7 @@ const SignUp = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      await axios.post("https://valoinfo-fullstack.onrender.com/api/v1/auth/signup", formData)
+      await axios.post("https://valo-info-api.vercel.app/api/v1/auth/signup", formData)
         .then((response) => {
           setLoading(false);
           goToSignIn();
@@ -44,11 +44,8 @@ const SignUp = () => {
       <div className="flex sm:ml-10 ml-0">
         {/* left form */}
         <div className="flex flex-col items-center mt-10 flex-1">
-          <div className="mb-5">
+          <div className="mb-1">
             <h1 className="text-center sm:text-[60px] text-[30px] font-bold">Welcome</h1>
-            <p className="text-[14px] text-center text-gray-600">
-              Get Started!
-            </p>
           </div>
           <div>
             <form className="flex flex-col gap-3" onSubmit={handleSubmit} >

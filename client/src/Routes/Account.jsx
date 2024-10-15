@@ -5,6 +5,8 @@ import { useLocation } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import UsersTab from '../components/UsersTab';
 import PostsTab from '../components/PostsTab';
+import ArticleTab from '../components/ArticleTab';
+import ArticleAccountTab from '../components/ArticleAccountTab';
 
 const Account = () => {
   const { currentUser } = useSelector((state) => state.user)
@@ -31,10 +33,7 @@ const Account = () => {
             <ProfileTab />
           )}
           {currentUser && currentUser.isAdmin && menu === "articles" && (
-            <div>
-              <h1>Articles</h1>
-              <p>Articles</p>
-            </div>
+            <ArticleAccountTab />
           )}
           {menu === "Posts" && (
             <PostsTab />

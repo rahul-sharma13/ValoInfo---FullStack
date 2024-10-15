@@ -8,7 +8,7 @@ const DiscussionTab = ({ post, index }) => {
     useEffect(() => {
         const getPostComments = async () => {
             try {
-                await axios.get(`https://valoinfo-fullstack.onrender.com/api/v1/comment/getPostComments/${post._id}`).then((res) => {
+                await axios.get(`https://valo-info-api.vercel.app/api/v1/comment/getPostComments/${post._id}`).then((res) => {
                     setComments(res.data.data.length);
                 }).catch((err) => {
                     console.log(err);
@@ -22,7 +22,7 @@ const DiscussionTab = ({ post, index }) => {
     }, [post])
 
     return (
-        <div className={`bg-card border-b border-gray-600 p-2 max-w-full ${index === 0 ? "border-t" : ""}`}>
+        <div className={`bg-card border-b border-gray-600 p-2 max-w-full ${index === 0 && "border-t"} ${index == post.length - 1 && "border-red-500"}`}>
             <div className='flex justify-between'>
                 {/* title */}
                 <Link to={`/post/${post?.slug}`}>

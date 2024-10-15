@@ -2,7 +2,7 @@ import React from "react";
 
 export const EventSection = ({ para, head, add }) => (
   <div className={add}>
-    <p className="text-accent-foreground text-[12px]">{para}</p>
+    <p className="text-accent-foreground md:text-[12px] text-[9px]">{para}</p>
     <h2 className="text-gray-500 font-thin">{head}</h2>
   </div>
 );
