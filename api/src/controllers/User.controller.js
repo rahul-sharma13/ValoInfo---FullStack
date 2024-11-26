@@ -3,6 +3,7 @@ import { User } from "../models/Users.models.js";
 import { errorHandler } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 // update user
 export const updateUser = async (req, res, next) => {
@@ -135,4 +136,36 @@ export const getUserByUsername = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-}
+};
+
+// add user as admin
+export const adminManage = async (req, res, next) => {
+  if (!req.user.isAdmin) {
+    next(errorHandler(404, "not authorised for this action"));
+  }
+  const operation = req.query.operation;
+  const username = req.params.username;
+
+  try {
+    // based on the query(operation) we will add or remove admin
+    const userToManage = await User.findOne({ username });
+
+    if (!userToManage) {
+      next(errorHandler(401, "user not found!"));
+    }
+
+    if (operation === "add") {
+      userToManage.isAdmin = true;
+    } else if (operation === "remove") {
+      userToManage.isAdmin = false;
+    } else {
+      next(errorHandler(401, "Wrong operation!"));
+    }
+
+    const user = await userToManage.save();
+
+    res.json(new ApiResponse(200, user, `${operation} was successful!`));
+  } catch (error) {
+    next(error);
+  }
+};

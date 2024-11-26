@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Button } from '@material-tailwind/react';
+import { Input } from './ui/input';
 
 const UsersTab = () => {
     const { currentUser } = useSelector((state) => state.user);
@@ -9,6 +10,7 @@ const UsersTab = () => {
     const [showMore, setShowMore] = useState(true);
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
+    const [operation, setOperation] = useState("");
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -37,7 +39,6 @@ const UsersTab = () => {
     }, [])
 
     // console.log(users);
-
     const handleShowMore = async () => {
         const startIndex = users.length;
 
@@ -66,11 +67,28 @@ const UsersTab = () => {
         }
     }
 
+    const manageAdmin = async (username, operation) => {
+        try {
+            await axios.put(`https://valo-info-api.vercel.app/api/v1/user/manageadmin/${username}?operation=${operation}`, { withCredentials: true }).then((res) => {
+                console.log(res);
+            }).catch((err) => {
+                console.log(err);
+            })
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         loading ? (<p className="dark:text-white text-black">Loading...</p>)
             :
             (<div className="flex flex-col w-[800px]">
-                <div className="overflow-x-auto">
+                <Input
+                    placeholder="Find User"
+                    className="min-w-[30%] w-[40%]"
+                />
+                <div className="overflow-x-auto mt-6">
                     <div className="inline-block min-w-full">
                         <div className="overflow-hidden">
                             {
@@ -103,7 +121,10 @@ const UsersTab = () => {
                                                 <td className="whitespace-nowrap px-6 py-4">{user?.email}</td>
                                                 <td className="whitespace-nowrap px-6 py-4">
                                                     {
-                                                        user?.isAdmin ? (<Button color="red" variant="outlined">Remove</Button>) : (<Button color="green" variant="outlined">Add</Button>)
+                                                        user?.isAdmin ?
+                                                            (<Button color="red" variant="outlined" onClick={() => manageAdmin(user?.username, "remove")}>Remove</Button>)
+                                                            :
+                                                            (<Button color="green" variant="outlined" onClick={() => manageAdmin(user?.username, "add")}>Add</Button>)
                                                     }
                                                 </td>
                                                 <td className="whitespace-nowrap px-6 py-4">
