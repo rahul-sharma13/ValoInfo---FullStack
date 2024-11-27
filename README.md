@@ -58,7 +58,7 @@ REFRESH_TOKEN_EXPIRY = 10d
 
 ```bash
 User Authentication: Secure login system that ensures users access protected routes and functionalities only after authentication.
-   User-Specific Routes:
+   User Signed in -Specific Routes:
         /create-post: Allows users to create discussion posts.
         /account: Displays user-specific information and allows them to manage their content.
         /update-post: Enables users to update their previously published posts.
