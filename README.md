@@ -54,3 +54,27 @@ REFRESH_TOKEN_SECRET = afbajbsdfoasbvgouaeb
 ACCESS_TOKEN_EXPIRY = 1d
 REFRESH_TOKEN_EXPIRY = 10d
 ```
+## Authorization Functionality
+
+```bash
+User Authentication: Secure login system that ensures users access protected routes and functionalities only after authentication.
+   User-Specific Routes:
+        /create-post: Allows users to create discussion posts.
+        /account: Displays user-specific information and allows them to manage their content.
+        /update-post: Enables users to update their previously published posts.
+        /user/:username: Provides access to individual user profiles, showcasing posts and activities.
+        Commenting system: Users can add comments on articles and discussion posts to engage with the community.
+
+  Admin-Only Functionality
+        Admin-Specific Routes:
+        /create-article: Allows admins to publish articles related to Valorant tournaments or community news.
+        /account: Admins can view a list of all users and published articles.
+
+User Management:
+Admins can add new admins to the platform, ensuring secure delegation of privileges.
+Admins have the authority to delete any user profile.
+
+ADMIN LOGIN DETAILS -
+email - r@g2.com
+password - rahul123
+```
