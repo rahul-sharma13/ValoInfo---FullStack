@@ -8,7 +8,7 @@ const DiscussionTab = ({ post, index }) => {
     useEffect(() => {
         const getPostComments = async () => {
             try {
-                await axios.get(`https://valo-info-api.vercel.app/api/v1/comment/getPostComments/${post._id}`).then((res) => {
+                await axios.get(`${import.meta.env.VITE_LOCAL_BASE_URL}/comment/getPostComments/${post._id}`).then((res) => {
                     setComments(res.data.data.length);
                 }).catch((err) => {
                     console.log(err);

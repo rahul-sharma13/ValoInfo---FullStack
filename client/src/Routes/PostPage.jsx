@@ -29,7 +29,7 @@ const PostPage = () => {
         const fetchPost = async () => {
             try {
                 setLoading(true);
-                await axios.get(`https://valo-info-api.vercel.app/api/v1/post/getposts?slug=${slug}`).then((res) => {
+                await axios.get(`${import.meta.env.VITE_LOCAL_BASE_URL}/post/getposts?slug=${slug}`).then((res) => {
                     // console.log(res.data.data.posts[0]);
                     setPost(res.data.data.posts[0]);
                     setAuthor(res.data.data.posts[0].author);
@@ -53,7 +53,7 @@ const PostPage = () => {
         const getAuthor = async () => {
             try {
                 setLoading(true);
-                await axios.get(`https://valo-info-api.vercel.app/api/v1/user/getuser/${author}`).then((res) => {
+                await axios.get(`${import.meta.env.VITE_LOCAL_BASE_URL}/user/getuser/${author}`).then((res) => {
                     // console.log(res.data.data);
                     setUserDetails(res.data.data);
                     setLoading(false);
@@ -85,7 +85,7 @@ const PostPage = () => {
                 return;
             }
 
-            await axios.put(`https://valo-info-api.vercel.app/api/v1/post/upvote/${postId.toString()}`, { userId: currentUser._id }, { withCredentials: true, credentials: 'include' }).then((res) => {
+            await axios.put(`${import.meta.env.VITE_LOCAL_BASE_URL}/post/upvote/${postId.toString()}`, { userId: currentUser._id }, { withCredentials: true }).then((res) => {
                 // console.log(res);
                 setPost(
                     {

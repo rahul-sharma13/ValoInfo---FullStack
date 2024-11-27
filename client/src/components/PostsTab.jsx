@@ -15,7 +15,7 @@ const PostsTab = () => {
     const fetchPosts = async () => {
       try {
         setLoading(true);
-        await axios.get(`https://valo-info-api.vercel.app/api/v1/post/getuserposts/${currentUser._id}`, { withCredentials: true, credentials: 'include' }).then((res) => {
+        await axios.get(`${import.meta.env.VITE_LOCAL_BASE_URL}/post/getuserposts/${currentUser._id}`, { withCredentials: true, credentials: 'include' }).then((res) => {
           // console.log(res);
           setLoading(false);
           setUserPosts(res?.data?.data);
@@ -41,7 +41,7 @@ const PostsTab = () => {
     const startIndex = userPosts.length;
 
     try {
-      await axios.get(`https://valo-info-api.vercel.app/api/v1/post/getuserposts/${currentUser._id}?startIndex=${startIndex}`, { withCredentials: true, credentials: 'include' }).then((res) => {
+      await axios.get(`${import.meta.env.VITE_LOCAL_BASE_URL}/post/getuserposts/${currentUser._id}?startIndex=${startIndex}`, { withCredentials: true, credentials: 'include' }).then((res) => {
         setUsers((prev) => [...prev, ...res?.data?.data?.posts]);
         if (res?.data?.data.length < 9) {
           setShowMore(false);
@@ -54,7 +54,7 @@ const PostsTab = () => {
 
   const handleDeletePost = async (id) => {
     try {
-      await axios.delete(`https://valo-info-api.vercel.app/api/v1/post/delete/${id}`, { withCredentials: true, credentials: "include" }).then((res) => {
+      await axios.delete(`${import.meta.env.VITE_LOCAL_BASE_URL}/post/delete/${id}`, { withCredentials: true, credentials: "include" }).then((res) => {
         console.log(res);
         setUserPosts((prev) => prev.filter((post) => post._id !== id));
         setMessage(res?.data?.message);

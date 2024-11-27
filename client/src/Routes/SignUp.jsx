@@ -26,7 +26,7 @@ const SignUp = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      await axios.post("https://valo-info-api.vercel.app/api/v1/auth/signup", formData)
+      await axios.post(`${import.meta.env.VITE_LOCAL_BASE_URL}/auth/signup`, formData)
         .then((response) => {
           setLoading(false);
           goToSignIn();

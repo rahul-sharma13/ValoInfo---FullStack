@@ -15,7 +15,7 @@ const ArticleAccountTab = () => {
         const fetchPosts = async () => {
             try {
                 setLoading(true);
-                await axios.get(`https://valo-info-api.vercel.app/api/v1/article/getall`, { withCredentials: true, credentials: 'include' }).then((res) => {
+                await axios.get(`${import.meta.env.VITE_LOCAL_BASE_URL}/article/getall`, { withCredentials: true, credentials: 'include' }).then((res) => {
                     // console.log(res);
                     setLoading(false);
                     setUserPosts(res?.data?.data);
@@ -41,7 +41,7 @@ const ArticleAccountTab = () => {
         const startIndex = userPosts.length;
 
         try {
-            await axios.get(`https://valo-info-api.vercel.app/api/v1/article/getall?startIndex=${startIndex}`, { withCredentials: true, credentials: 'include' }).then((res) => {
+            await axios.get(`${import.meta.env.VITE_LOCAL_BASE_URL}/article/getall?startIndex=${startIndex}`, { withCredentials: true, credentials: 'include' }).then((res) => {
                 setUserPosts((prev) => [...prev, ...res?.data?.data]);
                 if (res?.data?.data.length < 5) {
                     setShowMore(false);

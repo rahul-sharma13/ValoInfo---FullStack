@@ -19,7 +19,7 @@ const ArticleCard = ({article, index}) => {
                 <div className='h-full w-[1.5px] bg-gray-500' />
                 <span>by</span>
                 <Link to={`/user/${article.author?.username}`} className='hover:underline text-cyan-400'>
-                    <span>{article.author?.username}</span>
+                    <span>{article.author?.username ? article?.author?.username : "deleted" }</span>
                 </Link>
             </div>
         </div>

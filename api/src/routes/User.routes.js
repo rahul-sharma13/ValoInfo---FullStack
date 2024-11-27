@@ -16,6 +16,6 @@ router.route("/delete/:id").delete(verifyToken, deleteUser);
 router.route("/getUsers").get(verifyToken, getUsers);
 router.route("/getUser/:id").get(getUserById);
 router.route("/:username").get(getUserByUsername);
-router.route("/manageAdmin/:username").put(verifyToken, adminManage);
+router.route("/manageAdmin/:username").post(verifyToken, adminManage);
 
 export default router;

@@ -26,43 +26,43 @@ import Events from './Routes/Events';
 import { Toaster } from 'react-hot-toast';
 
 const App = () => {
-  return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <Toaster position='bottom-right'/>
-        <ThemeProvider>
-          <ScrollToTop />
-          <Header />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/info" element={<InfoPage />} />
-            <Route path="/matches" element={<Matches />} />
-            <Route path="/:uuid" element={<AgentPage />}>
-              <Route path=":uuid" />
-            </Route>
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route element={<ProtectedRoute />}>
-              <Route path="/account" element={<Account />} />
-              <Route path="/create-post" element={<CreatePost />} />
-              <Route path="/update-post/:postId" element={<UpdatePost />} />
-            </Route>
-            <Route element={<AdminOnlyRoute />}>
-              <Route path="/create-article" element={<CreateArticle />} />
-            </Route>
-            <Route path="/articles" element={<Articles />} />
-            <Route path="/article/:slug" element={<ArticlePage />} />
-            <Route path="/user/:username" element={<ViewProfile />} />
-            <Route path="/post/:slug" element={<PostPage />} />
-            <Route path="/discussion" element={<Discussions />} />
-            <Route path="/events" element={<Events />} />
-            <Route path="/leaderboard" element={<Leaderboard />} />
-          </Routes>
-          <Footer />
-        </ThemeProvider>
-      </PersistGate>
-    </Provider>
-  )
+    return (
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+                <Toaster position='bottom-right' />
+                <ThemeProvider>
+                    <ScrollToTop />
+                    <Header />
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/info" element={<InfoPage />} />
+                        <Route path="/matches" element={<Matches />} />
+                        <Route path="/:uuid" element={<AgentPage />}>
+                            <Route path=":uuid" />
+                        </Route>
+                        <Route path="/signin" element={<SignIn />} />
+                        <Route path="/signup" element={<SignUp />} />
+                        <Route element={<ProtectedRoute />}>
+                            <Route path="/account" element={<Account />} />
+                            <Route path="/create-post" element={<CreatePost />} />
+                            <Route path="/update-post/:postId" element={<UpdatePost />} />
+                            <Route path="/user/:username" element={<ViewProfile />} />
+                        </Route>
+                        <Route element={<AdminOnlyRoute />}>
+                            <Route path="/create-article" element={<CreateArticle />} />
+                        </Route>
+                        <Route path="/articles" element={<Articles />} />
+                        <Route path="/article/:slug" element={<ArticlePage />} />
+                        <Route path="/post/:slug" element={<PostPage />} />
+                        <Route path="/discussion" element={<Discussions />} />
+                        <Route path="/events" element={<Events />} />
+                        <Route path="/leaderboard" element={<Leaderboard />} />
+                    </Routes>
+                    <Footer />
+                </ThemeProvider>
+            </PersistGate>
+        </Provider>
+    )
 }
 
 export default App

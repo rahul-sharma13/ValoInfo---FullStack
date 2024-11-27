@@ -13,7 +13,7 @@ const ArticlePage = () => {
   useEffect(() => {
     const getArticle = async () => {
       setLoading(true);
-      await axios.get(`https://valo-info-api.vercel.app/api/v1/article/get/${params.slug}`).then((res) => {
+      await axios.get(`${import.meta.env.VITE_LOCAL_BASE_URL}/article/get/${params.slug}`).then((res) => {
         // console.log(res);
         setLoading(false);
         setArticle(res.data.data);

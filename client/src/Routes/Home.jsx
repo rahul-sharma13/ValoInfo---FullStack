@@ -29,7 +29,7 @@ const Home = () => {
     const post = useQuery({
         queryKey: ['post'],
         queryFn: async () => {
-            const res = await axios.get("https://valo-info-api.vercel.app/api/v1/post/getAllPosts");
+            const res = await axios.get(`${import.meta.env.VITE_LOCAL_BASE_URL}/post/getAllPosts`);
             return res.data.data;
         },
         retry: 3,
@@ -38,7 +38,7 @@ const Home = () => {
 
     // get event
     const getEvents = async () => {
-        const res = await axios.get("https://valo-info-api.vercel.app/api/v1/event/all");
+        const res = await axios.get(`${import.meta.env.VITE_LOCAL_BASE_URL}/event/all`);
         // console.log(res);
         return res.data.data.slice(0, 6);
     }
@@ -53,7 +53,7 @@ const Home = () => {
     const article = useQuery({
         queryKey: ['article'],
         queryFn: async () => {
-            const res = await axios.get("https://valo-info-api.vercel.app/api/v1/article/getAll");
+            const res = await axios.get(`${import.meta.env.VITE_LOCAL_BASE_URL}/article/getAll`);
             return res.data.data;
         },
         retry: 3,

@@ -12,10 +12,13 @@ const PostCard = ({ post, author }) => {
     useEffect(() => {
         const getUser = async () => {
             try {
-                await axios.get(`https://valo-info-api.vercel.app/api/v1/user/getuser/${author}`).then((res) => {
+                await axios.get(`${import.meta.env.VITE_LOCAL_BASE_URL}/user/getuser/${author}`).then((res) => {
                     // console.log(res.data.data);
                     setUserDetails(res.data.data);
                 }).catch((err) => {
+                    if (err.data === undefined) {
+                        setUserDetails("deleted")
+                    }
                     console.log(err);
                 });
             } catch (error) {
@@ -59,7 +62,7 @@ const PostCard = ({ post, author }) => {
                     <div className='h-full w-[1.5px] bg-gray-500' />
                     <span>by</span>
                     <Link to={`/user/${userDetails?.username}`} className='hover:underline text-cyan-400'>
-                        <span>{userDetails?.username}</span>
+                        <span>{userDetails?.username ? userDetails?.username : "deleted"}</span>
                     </Link>
                 </div>
             </div>
