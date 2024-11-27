@@ -15,7 +15,7 @@ const ViewProfile = () => {
     const getProfile = async () => {
       try {
         setLoading(true);
-        await axios.get(`${import.meta.env.VITE_LOCAL_BASE_URL}/user/${params.username}`).then((res) => {
+        await axios.get(`${import.meta.env.VITE_BASE_API_URL}/user/${params.username}`).then((res) => {
           setUserDetails(res.data.data);
           setLoading(false);
           setUserId(res.data.data._id);

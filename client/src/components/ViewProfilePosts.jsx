@@ -12,7 +12,7 @@ const ViewProfilePosts = ({ userId }) => {
         const getUserPosts = async () => {
             try {
                 setLoading(true);
-                await axios.get(`${import.meta.env.VITE_LOCAL_BASE_URL}/post/getuserposts/${userId}`).then((res) => {
+                await axios.get(`${import.meta.env.VITE_BASE_API_URL}/post/getuserposts/${userId}`).then((res) => {
                     console.log(res);
                     setPosts(res.data.data);
                     setLoading(false);

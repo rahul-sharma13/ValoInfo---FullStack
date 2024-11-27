@@ -30,7 +30,7 @@ const ProfileTab = () => {
 
     try {
       dispatch(updateUserStart());
-      await axios.put(`${import.meta.env.VITE_LOCAL_BASE_URL}/user/update/${currentUser._id}`, formData, { withCredentials: true, credentials: 'include' })
+      await axios.put(`${import.meta.env.VITE_BASE_API_URL}/user/update/${currentUser._id}`, formData, { withCredentials: true, credentials: 'include' })
         .then((res) => {
           // console.log(res);
           dispatch(updateUserSuccess(res?.data?.data));
@@ -45,7 +45,7 @@ const ProfileTab = () => {
   const handleDelete = async () => {
     try {
       dispatch(deleteUserStart());
-      await axios.delete(`${import.meta.env.VITE_LOCAL_BASE_URL}/user/delete/${currentUser._id}`, { withCredentials: true, credentials: 'include' })
+      await axios.delete(`${import.meta.env.VITE_BASE_API_URL}/user/delete/${currentUser._id}`, { withCredentials: true, credentials: 'include' })
         .then((res) => {
           console.log(res);
           dispatch(deleteUserSuccess());

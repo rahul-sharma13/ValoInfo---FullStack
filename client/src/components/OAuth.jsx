@@ -22,7 +22,7 @@ const OAuth = () => {
             const resultsFromGoogle = await signInWithPopup(auth, provider);
             // console.log(resultsFromGoogle);
 
-            await axios.post(`${import.meta.env.VITE_LOCAL_BASE_URL}/auth/googlesignin`, { name: resultsFromGoogle.user.displayName, email: resultsFromGoogle.user.email }, { withCredentials: true }).then((response) => {
+            await axios.post(`${import.meta.env.VITE_BASE_API_URL}/auth/googlesignin`, { name: resultsFromGoogle.user.displayName, email: resultsFromGoogle.user.email }, { withCredentials: true }).then((response) => {
                 dispatch(signInUserSuccess(response.data.data));
                 // console.log(response.data);
                 navigate('/');

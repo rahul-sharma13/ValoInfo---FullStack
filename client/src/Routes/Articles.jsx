@@ -17,7 +17,7 @@ const Articles = () => {
     const { data: posts, isPending, isError } = useQuery({
         queryKey: ['article'],
         queryFn: async () => {
-            const res = await axios.get(`${import.meta.env.VITE_LOCAL_BASE_URL}/article/getAll`);
+            const res = await axios.get(`${import.meta.env.VITE_BASE_API_URL}/article/getAll`);
             return res.data.data;
         }
     })
@@ -26,7 +26,7 @@ const Articles = () => {
     const { data: searchedArticles, isLoading: searchedLoading, isError: searchedError } = useQuery({
         queryKey: ['searchPosts', debouncedSearchTerm],
         queryFn: async () => {
-            const res = await axios.get(`${import.meta.env.VITE_LOCAL_BASE_URL}/article/getAll?searchTerm=${searchTerm}`);
+            const res = await axios.get(`${import.meta.env.VITE_BASE_API_URL}/article/getAll?searchTerm=${searchTerm}`);
             return res.data;
         },
         enabled: !!debouncedSearchTerm

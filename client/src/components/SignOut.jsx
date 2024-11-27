@@ -10,7 +10,7 @@ const SignOut = () => {
     const handleSignOut = async () => {
         try {
             dispatch(signOutStart());
-            await axios.get(`${import.meta.env.VITE_LOCAL_BASE_URL}/auth/signout`, { withCredentials: true, credentials: 'include' }).then((res) => {
+            await axios.get(`${import.meta.env.VITE_BASE_API_URL}/auth/signout`, { withCredentials: true, credentials: 'include' }).then((res) => {
                 dispatch(signOutSuccess());
             }).catch((error) => {
                 dispatch(signOutFail(error));

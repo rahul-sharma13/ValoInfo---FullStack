@@ -18,7 +18,7 @@ const UpdatePost = () => {
 
     useEffect(() => {
         setLoading(true);
-        axios.get(`${import.meta.env.VITE_LOCAL_BASE_URL}/post/getposts?postId=${params.postId}`)
+        axios.get(`${import.meta.env.VITE_BASE_API_URL}/post/getposts?postId=${params.postId}`)
             .then((res) => {
                 // console.log(res?.data?.data?.posts[0]);
                 setLoading(false);
@@ -36,7 +36,7 @@ const UpdatePost = () => {
 
         try {
             setLoading(true);
-            await axios.put(`${import.meta.env.VITE_LOCAL_BASE_URL}/post/update/${params.postId}/${currentUser._id}`, formData, { withCredentials: true }).then((res) => {
+            await axios.put(`${import.meta.env.VITE_BASE_API_URL}/post/update/${params.postId}/${currentUser._id}`, formData, { withCredentials: true }).then((res) => {
                 setLoading(false);
                 setTimeout(() => {
                     navigation(`/post/${res?.data?.data?.slug}`);

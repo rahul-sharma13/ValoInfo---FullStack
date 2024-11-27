@@ -11,7 +11,7 @@ const Events = () => {
     const { data: events, isLoading, isError, error } = useQuery({
         "queryKey": ["events", requiredStatus],
         "queryFn": async () => {
-            const res = await axios.get(`${import.meta.env.VITE_LOCAL_BASE_URL}/event/basedonstatus?status=${requiredStatus}`)
+            const res = await axios.get(`${import.meta.env.VITE_BASE_API_URL}/event/basedonstatus?status=${requiredStatus}`)
             return res.data.data;
         }
     })

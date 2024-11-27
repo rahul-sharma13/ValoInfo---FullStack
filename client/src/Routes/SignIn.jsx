@@ -29,7 +29,7 @@ const SignIn = () => {
         mutationKey: ["signIn"],
         mutationFn: async (formData) => {
             const response = await axios.post(
-                `${import.meta.env.VITE_LOCAL_BASE_URL}/auth/signin`,
+                `${import.meta.env.VITE_BASE_API_URL}/auth/signin`,
                 formData,
                 { withCredentials: true },
             );

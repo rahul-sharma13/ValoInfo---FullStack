@@ -34,7 +34,7 @@ const UsersTab = () => {
         const fetchUsers = async () => {
             try {
                 setLoading(true);
-                await axios.get(`${import.meta.env.VITE_LOCAL_BASE_URL}/user/getUsers?order=${order}`, { withCredentials: true, credentials: 'include' }).then((res) => {
+                await axios.get(`${import.meta.env.VITE_BASE_API_URL}/user/getUsers?order=${order}`, { withCredentials: true, credentials: 'include' }).then((res) => {
                     // console.log(res);
                     setLoading(false);
                     setUsers(res?.data?.data?.users);
@@ -61,7 +61,7 @@ const UsersTab = () => {
         const startIndex = users.length;
 
         try {
-            await axios.get(`${import.meta.env.VITE_LOCAL_BASE_URL}/user/getUsers?startIndex=${startIndex}`, { withCredentials: true, credentials: 'include' }).then((res) => {
+            await axios.get(`${import.meta.env.VITE_BASE_API_URL}/user/getUsers?startIndex=${startIndex}`, { withCredentials: true, credentials: 'include' }).then((res) => {
                 setUsers((prev) => [...prev, ...res?.data?.data?.users]);
                 if (res?.data?.data.users.length < 9) {
                     setShowMore(false);
@@ -75,7 +75,7 @@ const UsersTab = () => {
     // deleted by admin functionality
     const adminDeletes = async (id) => {
         try {
-            await axios.delete(`${import.meta.env.VITE_LOCAL_BASE_URL}/user/delete/${id}`, { withCredentials: true }).then((res) => {
+            await axios.delete(`${import.meta.env.VITE_BASE_API_URL}/user/delete/${id}`, { withCredentials: true }).then((res) => {
                 setMessage(res?.data?.data?.message);
                 setUsers((prev) => prev.filter((user) => user._id !== id));
                 toast.success("User profile deleted!");
@@ -99,7 +99,7 @@ const UsersTab = () => {
             return;
         }
 
-        const baseURL = import.meta.env.VITE_LOCAL_BASE_URL;
+        const baseURL = import.meta.env.VITE_BASE_API_URL;
         const successMessage = operation === "add"
             ? "User is added as an admin!"
             : "User is removed as an admin!";
@@ -261,6 +261,133 @@ const UsersTab = () => {
                                                 </tr>
                                             </tbody>
                                         ))}
+                                {users && users.length > 0 ? (
+                                    users
+                                        .filter(
+                                            (user) =>
+                                                user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                                                user.email.toLowerCase().includes(searchTerm.toLowerCase())
+                                        )
+                                        .length > 0 ? (
+                                        users
+                                            .filter(
+                                                (user) =>
+                                                    user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                                                    user.email.toLowerCase().includes(searchTerm.toLowerCase())
+                                            )
+                                            .map((user, index) => (
+                                                <tbody key={index}>
+                                                    <tr className="border-b text-center dark:border-neutral-500">
+                                                        <td className="whitespace-nowrap px-4 py-3 font-medium">
+                                                            {new Date(user?.createdAt).toLocaleDateString()}
+                                                        </td>
+                                                        <td className="whitespace-nowrap px-4 py-3">
+                                                            <img
+                                                                src={user?.avatar}
+                                                                alt="avatar"
+                                                                className="w-10 h-10 rounded-full object-cover mx-auto"
+                                                            />
+                                                        </td>
+                                                        <td className="whitespace-nowrap px-4 py-3">
+                                                            {user?.username.slice(0, 5)}...
+                                                        </td>
+                                                        <td className="whitespace-nowrap px-4 py-3">{user?.email}</td>
+                                                        <td className="whitespace-nowrap px-4 py-3">
+                                                            {user?.isAdmin ? (
+                                                                <AlertDialog>
+                                                                    <AlertDialogTrigger asChild>
+                                                                        <Button
+                                                                            color="red"
+                                                                            variant="outlined"
+                                                                        >
+                                                                            Remove
+                                                                        </Button>
+                                                                    </AlertDialogTrigger>
+                                                                    <AlertDialogContent>
+                                                                        <AlertDialogHeader>
+                                                                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                                                        </AlertDialogHeader>
+                                                                        <AlertDialogFooter>
+                                                                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                                            <AlertDialogAction onClick={() => manageAdmin(user?.username, "remove")}>Yes</AlertDialogAction>
+                                                                        </AlertDialogFooter>
+                                                                    </AlertDialogContent>
+                                                                </AlertDialog>
+                                                            ) : (
+                                                                <AlertDialog>
+                                                                    <AlertDialogTrigger asChild>
+                                                                        <Button
+                                                                            color="green"
+                                                                            variant="outlined"
+                                                                        >
+                                                                            Add
+                                                                        </Button>
+                                                                    </AlertDialogTrigger>
+                                                                    <AlertDialogContent>
+                                                                        <AlertDialogHeader>
+                                                                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                                                        </AlertDialogHeader>
+                                                                        <AlertDialogFooter>
+                                                                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                                            <AlertDialogAction onClick={() => manageAdmin(user?.username, "add")}>Yes</AlertDialogAction>
+                                                                        </AlertDialogFooter>
+                                                                    </AlertDialogContent>
+                                                                </AlertDialog>
+                                                            )}
+                                                        </td>
+                                                        <td className="whitespace-nowrap px-4 py-3">
+                                                            <AlertDialog>
+                                                                <AlertDialogTrigger asChild>
+                                                                    <Button
+                                                                        className="text-red-500 cursor-pointer hover:underline"
+                                                                        variant="text"
+                                                                    >
+                                                                        Delete
+                                                                    </Button>
+                                                                </AlertDialogTrigger>
+                                                                <AlertDialogContent>
+                                                                    <AlertDialogHeader>
+                                                                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                                                    </AlertDialogHeader>
+                                                                    <AlertDialogFooter>
+                                                                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                                        <AlertDialogAction onClick={() => {
+                                                                            adminDeletes(user._id);
+                                                                        }}>Yes</AlertDialogAction>
+                                                                    </AlertDialogFooter>
+                                                                </AlertDialogContent>
+                                                            </AlertDialog>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            ))
+                                    ) : (
+                                        // Display message for no matching users
+                                        <tbody>
+                                            <tr>
+                                                <td
+                                                    colSpan={6}
+                                                    className="text-center py-4 text-gray-500 dark:text-gray-400"
+                                                >
+                                                    No users found.
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    )
+                                ) : (
+                                    // Display message if no users at all
+                                    <tbody>
+                                        <tr>
+                                            <td
+                                                colSpan={6}
+                                                className="text-center py-4 text-gray-500 dark:text-gray-400"
+                                            >
+                                                No users available.
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                )}
+
                             </table>
                         </div>
                     </div>
