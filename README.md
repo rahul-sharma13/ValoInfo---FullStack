@@ -1,6 +1,9 @@
 
 # ValoInfo frontend
-Built using reactjs
+Built using reactjs - Authorization and project idea at last(user login credentials too).
+```bash
+Deployed Link - https://valo-info-c.vercel.app/
+```
 
 ```bash
 backend folder - /api
@@ -54,7 +57,8 @@ REFRESH_TOKEN_SECRET = afbajbsdfoasbvgouaeb
 ACCESS_TOKEN_EXPIRY = 1d
 REFRESH_TOKEN_EXPIRY = 10d
 ```
-## Authorization Functionality
+## Authorization Functionality and Project idea
+ValoInfo is a full-stack web application tailored for Valorant enthusiasts to access live data about ongoing tournaments, share articles, and foster discussions through user-generated posts. The platform is built with a strong focus on user roles and access control, supporting two distinct roles: admin and user, each with specific functionalities.
 
 ```bash
 User Authentication: Secure login system that ensures users access protected routes and functionalities only after authentication.
