@@ -1,8 +1,10 @@
 
 # ValoInfo frontend
 Built using reactjs - Authorization and project idea at last(user login credentials too).
+
 ```bash
 Deployed Link - https://valo-info-c.vercel.app/
+Admin board route - https://valo-info-c.vercel.app/account?tab=Users (use it with login credentials email - r@g2.com password - rahul123)
 ```
 
 ```bash
